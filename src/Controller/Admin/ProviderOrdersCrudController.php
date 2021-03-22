@@ -21,8 +21,8 @@ class ProviderOrdersCrudController extends AbstractCrudController
     {
         return [
             BooleanField::new('isPaid'),
-            AssociationField::new('provider', 'Fournisseur'),
-            AssociationField::new('product', 'Produits')
+            AssociationField::new('provider', 'Provider'),
+            AssociationField::new('product', 'Products')
         ];
     }
 }
