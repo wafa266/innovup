@@ -14,7 +14,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
+use App\Entity\Product;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Events;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 /**
  * When visiting the homepage, this listener redirects the user to the most
  * appropriate localized version according to the browser settings.
@@ -71,6 +74,9 @@ class RedirectToLocaleSubscriber implements EventSubscriberInterface
     {
         return [
             KernelEvents::REQUEST => ['onKernelRequest'],
+            Events::postPersist,
+            Events::postRemove,
+            Events::postUpdate,
         ];
     }
 
@@ -94,4 +100,34 @@ class RedirectToLocaleSubscriber implements EventSubscriberInterface
         $response = new RedirectResponse($this->urlGenerator->generate('admin', ['_locale' => $preferredLanguage]));
         $event->setResponse($response);
     }
-}
+
+        public function postPersist(LifecycleEventArgs $args): void
+    {
+        $this->logActivity('persist', $args);
+    }
+
+        public function postRemove(LifecycleEventArgs $args): void
+    {
+        $this->logActivity('remove', $args);
+    }
+
+        public function postUpdate(LifecycleEventArgs $args): void
+    {
+        $this->logActivity('update', $args);
+    }
+
+        private function logActivity(string $action, LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        // if this subscriber only applies to certain entity types,
+        // add some code to check the entity type as early as possible
+        if (!$entity instanceof Product) {
+            return;
+        }
+
+        // ... get the entity information and log it somehow
+    }
+
+    }
+

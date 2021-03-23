@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="provider")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Provider
 {
@@ -226,6 +227,13 @@ class Provider
     public function __toString()
     {
         return $this->firstName . ' - ' . $this->lastName;
+    }
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 
 

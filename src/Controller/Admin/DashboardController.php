@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class DashboardController extends AbstractDashboardController
 {
+
     /**
      * @Route("/admin", name="admin")
      */
@@ -60,4 +61,5 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),
             ]);
     }
+
 }
