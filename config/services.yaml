@@ -34,3 +34,12 @@ services:
 
     App\EventSubscriber\RedirectToLocaleSubscriber:
         arguments: [ '@router', '%app_locales%', '%locale%' ]
+
+    App\EventListener\SearchIndexer:
+        tags:
+            - name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+              event: 'postPersist'
+
+                # you can also restrict listeners to a specific Doctrine connection
+              connection: 'default'

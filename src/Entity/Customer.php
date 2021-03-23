@@ -240,7 +240,7 @@ class Customer
     public function __toString()
     {
         return $this->firstName . ' - ' . $this->lastName;
-    }
 
+    }
 
 }

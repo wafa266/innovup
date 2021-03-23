@@ -9,7 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="customer_orders", indexes={@ORM\Index(name="product_id_fk_idx", columns={"product_id"}), @ORM\Index(name="customer_id_fk_idx", columns={"customer_id"})})
  * @ORM\Entity
- */
+ * @ORM\HasLifecycleCallbacks
+*/
+
 class CustomerOrders
 {
     /**
@@ -164,6 +166,16 @@ class CustomerOrders
 
         return $this;
     }
+
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
 
 
 }
