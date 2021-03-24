@@ -7,11 +7,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 
 class ProviderOrdersCrudController extends AbstractCrudController
 {
@@ -41,6 +43,8 @@ class ProviderOrdersCrudController extends AbstractCrudController
             BooleanField::new('isPaid'),
             AssociationField::new('provider', 'Provider'),
             AssociationField::new('product', 'Products'),
+
+
         ];
     }
 }

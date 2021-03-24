@@ -32,27 +32,6 @@ class Category
     private $name;
 
     /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
-     */
-    private $deletedAt;
-
-    /**
      * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
      */
     private $products;
