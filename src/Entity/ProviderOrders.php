@@ -2,7 +2,12 @@
 
 namespace App\Entity;
 
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Object_;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * ProviderOrders
@@ -48,16 +53,15 @@ class ProviderOrders
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
      */
     private $deletedAt;
-
     /**
      * @var \Product
      *
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\OneToMany(targetEntity="Product",mappedBy="providerOrders")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
      */
-    private $product;
+    private $products;
 
     /**
      * @var \Provider
@@ -68,6 +72,12 @@ class ProviderOrders
      * })
      */
     private $provider;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -88,7 +98,7 @@ class ProviderOrders
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createdAt ?? new DateTime();
     }
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
@@ -100,12 +110,12 @@ class ProviderOrders
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? new DateTime();
     }
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt=$updatedAt;
 
         return $this;
     }
@@ -121,19 +131,17 @@ class ProviderOrders
 
         return $this;
     }
-
-    public function getProduct(): ?Product
+    /*
+    public function getProduct():?Product
     {
-        return $this->product;
+        return $this->product ;
     }
 
-    public function setProduct(?Product $product): self
+    public function setProduct(Product $product) : self
     {
         $this->product = $product;
-
-        return $this;
     }
-
+*/
     public function getProvider(): ?Provider
     {
         return $this->provider;
@@ -144,6 +152,51 @@ class ProviderOrders
         $this->provider = $provider;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Products[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setProviderOrders($this);
+        }
+
+        return  $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getProviderOrders() === $this) {
+                $product->setProviderOrders(null);
+            }
+}
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateTimestamps(): void
+    {
+        $now = new DateTime();
+        $this->setUpdatedAt($now);
+        if ($this->getId() === null) {
+            $this->setCreatedAt($now);
+        }
     }
 
 

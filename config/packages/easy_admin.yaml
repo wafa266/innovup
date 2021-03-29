@@ -1,0 +1,24 @@
+easy_admin:
+    entities:
+        User:
+            class: App\Entity\User
+            label: label.user
+            new:
+                title:  field.user.add_new
+                fields:
+                    # some fields like username here
+                    - { property: username, label: field.user.username }
+                    - { property: fullname, label: field.user.fullname, type: 'text' }
+                    # plain password
+                    - { property: plainPassword, label: field.user.password, type: 'password' }
+        ProviderOrders:
+            class: App\Entity\ProviderOrders
+            label: 'Provider Orders'
+            new:
+                title: 'field.user.add_new'
+                fields:
+                    # some fields like username here
+                    - { property: isPaid, label: 'is Paid' }
+                    - { property: provider, label: 'provider' }
+                    # plain password
+                    - { property: product, label: 'Product'}

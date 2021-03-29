@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Entity;
-
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Object_;
 
 /**
  * Provider
@@ -152,7 +153,7 @@ class Provider
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createdAt ?? new DateTime();
     }
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
@@ -164,7 +165,7 @@ class Provider
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? new DateTime();
     }
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
@@ -229,11 +230,38 @@ class Provider
         return $this->firstName . ' - ' . $this->lastName;
     }
     /**
-     * @ORM\PrePersist
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
-    public function setCreatedAtValue(): void
+    public function updateTimestamps(): void
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $now = new DateTime();
+        $this->setUpdatedAt($now);
+        if ($this->getId() === null) {
+            $this->setCreatedAt($now);
+        }
+    }
+
+    public function addProviderOrder(ProviderOrders $providerOrder): self
+    {
+        if (!$this->providerOrders->contains($providerOrder)) {
+            $this->providerOrders[] = $providerOrder;
+            $providerOrder->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProviderOrder(ProviderOrders $providerOrder): self
+    {
+        if ($this->providerOrders->removeElement($providerOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($providerOrder->getProvider() === $this) {
+                $providerOrder->setProvider(null);
+            }
+        }
+
+        return $this;
     }
 
 

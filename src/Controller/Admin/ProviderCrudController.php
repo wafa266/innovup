@@ -7,6 +7,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+
+
 
 class ProviderCrudController extends AbstractCrudController
 {
@@ -29,14 +38,27 @@ class ProviderCrudController extends AbstractCrudController
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
             ;
     }
-    /*
+
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            TextField::new('firstname'),
+            TextField::new('lastname'),
+            EmailField::new('Email'),
+            TextField::new('address'),
+            TelephoneField::new('phone'),
+            DateTimeField::new('createdAt')->hideOnForm(),
+            DateTimeField::new('updatedAt')->hideOnForm(),
+
+
+
+
+
+
+
+
+
         ];
     }
-    */
+
 }

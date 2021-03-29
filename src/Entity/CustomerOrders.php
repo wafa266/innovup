@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Entity;
-
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,12 +73,18 @@ class CustomerOrders
     /**
      * @var \Product
      *
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\OneToMany(targetEntity="Product",mappedBy="customerOrders")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
      */
-    private $product;
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -109,7 +117,7 @@ class CustomerOrders
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createdAt ?? new DateTime();
     }
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
@@ -121,7 +129,7 @@ class CustomerOrders
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? new DateTime();
     }
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
@@ -154,7 +162,7 @@ class CustomerOrders
 
         return $this;
     }
-
+/*
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -167,8 +175,52 @@ class CustomerOrders
         return $this;
     }
 
+*/
 
+    /**
+     * @return Collection|Products[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
 
+    public function addProduct(Product $product): self
+    {
+
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setCustomerOrders($this);
+        }
+
+        return  $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
+            // set the owning side to null (unless already changed)
+            if ($product->getCustomerOrders()=== $this) {
+                $product->setCustomerOrders(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateTimestamps(): void
+    {
+        $now = new DateTime();
+        $this->setUpdatedAt($now);
+        if ($this->getId() === null) {
+            $this->setCreatedAt($now);
+        }
+    }
 
 
 
