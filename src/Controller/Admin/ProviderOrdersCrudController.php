@@ -48,7 +48,7 @@ class ProviderOrdersCrudController extends AbstractCrudController
         return [
             BooleanField::new('isPaid'),
             AssociationField::new('provider', 'Provider'),
-            AssociationField::new('products', 'Products')
+            AssociationField::new('product', 'Products')
                 ->setCustomOption('autocomplete', true)
                 ->setFormTypeOption('data-widget', 'select2')
                 ->setFormTypeOptions(['multiple' => 'true']),

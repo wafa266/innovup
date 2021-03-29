@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="customer_orders", indexes={@ORM\Index(name="product_id_fk_idx", columns={"product_id"}), @ORM\Index(name="customer_id_fk_idx", columns={"customer_id"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
-*/
+ */
 
 class CustomerOrders
 {
@@ -78,13 +76,7 @@ class CustomerOrders
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
      */
-    private $products;
-
-    public function __construct()
-    {
-        $this->products = new ArrayCollection();
-    }
-
+    private $product;
 
     public function getId(): ?int
     {
@@ -162,7 +154,7 @@ class CustomerOrders
 
         return $this;
     }
-/*
+
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -175,39 +167,6 @@ class CustomerOrders
         return $this;
     }
 
-*/
-
-    /**
-     * @return Collection|Products[]
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->setCustomerOrders($this);
-        }
-
-        return  $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            // set the owning side to null (unless already changed)
-            if ($product->getCustomerOrders()=== $this) {
-                $product->setCustomerOrders(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @ORM\PrePersist()
@@ -221,7 +180,4 @@ class CustomerOrders
             $this->setCreatedAt($now);
         }
     }
-
-
-
 }

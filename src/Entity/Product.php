@@ -17,225 +17,316 @@ use Symfony\Component\Form\FormTypeInterface;
  * @ORM\Table(name="product", indexes={@ORM\Index(name="category_id_fk_idx", columns={"category_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
-   class Product
-   {
-       /**
-        * @var int
-        *
-        * @ORM\Column(name="id", type="integer", nullable=false)
-        * @ORM\Id
-        * @ORM\GeneratedValue(strategy="IDENTITY")
-        */
-       private $id;
+class Product
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
 
-       /**
-        * @var string
-        *
-        * @ORM\Column(name="name", type="string", length=45, nullable=false)
-        */
-       private $name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=45, nullable=false)
+     */
+    private $name;
 
-       /**
-        * @var float|null
-        *
-        * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
-        */
-       private $price;
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $price;
 
-       /**
-        * @var float|null
-        *
-        * @ORM\Column(name="tva", type="float", precision=10, scale=0, nullable=true)
-        */
-       private $tva;
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="tva", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $tva;
 
-       /**
-        * @var string|null
-        *
-        * @ORM\Column(name="barcode", type="string", length=250, nullable=true)
-        */
-       private $barcode;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="barcode", type="string", length=250, nullable=true)
+     */
+    private $barcode;
 
-       /**
-        * @var \DateTime|null
-        *
-        * @ORM\Column(name="created_at", type="datetime", nullable=true)
-        */
-       private $createdAt;
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+    private $createdAt;
 
-       /**
-        * @var \DateTime|null
-        *
-        * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-        */
-       private $updatedAt;
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
-       /**
-        * @var \DateTime|null
-        *
-        * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
-        */
-       private $deletedAt;
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
-       /**
-        * @var \Category
-        *
-        * @ORM\ManyToOne(targetEntity="Category")
-        * @ORM\JoinColumns({
-        *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-        * })
-        */
-       private $category;
+    /**
+     * @var \Category
+     *
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * })
+     */
+    private $category;
 
-       /**
-        * @ORM\ManyToOne(targetEntity="CustomerOrders",inversedBy="products")
-        */
-       private $customerOrders;
-       /**
-        * @ORM\ManyToOne(targetEntity="ProviderOrders",inversedBy="products")
-        */
-       private $providerOrders;
+    /**
+     * @ORM\OneToMany(targetEntity="CustomerOrders", mappedBy="product")
+     */
+    private $customerOrders;
 
-       public function getId(): ?int
-       {
-           return $this->id;
-       }
+    /**
+     * @ORM\OneToMany(targetEntity="ProviderOrders", mappedBy="product")
+     */
+    private $providerOrders;
 
-       public function getName(): ?string
-       {
-           return $this->name;
-       }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-       public function setName(string $name): self
-       {
-           $this->name = $name;
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
-           return $this;
-       }
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
-       public function getPrice(): ?float
-       {
-           return $this->price;
-       }
+        return $this;
+    }
 
-       public function setPrice(?float $price): self
-       {
-           $this->price = $price;
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
 
-           return $this;
-       }
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
 
-       public function getTva(): ?float
-       {
-           return $this->tva;
-       }
+        return $this;
+    }
 
-       public function setTva(?float $tva): self
-       {
-           $this->tva = $tva;
+    public function getTva(): ?float
+    {
+        return $this->tva;
+    }
 
-           return $this;
-       }
+    public function setTva(?float $tva): self
+    {
+        $this->tva = $tva;
 
-       public function getBarcode(): ?string
-       {
-           return $this->barcode;
-       }
+        return $this;
+    }
 
-       public function setBarcode(?string $barcode): self
-       {
-           $this->barcode = $barcode;
+    public function getBarcode(): ?string
+    {
+        return $this->barcode;
+    }
 
-           return $this;
-       }
+    public function setBarcode(?string $barcode): self
+    {
+        $this->barcode = $barcode;
 
-       public function getCreatedAt(): ?\DateTimeInterface
-       {
-           return $this->createdAt ?? new DateTime();
-       }
+        return $this;
+    }
 
-       public function setCreatedAt(?\DateTimeInterface $createdAt): self
-       {
-           $this->createdAt = $createdAt;
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt ?? new DateTime();
+    }
 
-           return $this;
-       }
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
-       public function getUpdatedAt(): ?\DateTimeInterface
-       {
-           return $this->updatedAt ?? new DateTime();
-       }
+        return $this;
+    }
 
-       public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
-       {
-           $this->updatedAt = $updatedAt;
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt ?? new DateTime();
+    }
 
-           return $this;
-       }
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
-       public function getDeletedAt(): ?\DateTimeInterface
-       {
-           return $this->deletedAt;
-       }
+        return $this;
+    }
 
-       public function setDeletedAt(?\DateTimeInterface $deletedAt): self
-       {
-           $this->deletedAt = $deletedAt;
+    public function getDeletedAt(): ?\DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
 
-           return $this;
-       }
+    public function setDeletedAt(?\DateTimeInterface $deletedAt): self
+    {
+        $this->deletedAt = $deletedAt;
 
-       public function getCategory(): ?Category
-       {
-           return $this->category;
-       }
+        return $this;
+    }
 
-       public function setCategory(?Category $category): self
-       {
-           $this->category = $category;
+    public function getCategory(): ?Category
+    {
+        return  $this->category;
+    }
 
-           return $this;
-       }
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
-       public function getProviderOrders(): ?ProviderOrders
-       {
-           return $this->providerOrders;
-       }
+        return $this;
+    }
 
-       public function setProviderOrders(?ProviderOrders $providerOrders): self
-       {
-           $this->providerOrders = $providerOrders;
+    public function __construct()
+    {
+        $this->customerOrders = new ArrayCollection() ;
+        $this->providerOrders = new ArrayCollection();
 
-           return $this;
-       }
-       public function getCustomerOrders(): ?CustomerOrders
-       {
-           return $this->customerOrders;
-       }
+    }
 
-       public function setCustomerOrders(?CustomerOrders $customerOrders): self
-       {
-           $this->customerOrders = $customerOrders;
+    /**
+     * @return Collection|CustomerOrders[]
+     */
+    public function getCustomerOrders(): Collection
+    {
+        return $this->customerOrders;
+    }
 
-           return $this;
-       }
+    public function addCustomerOrders(CustomerOrders $customerOrders): self
+    {
+        if (!$this->customerOrders->contains($customerOrders)) {
+            $this->customerOrders[] = $customerOrders;
+            $customerOrders->setProduct($this);
+        }
 
-       public function __toString()
-       {
-           return $this->name;
-       }
+        return $this;
+    }
 
-       /**
-        * @ORM\PrePersist()
-        * @ORM\PreUpdate()
-        */
-       public function updateTimestamps(): void
-       {
-           $now = new DateTime();
-           $this->setUpdatedAt($now);
-           if ($this->getId() === null) {
-               $this->setCreatedAt($now);
-           }
+    public function removeCustomerOrders(CustomerOrders $customerOrders): self
+    {
+        if ($this->customerOrders->contains($customerOrders)) {
+            $this->customerOrders->removeElement($customerOrders);
+            // set the owning side to null (unless already changed)
+            if ($customerOrders->getProduct() === $this) {
+                $customerOrders->setProduct(null);
+            }
+        }
 
-       }
-   }
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProviderOrders[]
+     */
+    public function getProviderOrders(): Collection
+    {
+        return $this->providerOrders;
+    }
+
+    public function addProviderOrders(ProviderOrders $providerOrders): self
+    {
+        echo '<pre>';
+        print_r($this->providerOrders);die;
+        if (!$this->providerOrders->contains($providerOrders)) {
+            $this->providerOrders[] = $providerOrders;
+            $providerOrders->setProduct($this);
+        }
+
+        return  $this;
+    }
+
+    public function removeProviderOrders(ProviderOrders $providerOrders): self
+    {
+        if ($this->providerOrders->contains($providerOrders)) {
+            $this->providerOrders->removeElement($providerOrders);
+            // set the owning side to null (unless already changed)
+            if ($providerOrders->getProduct() === $this) {
+                $providerOrders->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateTimestamps(): void
+    {
+        $now = new DateTime();
+        $this->setUpdatedAt($now);
+        if ($this->getId() === null) {
+            $this->setCreatedAt($now);
+        }
+    }
+
+    public function addCustomerOrder(CustomerOrders $customerOrder): self
+    {
+        if (!$this->customerOrders->contains($customerOrder)) {
+            $this->customerOrders[] = $customerOrder;
+            $customerOrder->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerOrder(CustomerOrders $customerOrder): self
+    {
+        if ($this->customerOrders->removeElement($customerOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($customerOrder->getProduct() === $this) {
+                $customerOrder->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addProviderOrder(ProviderOrders $providerOrder): self
+    {
+        if (!$this->providerOrders->contains($providerOrder)) {
+            $this->providerOrders[] = $providerOrder;
+            $providerOrder->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProviderOrder(ProviderOrders $providerOrder): self
+    {
+        if ($this->providerOrders->removeElement($providerOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($providerOrder->getProduct() === $this) {
+                $providerOrder->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+}
