@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Object_;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * ProviderOrders
@@ -88,7 +91,7 @@ class ProviderOrders
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createdAt ?? new DateTime();
     }
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
@@ -100,12 +103,12 @@ class ProviderOrders
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? new DateTime();
     }
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt=$updatedAt;
 
         return $this;
     }
@@ -122,12 +125,12 @@ class ProviderOrders
         return $this;
     }
 
-    public function getProduct(): ?Product
+    public function getProduct():?Product
     {
-        return $this->product;
+        return $this->product ;
     }
 
-    public function setProduct(?Product $product): self
+    public function setProduct(?product   $product): self
     {
         $this->product = $product;
 
@@ -144,6 +147,18 @@ class ProviderOrders
         $this->provider = $provider;
 
         return $this;
+    }
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateTimestamps(): void
+    {
+        $now = new DateTime();
+        $this->setUpdatedAt($now);
+        if ($this->getId() === null) {
+            $this->setCreatedAt($now);
+        }
     }
 
 

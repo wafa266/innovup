@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Product;
@@ -32,27 +32,6 @@ class Category
     private $name;
 
     /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
-     */
-    private $deletedAt;
-
-    /**
      * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
      */
     private $products;
@@ -76,7 +55,8 @@ class Category
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createdAt ?? new DateTime();
+
     }
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
@@ -88,7 +68,7 @@ class Category
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? new DateTime();
     }
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
@@ -148,5 +128,16 @@ class Category
     {
         return $this->name;
     }
-
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateTimestamps(): void
+    {
+        $now = new DateTime();
+        $this->setUpdatedAt($now);
+        if ($this->getId() === null) {
+            $this->setCreatedAt($now);
+        }
+    }
 }

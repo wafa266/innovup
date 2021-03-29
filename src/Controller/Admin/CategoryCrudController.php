@@ -7,6 +7,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Flex\Event\UpdateEvent;
 
 class CategoryCrudController extends AbstractCrudController
@@ -32,6 +37,17 @@ class CategoryCrudController extends AbstractCrudController
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
             ;
+    }
+
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id'),
+            TextField::new('Name'),
+            DateTimeField::new('createdAt'),
+            DateTimeField::new('updatedAt'),
+
+        ];
     }
 
 

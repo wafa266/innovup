@@ -3,11 +3,14 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use App\Entity\Customer;
 use App\Entity\CustomerOrders;
 use App\Entity\Product;
 use App\Entity\Provider;
 use App\Entity\ProviderOrders;
 use App\Entity\User;
+use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -18,19 +21,30 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class DashboardController extends AbstractDashboardController
 {
+    protected $userRepository;
 
+
+    public function __construct(
+        UserRepository $userRepository
+    ) {
+      $this->userRepository=$userRepository;
+    }
     /**
      * @Route("/admin", name="admin")
      */
     public function index(): Response
     {
-        return parent::index();
+        return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
+            'controller_name' => 'DashboardController',
+            'CountAllUser'=>$this->userRepository->countAllUser() ,
+        ]);
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Innovup');
+            ->setTitle('ERP Stock Management');
+
     }
 
     public function configureMenuItems(): iterable
@@ -39,6 +53,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-users', User::class);
         yield MenuItem::linkToCrud('Produits', 'fa fa-cubes', Product::class);
         yield MenuItem::linkToCrud('Fournisseurs', 'fa fa-truck', Provider::class);
+        yield MenuItem::linkToCrud('clients', 'fa fa-shopping-bag', Customer::class);
         yield MenuItem::linkToCrud('Catégories', 'fa fa-list-alt', Category::class);
         yield MenuItem::linkToCrud('Commandes fournisseurs', 'fa fa-shopping-cart', ProviderOrders::class);
         yield MenuItem::linkToCrud('Commandes clients', 'fa fa-shopping-bag', CustomerOrders::class);
@@ -53,7 +68,7 @@ class DashboardController extends AbstractDashboardController
             ->setName($user->getUsername())
             ->displayUserAvatar(true)
             ->setGravatarEmail($user->getUsername())
-            // you can use any type of menu item, except submenus
+            // you can use any type of menu item, except submenu
             ->addMenuItems([
                 MenuItem::linkToRoute('My Profile', 'fa fa-id-card', '...', ['...' => '...']),
                 MenuItem::linkToRoute('Settings', 'fa fa-user-cog', '...', ['...' => '...']),

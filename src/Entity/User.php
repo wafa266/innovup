@@ -1,16 +1,18 @@
 <?php
 
 namespace App\Entity;
-
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactory;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity
+
  * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
@@ -135,7 +137,13 @@ class User implements UserInterface
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $defaultEncoder = new MessageDigestPasswordEncoder('sha512', true, 5000);
+        $encoders = [
+            User::class => $defaultEncoder
+        ];
+        $encoderFactory = new EncoderFactory($encoders);
+        $encodedPassword = $encoderFactory->getEncoder(User::class)->encodePassword($password, $this->getSalt());
+        $this->password = $encodedPassword;
 
         return $this;
     }
@@ -170,7 +178,7 @@ class User implements UserInterface
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createdAt ?? new DateTime();
     }
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
@@ -182,7 +190,7 @@ class User implements UserInterface
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? new DateTime();
     }
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
@@ -220,10 +228,15 @@ class User implements UserInterface
         // TODO: Implement eraseCredentials() method.
     }
     /**
-     * @ORM\PrePersist
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
-    public function setCreatedAtValue(): void
+    public function updateTimestamps(): void
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $now = new DateTime();
+        $this->setUpdatedAt($now);
+        if ($this->getId() === null) {
+            $this->setCreatedAt($now);
+        }
     }
 }

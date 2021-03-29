@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="customer_orders", indexes={@ORM\Index(name="product_id_fk_idx", columns={"product_id"}), @ORM\Index(name="customer_id_fk_idx", columns={"customer_id"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
-*/
+ */
 
 class CustomerOrders
 {
@@ -71,7 +71,7 @@ class CustomerOrders
     /**
      * @var \Product
      *
-     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\OneToMany(targetEntity="Product",mappedBy="customerOrders")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
@@ -109,7 +109,7 @@ class CustomerOrders
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->createdAt ?? new DateTime();
     }
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
@@ -121,7 +121,7 @@ class CustomerOrders
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? new DateTime();
     }
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
@@ -169,13 +169,15 @@ class CustomerOrders
 
 
     /**
-     * @ORM\PrePersist
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
-    public function setCreatedAtValue(): void
+    public function updateTimestamps(): void
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $now = new DateTime();
+        $this->setUpdatedAt($now);
+        if ($this->getId() === null) {
+            $this->setCreatedAt($now);
+        }
     }
-
-
-
 }

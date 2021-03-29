@@ -1,0 +1,16 @@
+Index: src/Controller/Admin/DashboardController.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Controller/Admin/DashboardController.php b/src/Controller/Admin/DashboardController.php
+--- a/src/Controller/Admin/DashboardController.php	(date 1616741974932)
++++ b/src/Controller/Admin/DashboardController.php	(date 1616741974932)
+@@ -36,7 +36,6 @@
+     public function configureMenuItems(): iterable
+     {
+         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
+-        yield MenuItem::linkToRoute('AD', 'fa fa-home', 'ad');
+         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-users', User::class);
+         yield MenuItem::linkToCrud('Produits', 'fa fa-cubes', Product::class);
+         yield MenuItem::linkToCrud('Fournisseurs', 'fa fa-truck', Provider::class);

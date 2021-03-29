@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}{{ "hello" }}{% endblock %}</title>
+    {% block metas %}
+        <meta charset="UTF-8">
+    {% endblock %}
+
+ {% block bodyclass %}
+    <p>Bonjour à tous <p>
+{% endblock %}>
+
+{% block impersionate %}
+    {% if is_granted('IS_IMPERSONATOR') %}
+        <div class="alert alert-warning" style="color: #0D3349;">
+            {{ "backend.global.you_are_logged"|trans }} : {{ app.user.username }}
+            <a href="{{ path('app_admin_index',{'_switch_user':'_exit'}) }}">{{ "backend.global.leave_impersonate"|trans }}</a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+
