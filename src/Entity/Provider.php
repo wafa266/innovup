@@ -5,7 +5,9 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\File;
 use phpDocumentor\Reflection\Types\Object_;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Provider
@@ -59,6 +61,17 @@ class Provider
      * @ORM\Column(name="phone", type="string", length=45, nullable=true)
      */
     private $phone;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="customers",fileNameProperty="image")
+     * @var File
+     */
+
+    private $imageFile;
 
     /**
      * @var \DateTime|null
@@ -149,6 +162,43 @@ class Provider
         $this->phone = $phone;
 
         return $this;
+    }
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     * @return $this
+     */
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \Datetime();
+        }
     }
 
     public function getCreatedAt(): ?\DateTimeInterface

@@ -8,7 +8,9 @@ use App\Entity\CustomerOrders;
 use App\Entity\Product;
 use App\Entity\Provider;
 use App\Entity\ProviderOrders;
+use App\Entity\ProviderOrdersProduct;
 use App\Entity\User;
+use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -19,15 +21,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 class DashboardController extends AbstractDashboardController
 {
     protected $userRepository;
+    protected $customerRepository;
+    protected $product;
 
 
     public function __construct(
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        CustomerRepository $customerRepository,
+        ProductRepository $product
     ) {
       $this->userRepository=$userRepository;
+        $this->customerRepository=$customerRepository;
+        $this->product=$product;
+
+
     }
     /**
      * @Route("/admin", name="admin")
@@ -37,6 +48,8 @@ class DashboardController extends AbstractDashboardController
         return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
             'controller_name' => 'DashboardController',
             'CountAllUser'=>$this->userRepository->countAllUser() ,
+            'CountAllCustomer'=>$this->customerRepository->CountAllCustomer(),
+            'Product'=>$this->product->findAll(),
         ]);
     }
 
@@ -55,7 +68,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Fournisseurs', 'fa fa-truck', Provider::class);
         yield MenuItem::linkToCrud('clients', 'fa fa-shopping-bag', Customer::class);
         yield MenuItem::linkToCrud('Catégories', 'fa fa-list-alt', Category::class);
-        yield MenuItem::linkToCrud('Commandes fournisseurs', 'fa fa-shopping-cart', ProviderOrders::class);
+        yield MenuItem::linkToCrud('Commandes fournisseurs', 'fa fa-shopping-cart', ProviderOrdersProduct::class);
         yield MenuItem::linkToCrud('Commandes clients', 'fa fa-shopping-bag', CustomerOrders::class);
     }
     public function configureUserMenu(UserInterface $user): UserMenu
@@ -76,5 +89,4 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),
             ]);
     }
-
 }

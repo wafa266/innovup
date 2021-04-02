@@ -6,16 +6,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\ObjectType;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\File;
 use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\FormTypeInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Product
  *
- * @ORM\Table(name="product", indexes={@ORM\Index(name="category_id_fk_idx", columns={"category_id"})})
+ * @ORM\Table(name="product", indexes={@ORM\Index(name="category_id_fk_idx", columns={"id"})})
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ * @Vich\Uploadable
  */
 class Product
 {
@@ -50,6 +53,20 @@ class Product
     private $tva;
 
     /**
+     * @var float|null
+     *
+     * @ORM\Column(name="price_excluding_tax", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $priceExcludingTax;
+
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="price_ttc", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $priceTtc;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(name="barcode", type="string", length=250, nullable=true)
@@ -57,10 +74,23 @@ class Product
     private $barcode;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
+     * @var File
+     */
+
+    private $imageFile;
+
+    /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
+
     private $createdAt;
 
     /**
@@ -80,7 +110,7 @@ class Product
     /**
      * @var \Category
      *
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })
@@ -88,14 +118,13 @@ class Product
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="CustomerOrders", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="ProviderOrdersProduct", mappedBy="product")
      */
-    private $customerOrders;
-
+    protected $providerOrdersProducts;
     /**
-     * @ORM\OneToMany(targetEntity="ProviderOrders", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="CustomerOrdersProduct", mappedBy="product")
      */
-    private $providerOrders;
+    protected $customerOrdersProducts;
 
     public function getId(): ?int
     {
@@ -149,7 +178,65 @@ class Product
 
         return $this;
     }
+    public function getPriceExcludingTax(): ?float
+    {
+        return $this->priceExcludingTax;
+    }
 
+    public function setPriceExcludingTax(?float $priceExcludingTax): self
+    {
+        $this->priceExcludingTax = $priceExcludingTax;
+
+        return $this;
+    }
+    public function getPriceTtc(): ?float
+    {
+        return $this->priceTtc;
+    }
+
+    public function setPrice_ttc(?float $priceTtc): self
+    {
+        $this->priceTtc = $priceTtc;
+
+        return $this;
+    }
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     * @return $this
+     */
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \Datetime();
+        }
+    }
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt ?? new DateTime();
@@ -200,73 +287,7 @@ class Product
 
     public function __construct()
     {
-        $this->customerOrders = new ArrayCollection() ;
-        $this->providerOrders = new ArrayCollection();
-
-    }
-
-    /**
-     * @return Collection|CustomerOrders[]
-     */
-    public function getCustomerOrders(): Collection
-    {
-        return $this->customerOrders;
-    }
-
-    public function addCustomerOrders(CustomerOrders $customerOrders): self
-    {
-        if (!$this->customerOrders->contains($customerOrders)) {
-            $this->customerOrders[] = $customerOrders;
-            $customerOrders->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCustomerOrders(CustomerOrders $customerOrders): self
-    {
-        if ($this->customerOrders->contains($customerOrders)) {
-            $this->customerOrders->removeElement($customerOrders);
-            // set the owning side to null (unless already changed)
-            if ($customerOrders->getProduct() === $this) {
-                $customerOrders->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ProviderOrders[]
-     */
-    public function getProviderOrders(): Collection
-    {
-        return $this->providerOrders;
-    }
-
-    public function addProviderOrders(ProviderOrders $providerOrders): self
-    {
-        echo '<pre>';
-        print_r($this->providerOrders);die;
-        if (!$this->providerOrders->contains($providerOrders)) {
-            $this->providerOrders[] = $providerOrders;
-            $providerOrders->setProduct($this);
-        }
-
-        return  $this;
-    }
-
-    public function removeProviderOrders(ProviderOrders $providerOrders): self
-    {
-        if ($this->providerOrders->contains($providerOrders)) {
-            $this->providerOrders->removeElement($providerOrders);
-            // set the owning side to null (unless already changed)
-            if ($providerOrders->getProduct() === $this) {
-                $providerOrders->setProduct(null);
-            }
-        }
-
-        return $this;
+        $this->customerOrdersProducts = new ArrayCollection();
     }
 
     public function __toString()
@@ -286,44 +307,67 @@ class Product
         }
     }
 
-    public function addCustomerOrder(CustomerOrders $customerOrder): self
+    public function setPriceTtc(?float $priceTtc): self
     {
-        if (!$this->customerOrders->contains($customerOrder)) {
-            $this->customerOrders[] = $customerOrder;
-            $customerOrder->setProduct($this);
+        $this->priceTtc = $priceTtc;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProviderOrdersProduct[]
+     */
+    public function getProviderOrdersProducts(): Collection
+    {
+        return $this->providerOrdersProducts;
+    }
+
+    public function addProviderOrdersProduct(ProviderOrdersProduct $providerOrdersProduct): self
+    {
+        if (!$this->providerOrdersProducts->contains($providerOrdersProduct)) {
+            $this->providerOrdersProducts[] = $providerOrdersProduct;
+            $providerOrdersProduct->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removeCustomerOrder(CustomerOrders $customerOrder): self
+    public function removeProviderOrdersProduct(ProviderOrdersProduct $providerOrdersProduct): self
     {
-        if ($this->customerOrders->removeElement($customerOrder)) {
+        if ($this->providerOrdersProducts->removeElement($providerOrdersProduct)) {
             // set the owning side to null (unless already changed)
-            if ($customerOrder->getProduct() === $this) {
-                $customerOrder->setProduct(null);
+            if ($providerOrdersProduct->getProduct() === $this) {
+                $providerOrdersProduct->setProduct(null);
             }
         }
 
         return $this;
     }
 
-    public function addProviderOrder(ProviderOrders $providerOrder): self
+    /**
+     * @return Collection|CustomerOrdersProduct[]
+     */
+    public function getCustomerOrdersProducts(): Collection
     {
-        if (!$this->providerOrders->contains($providerOrder)) {
-            $this->providerOrders[] = $providerOrder;
-            $providerOrder->setProduct($this);
+        return $this->customerOrdersProducts;
+    }
+
+    public function addCustomerOrdersProduct(CustomerOrdersProduct $customerOrdersProduct): self
+    {
+        if (!$this->customerOrdersProducts->contains($customerOrdersProduct)) {
+            $this->customerOrdersProducts[] = $customerOrdersProduct;
+            $customerOrdersProduct->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removeProviderOrder(ProviderOrders $providerOrder): self
+    public function removeCustomerOrdersProduct(CustomerOrdersProduct $customerOrdersProduct): self
     {
-        if ($this->providerOrders->removeElement($providerOrder)) {
+        if ($this->customerOrdersProducts->removeElement($customerOrdersProduct)) {
             // set the owning side to null (unless already changed)
-            if ($providerOrder->getProduct() === $this) {
-                $providerOrder->setProduct(null);
+            if ($customerOrdersProduct->getProduct() === $this) {
+                $customerOrdersProduct->setProduct(null);
             }
         }
 

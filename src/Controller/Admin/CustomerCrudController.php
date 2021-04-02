@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -36,11 +37,12 @@ class CustomerCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            IdField::new('id')->onlyOnDetail(),
             TextField::new('firstName'),
             TextField::new('lastName'),
             EmailField::new('email'),
             TelephoneField::new('phone'),
-            DateTimeField::new('createdAt')->hideOnForm(),
+            DateTimeField::new('createdAt')->onlyOnDetail(),
         ];
     }
 

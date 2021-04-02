@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Entity;
+
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\Product;
-use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Object_;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * Category
+ * ProviderOrders
  *
- * @ORM\Table(name="category")
+ * @ORM\Table(name="provider_orders_product")
  * @ORM\Entity
  */
-class Category
+class ProviderOrdersProduct
 {
     /**
      * @var int
@@ -25,11 +27,12 @@ class Category
     private $id;
 
     /**
-     * @var string|null
+     * @var bool|null
      *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
+     * @ORM\Column(name="quantity", type="integer", nullable=true)
      */
-    private $name;
+    private $quantity = '0';
+
     /**
      * @var \DateTime|null
      *
@@ -52,23 +55,42 @@ class Category
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
+     * @var \Product
+     *
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="providerOrdersProducts")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * })
      */
     private $products;
 
+    /**
+     * @var \ProviderOrders
+     *
+     * @ORM\ManyToOne(targetEntity="Provider", inversedBy="providerOrdersProducts")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="provider_orders_id", referencedColumnName="id")
+     * })
+     */
+    private $providerOrders;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getQuantity(): ?int
     {
-        return $this->name;
+        return $this->quantity;
     }
 
-    public function setName(?string $name): self
+    public function setQuantity(?int $quantity): self
     {
-        $this->name = $name;
+        $this->quantity = $quantity;
 
         return $this;
     }
@@ -76,12 +98,11 @@ class Category
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt ?? new DateTime();
-
     }
 
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt =$createdAt;
 
         return $this;
     }
@@ -93,7 +114,7 @@ class Category
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt=$updatedAt;
 
         return $this;
     }
@@ -109,44 +130,53 @@ class Category
 
         return $this;
     }
-    public function __construct()
+
+    /*public function getProduct():?Product
     {
-        $this->products = new ArrayCollection();
+        return $this->product ;
+    }
+
+    public function setProduct($product): self
+    {
+        $this->product = $product;
+
+        return $this;
+    }*/
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): ?Collection
+    {
+        return $this->products;
     }
 
     /**
-     * @return Collection|Products[]
+     * @param Product[] $products
      */
-    public function getProducts(): Collection
+    public function setProducts( $products): void
     {
-        return $this->products;
+        $this->products = $products;
     }
 
     public function addProduct(Product $product): self
     {
         if (!$this->products->contains($product)) {
             $this->products[] = $product;
-            $product->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Product $product): self
+    public function getProvider(): ?Provider
     {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
-            // set the owning side to null (unless already changed)
-            if ($product->getCategory() === $this) {
-                $product->setCategory(null);
-            }
-        }
+        return $this->provider;
+    }
+
+    public function setProvider(?Provider $provider): self
+    {
+        $this->provider = $provider;
 
         return $this;
-    }
-    public function __toString()
-    {
-        return $this->name;
     }
     /**
      * @ORM\PrePersist()
@@ -160,4 +190,18 @@ class Category
             $this->setCreatedAt($now);
         }
     }
+
+    public function getProviderOrders(): ?Provider
+    {
+        return $this->providerOrders;
+    }
+
+    public function setProviderOrders(?Provider $providerOrders): self
+    {
+        $this->providerOrders = $providerOrders;
+
+        return $this;
+    }
+
+
 }
