@@ -29,7 +29,7 @@ class ProductCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $detailUser = Action::new('detailUser', 'Detail', 'fa fa-user')
+        $detailUser = Action::new('detailUser', 'Detail', 'fa fa-cubes')
           ->linkToCrudAction(Crud::PAGE_DETAIL)
           ->addCssClass('btn btn-info');
         /*

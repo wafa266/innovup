@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\ProductRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -77,6 +78,7 @@ class ProviderOrdersProduct
     public function __construct()
     {
         $this->products = new ArrayCollection();
+
     }
     public function getId(): ?int
     {

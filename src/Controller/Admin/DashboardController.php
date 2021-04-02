@@ -13,6 +13,7 @@ use App\Entity\User;
 use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
@@ -71,6 +72,12 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Commandes fournisseurs', 'fa fa-shopping-cart', ProviderOrdersProduct::class);
         yield MenuItem::linkToCrud('Commandes clients', 'fa fa-shopping-bag', CustomerOrders::class);
     }
+    public function configureAssets(): Assets
+    {
+        return Assets::new()
+            ->addCssFile('bundles/easyadmin/css/style.css');
+       }
+
     public function configureUserMenu(UserInterface $user): UserMenu
     {
         // Usually it's better to call the parent method because that gives you a
