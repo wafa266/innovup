@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * CustomerOrders
  *
- * @ORM\Table(name="customer_orders", indexes={@ORM\Index(name="product_id_fk_idx", columns={"product_id"}), @ORM\Index(name="customer_id_fk_idx", columns={"customer_id"})})
+ * @ORM\Table(name="customer_orders", indexes={@ORM\Index(name="product_id_fk_idx", columns={"id"}), @ORM\Index(name="customer_id_fk_idx", columns={"customer_id"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
@@ -69,14 +73,14 @@ class CustomerOrders
     private $customer;
 
     /**
-     * @var \Product
-     *
-     * @ORM\OneToMany(targetEntity="Product",mappedBy="customerOrders")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     * })
+     * @ORM\OneToMany(targetEntity="CustomerOrdersProduct", mappedBy="customerOrders")
      */
-    private $product;
+    protected $customerOrdersProducts;
+
+    public function __construct()
+    {
+        $this->customerOrdersProducts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +110,7 @@ class CustomerOrders
 
         return $this;
     }
+
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -155,19 +160,6 @@ class CustomerOrders
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -179,5 +171,35 @@ class CustomerOrders
         if ($this->getId() === null) {
             $this->setCreatedAt($now);
         }
+    }
+
+    /**
+     * @return Collection|CustomerOrdersProduct[]
+     */
+    public function getCustomerOrdersProducts(): Collection
+    {
+        return $this->customerOrdersProducts;
+    }
+
+    public function addCustomerOrdersProduct(CustomerOrdersProduct $customerOrdersProduct): self
+    {
+        if (!$this->customerOrdersProducts->contains($customerOrdersProduct)) {
+            $this->customerOrdersProducts[] = $customerOrdersProduct;
+            $customerOrdersProduct->setCustomerOrders($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerOrdersProduct(CustomerOrdersProduct $customerOrdersProduct): self
+    {
+        if ($this->customerOrdersProducts->removeElement($customerOrdersProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($customerOrdersProduct->getCustomerOrders() === $this) {
+                $customerOrdersProduct->setCustomerOrders(null);
+            }
+        }
+
+        return $this;
     }
 }

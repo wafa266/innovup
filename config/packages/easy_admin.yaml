@@ -1,4 +1,6 @@
 easy_admin:
+    show:
+        max_results: 10
     entities:
         User:
             class: App\Entity\User
@@ -11,6 +13,12 @@ easy_admin:
                     - { property: fullname, label: field.user.fullname, type: 'text' }
                     # plain password
                     - { property: plainPassword, label: field.user.password, type: 'password' }
+        Product:
+            class: App\Entity\Product
+            label: label.product
+            list:
+                # if the sort order is not specified, 'DESC' is used
+                sort: 'name'
         ProviderOrders:
             class: App\Entity\ProviderOrders
             label: 'Provider Orders'

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -10,7 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 /**
  * ProviderOrders
  *
- * @ORM\Table(name="provider_orders", indexes={@ORM\Index(name="product_id_fk_1_idx", columns={"product_id"}), @ORM\Index(name="provider_id_fk_idx", columns={"provider_id"})})
+ * @ORM\Table(name="provider_orders", indexes={@ORM\Index(name="product_id_fk_1_idx", columns={"id"}), @ORM\Index(name="provider_id_fk_idx", columns={"provider_id"})})
  * @ORM\Entity
  */
 class ProviderOrders
@@ -53,14 +55,9 @@ class ProviderOrders
     private $deletedAt;
 
     /**
-     * @var \Product
-     *
-     * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     * })
+     * @ORM\OneToMany(targetEntity="ProviderOrdersProduct", mappedBy="providerOrders")
      */
-    private $product;
+    protected $providerOrdersProducts;
 
     /**
      * @var \Provider
@@ -71,6 +68,11 @@ class ProviderOrders
      * })
      */
     private $provider;
+
+    public function __construct()
+    {
+        $this->providerOrdersProducts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -125,18 +127,6 @@ class ProviderOrders
         return $this;
     }
 
-    public function getProduct():?Product
-    {
-        return $this->product ;
-    }
-
-    public function setProduct(?product   $product): self
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getProvider(): ?Provider
     {
         return $this->provider;
@@ -159,6 +149,36 @@ class ProviderOrders
         if ($this->getId() === null) {
             $this->setCreatedAt($now);
         }
+    }
+
+    /**
+     * @return Collection|ProviderOrdersProduct[]
+     */
+    public function getProviderOrdersProducts(): ?Collection
+    {
+        return $this->providerOrdersProducts;
+    }
+
+    public function addProviderOrdersProduct(ProviderOrdersProduct $providerOrdersProduct): self
+    {
+        if (!$this->providerOrdersProducts->contains($providerOrdersProduct)) {
+            $this->providerOrdersProducts[] = $providerOrdersProduct;
+            $providerOrdersProduct->setProviderOrders($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProviderOrdersProduct(ProviderOrdersProduct $providerOrdersProduct): self
+    {
+        if ($this->providerOrdersProducts->removeElement($providerOrdersProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($providerOrdersProduct->getProviderOrders() === $this) {
+                $providerOrdersProduct->setProviderOrders(null);
+            }
+        }
+
+        return $this;
     }
 
 

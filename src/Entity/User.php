@@ -3,9 +3,11 @@
 namespace App\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * User
@@ -67,6 +69,18 @@ class User implements UserInterface
      * @ORM\Column(name="roles", type="json", nullable=true)
      */
     private $roles;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="products",fileNameProperty="image")
+     * @var File
+     */
+
+    private $imageFile;
 
     /**
      * @var \DateTime|null
@@ -173,6 +187,23 @@ class User implements UserInterface
     {
         $this->roles = $roles;
 
+        return $this;
+    }
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     * @return $this
+     */
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
         return $this;
     }
 
