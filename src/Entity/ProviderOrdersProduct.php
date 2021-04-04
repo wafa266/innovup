@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use function Sodium\add;
 
 /**
  * ProviderOrders
@@ -77,7 +78,9 @@ class ProviderOrdersProduct
 
     public function __construct()
     {
+
         $this->products = new ArrayCollection();
+        
 
     }
     public function getId(): ?int

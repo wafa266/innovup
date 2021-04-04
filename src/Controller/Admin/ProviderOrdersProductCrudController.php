@@ -9,6 +9,7 @@ use ContainerG0esfcz\getDoctrine_EnsureProductionSettingsCommandService;
 use ContainerIcedloH\getProductRepositoryService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\Id;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -27,13 +28,10 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class ProviderOrdersProductCrudController extends AbstractCrudController
-{ public $product;
 
-    public function __construct( ProductRepository $product)
-    {
-        $this->product=$product;
-    }
+class ProviderOrdersProductCrudController extends AbstractCrudController
+{
+
     public static function getEntityFqcn(): string
     {
         return ProviderOrdersProduct::class;
@@ -42,29 +40,30 @@ class ProviderOrdersProductCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-         return [
+        return [
             IntegerField::new('quantity'),
             AssociationField::new('providerOrders', 'Fournisseur'),
-            /*ChoiceField::new('products', 'Produits')
-                ->setCustomOption('autocomplete', true)
-                ->setFormTypeOption('data-widget', 'select2')
-                ->setFormTypeOptions(['multiple' => 'true'])
-                ->addCssClass('field-select')
-                ->setCustomOption('renderAsBadges', null)
-                ->setCustomOption('renderExpanded', false)
-                ->setCustomOption('allowMultipleChoices', true)
-                ->setCustomOption('widget', null)
-               ->setCustomOption('choices','bonjour'),
-            DateTimeField::new('createdAt')->onlyOnDetail(),
-            DateTimeField::new('updatedAt')->onlyOnDetail(),*/
-            /* AssociationField::new('products')->setFormType(ChoiceType::class,[
-                 'choices'  => [
-                     'Maybe' => null,
-                     'Yes' => true,
-                     'No' => false,
-                 ],
-             ]) */
+            ChoiceField::new('products', 'Produits')
+                 ->setCustomOption('autocomplete', true)
+                 ->setFormTypeOption('data-widget', 'select2')
+                 ->setFormTypeOptions(['multiple' => 'true'])
+                 ->addCssClass('field-select')
+                 ->setCustomOption('renderExpanded', true)
+                 ->setCustomOption('allowMultipleChoices', true)
+                 ->setCustomOption('widget', null),
+               // ->setCustomOption('choices', $this->products),
 
+            DateTimeField::new('createdAt')->onlyOnDetail(),
+            DateTimeField::new('updatedAt')->onlyOnDetail(),
+           /* AssociationField::new('products')->setFormType(ChoiceType::class, [
+                'choices' => [
+                    'Maybe' => null,
+                    'Yes' => true,
+                    'No' => false,
+                ],
+                'multiple' => true,
+            ]),*/
         ];
+
     }
 }
