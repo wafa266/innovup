@@ -91,6 +91,8 @@ class Product
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
 
+
+
     private $createdAt;
 
     /**
@@ -125,6 +127,11 @@ class Product
      * @ORM\OneToMany(targetEntity="CustomerOrdersProduct", mappedBy="product")
      */
     protected $customerOrdersProducts;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $quantity;
 
     public function getId(): ?int
     {
@@ -237,6 +244,7 @@ class Product
             $this->updatedAt = new \Datetime();
         }
     }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt ?? new DateTime();
@@ -288,6 +296,7 @@ class Product
     public function __construct()
     {
         $this->customerOrdersProducts = new ArrayCollection();
+        $this->providerOrdersProducts = new ArrayCollection();
     }
 
     public function __toString()
@@ -370,6 +379,18 @@ class Product
                 $customerOrdersProduct->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(?int $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

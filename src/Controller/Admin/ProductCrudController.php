@@ -26,7 +26,13 @@ class ProductCrudController extends AbstractCrudController
     {
         return Product::class;
     }
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPageTitle(Crud::PAGE_INDEX,'Liste de vos produits ')
+            ->overrideTemplate('crud/index', 'bundles/EasyAdminBundle/page/crud_index.html.twig');
 
+    }
 
     public function configureActions(Actions $actions): Actions
     {
@@ -65,20 +71,27 @@ class ProductCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+
+
+        $fields = [
             IdField::new('id')->onlyOnDetail(),
-            TextField::new('name'),
+            TextField::new('barcode'),
+            TextField::new('name')->setTemplatePath('bundles/EasyAdminBundle/page/field_custom.html.twig'),
             NumberField::new('price', "prix d'achat"),
             NumberField::new('priceExcludingTax', "prix hors tax"),
             NumberField::new('tva'),
             NumberField::new('priceTtc', 'prix vente'),
+            NumberField::new('quantity', 'quantity'),
             AssociationField::new('category', 'categorie'),
             Field::new('imageFile')->setFormType(VichImageType::class)->onlyOnDetail(),
             ImageField::new('image')->setBasePath('uploads\images\products')
                 ->setCustomOption('uploadDir', 'public\uploads\images\products'),
+
             DateTimeField::new('createdAt')->onlyOnDetail(),
             DateTimeField::new('UpdatedAt')->onlyOnDetail()
         ];
+
+        return $fields;
     }
 
 }
