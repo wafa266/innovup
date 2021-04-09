@@ -55,9 +55,9 @@ class ProviderOrders
     private $deletedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProviderOrdersProduct", mappedBy="providerOrders")
+     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="providersOrders")
      */
-    protected $providerOrdersProducts;
+    private $products;
 
     /**
      * @var \Provider
@@ -71,7 +71,7 @@ class ProviderOrders
 
     public function __construct()
     {
-        $this->providerOrdersProducts = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,5 +181,32 @@ class ProviderOrders
         return $this;
     }
 
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
 
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        $this->products->removeElement($product);
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return 'product';
+    }
 }

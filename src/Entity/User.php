@@ -76,7 +76,7 @@ class User implements UserInterface
     private $image;
 
     /**
-     * @Vich\UploadableField(mapping="products",fileNameProperty="image")
+     * @Vich\UploadableField(mapping="users_images",fileNameProperty="image")
      * @var File
      */
 
@@ -190,14 +190,6 @@ class User implements UserInterface
         return $this;
     }
     /**
-     * @return string|null
-     */
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    /**
      * @param string|null $image
      * @return $this
      */
@@ -205,6 +197,26 @@ class User implements UserInterface
     {
         $this->image = $image;
         return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \Datetime();
+        }
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -270,4 +282,13 @@ class User implements UserInterface
             $this->setCreatedAt($now);
         }
     }
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+
 }
