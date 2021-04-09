@@ -91,8 +91,6 @@ class Product
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
 
-
-
     private $createdAt;
 
     /**
@@ -110,6 +108,11 @@ class Product
     private $deletedAt;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $quantity;
+
+    /**
      * @var \Category
      *
      * @ORM\ManyToOne(targetEntity="Category", cascade={"persist"})
@@ -120,18 +123,26 @@ class Product
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProviderOrdersProduct", mappedBy="product")
+     * @ORM\ManyToMany(targetEntity=ProviderOrders::class, mappedBy="products")
      */
-    protected $providerOrdersProducts;
+    private $providersOrders;
+
     /**
      * @ORM\OneToMany(targetEntity="CustomerOrdersProduct", mappedBy="product")
      */
     protected $customerOrdersProducts;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\OneToMany(targetEntity=ProductProviderOrders::class, mappedBy="product")
      */
-    private $quantity;
+    private $productProviderOrders;
+
+    public function __construct()
+    {
+        $this->customerOrdersProducts = new ArrayCollection();
+        $this->providersOrders = new ArrayCollection();
+        $this->productProviderOrders = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -293,12 +304,6 @@ class Product
         return $this;
     }
 
-    public function __construct()
-    {
-        $this->customerOrdersProducts = new ArrayCollection();
-        $this->providerOrdersProducts = new ArrayCollection();
-    }
-
     public function __toString()
     {
         return $this->name;
@@ -391,6 +396,62 @@ class Product
     public function setQuantity(?int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+    /**
+     * @return Collection|ProviderOrders[]
+     */
+    public function getProvidersOrders(): Collection
+    {
+        return $this->providersOrders;
+    }
+
+    public function addProvidersOrder(ProviderOrders $providersOrder): self
+    {
+        if (!$this->providersOrders->contains($providersOrder)) {
+            $this->providersOrders[] = $providersOrder;
+            $providersOrder->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProvidersOrder(ProviderOrders $providersOrder): self
+    {
+        if ($this->providersOrders->removeElement($providersOrder)) {
+            $providersOrder->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductProviderOrders[]
+     */
+    public function getProductProviderOrders(): Collection
+    {
+        return $this->productProviderOrders;
+    }
+
+    public function addProductProviderOrder(ProductProviderOrders $productProviderOrder): self
+    {
+        if (!$this->productProviderOrders->contains($productProviderOrder)) {
+            $this->productProviderOrders[] = $productProviderOrder;
+            $productProviderOrder->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductProviderOrder(ProductProviderOrders $productProviderOrder): self
+    {
+        if ($this->productProviderOrders->removeElement($productProviderOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($productProviderOrder->getProduct() === $this) {
+                $productProviderOrder->setProduct(null);
+            }
+        }
 
         return $this;
     }

@@ -4,384 +4,492 @@
 {% block stylesheets %}
 	<link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('build/css/main.css') }}" rel="stylesheet">
-	<link href="{{ asset('build/css/slick.css') }}" rel="stylesheet">
-	<link href="{{ asset('build/css/icofont.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('build/css/style-starter.css') }}" rel="stylesheet">
 {% endblock %}
 {% block bodyclass %}class="home"
 {% endblock %}
 {% block body %}
-	<!-- HEADER SECTION -->
-	<header id="home">
-		<div class="container">
-			<nav class="navbar navbar-expand-lg navbar-light ">
-				<!-- Change Logo Img Here -->
-				<a class="navbar-brand" href="#"><img src="{{ asset('build/images/logo.svg') }}" alt=""></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<div class="interactive-menu-button">
-						<a href="#">
-							<span>Menu</span>
-						</a>
-					</div>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<!-- Nav Link -->
-							<a class="nav-link" data-scroll href="#home">Home.<span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item">
-							<!-- Nav Link -->
-							<a class="nav-link" data-scroll href="#about-us">About Us.</a>
-						</li>
-						<li class="nav-item">
-							<!-- Nav Link -->
-							<a class="nav-link" data-scroll href="#portfolio">Portfolio.</a>
-						</li>
-						<li class="nav-item">
-							<!-- Nav Link -->
-							<a class="nav-link" data-scroll href="#blog">Blog.</a>
-						</li>
-						<li class="nav-item">
-							<!-- Nav Link -->
-							<a class="nav-link" href="{{ path('app_login') }}">se connecter</a>
-						</li>
-						<li class="nav-item dropdown">
-							<!-- Lang Dropdown Link -->
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">EN</a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<!-- Lang Dropdown Choice -->
-								<a class="dropdown-item" href="#">DE </a>
-								<!-- Lang Dropdown Choice -->
-								<a class="dropdown-item" href="#">ES </a>
-							</div>
-						</li>
-					</ul>
-					<form data-scroll href="{{ path('app_login') }}"  class="contact-btn form-inline my-2 my-lg-0">
-						<!-- Contacgt Us Button -->
-						<button>Connecter vous</button>
-					</form>
-				</div>
-			</nav>
-		</div>
-		<!-- HERO SECTION -->
-		<div class="container-fluid hero">
-			<img src="{{ asset('build/images/hero.svg') }}" alt="">
-			<div class="container">
-				<!-- Hero Title -->
-				<h1>The Spirit of<br>Digital Agency.</h1>
-				<!-- Hero Title Info -->
-				<p>Vestibulum ac diam sit amet quam vehicula elementum<br> amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-				<div class="hero-btns">
-					<!-- Hero Btn First -->
-					<a data-scroll href="#about-us">More About us</a>
-					<!-- Hero Btn Second -->
-					<a data-scroll href="#contact-us">Get in Touch.</a>
-				</div>
+	<header id="site-header" class="fixed-top">
+		<nav class="navbar navbar-expand-lg navbar-dark">
+			<a class="navbar-brand" href="{{ path('home') }}">
+				<span class="fa fa-shield" style="color: yellow"></span> MyERP
+			</a>
+			<button class="navbar-toggler bg-gradient" type="button" data-toggle="collapse"
+					data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+					aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav m-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="{{ path('home') }}" style="color: yellow">Home<span class="sr-only">(current)</span> </a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="about.html">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link"href="{{ path('service') }}">Services</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('contact') }}">Contact</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a href="{{ path('app_login') }}" class="btn btn-primary btn-style">LOGIN</a>
+					</li>
+				</ul>
 			</div>
-		</div>
+		</nav>
 	</header>
-	<!-- SERVICES SECTION -->
-	<section id="about-us" class="services">
-		<div class="container-fluid">
-			<div class="side-img">
-				<img src="{{ asset('build/images/aside.svg') }}" alt="">
-			</div>
-			<div class="side2-img">
-				<img src="{{ asset('build/images/aside2.svg') }}" alt="">
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-12 col-sm-12 col-lg-4 service-txt">
-						<h2>Anything you need,we’ve got you covered</h2>
-						<div class="hero-btns service-btn">
-							<a data-scroll href="#contact-us">Get in Touch</a>
-						</div>
-					</div>
-					<div class="col-12 col-sm-6 col-lg-4">
-						<div class="service-box">
-							<img src="{{ asset('build/images/service-icon1.svg') }}" alt="">
-							<!-- Service Title -->
-							<h3>Web & Graphic<br>Design</h3>
-							<!-- Replace Patch to Image Under -->
-							<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-						</div>
-					</div>
-					<div class="col-12 col-sm-6 col-lg-4">
-						<div class="service-box">
-							<img src="{{ asset('build/images/service-icon2.svg') }}" alt="">
-							<!-- Service Title -->
-							<h3>Web & App<br>Development</h3>
-							<!-- Service Info -->
-							<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- ABOUT SECTION -->
-	<section class="about">
+	<!-- //site header -->
+
+	<!-- banner section -->
+	<section id="home" class="banner">
+		<div id="banner-bg-effect" class="banner-effect"> </div>
 		<div class="container">
-			<div class="row">
-				<div class="col-12 col-sm-12 col-lg-6">
-					<img src="{{ asset('build/images/aboutimg.svg') }}" alt="">
+			<div class="row align-items-center">
+				<div class="col-lg-7 col-md-12 col-sm-12 order-lg-first mt-lg-0 mt-4">
+					<h1 class="mb-4 title"><strong class="focus"> Focus</strong> on your customers, <br>and lead your people <strong>as though, their lives depend on your success</strong>
+					</h1>
+					<p>"The way we spend our time defines who we are "<br>
+						"One must work with time  and not against it "</p>
+					<div class="mt-5">
+						<a class="btn btn-primary btn-style mr-2" href="about.html">Read More </a>
+						<a class="btn btn-outline btn-outline-style" href="services.html">Our Services </a>
+					</div>
 				</div>
-				<div class="col-12 col-sm-12 col-lg-6">
-					<h5>OUR COMPANY</h5>
-					<h2>Some Fine<br>Words About Us</h2>
-					<!-- Replace About Us Text Under -->
-					<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.Vestibulum ac diam sit amet.Quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
+				<div class="col-lg-5 col-md-12 col-sm-12 order-first text-lg-left text-center">
+					<div>
+						<img src="{{ asset('build/images/banner-round.png') }}" alt="" class="rounded-circle img-fluid">
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- PORTFOLIO SECTION -->
-	<section id="portfolio" class="portfolio">
-		<div class="container-fluid">
-			<div class="portfolio-aside">
-				<img src="{{ asset('build/images/aside3.svg') }}" alt="">
+	<!-- //banner section -->
+
+	<!-- home page about -->
+	<section class="w3l-about">
+		<div class="container">
+			<div class="row about-content">
+				<div class="col-lg-6 info mb-lg-0 mb-sm-5 mb-4 align-center">
+					<h3 class="title">About Us</h3>
+					<h6>Business planning, Strategy and Execution. A problem-solving philosophy that leads to
+						products people actually want to use.</h6>
+					<p class="mt-md-4 mt-3 mb-0"> TIME MANAGEMENT IS LIFE MANAGEMENT<br> We are here helping you to manage your time before managing your stock. <br> Our solution will make u able to lead your stock and improve your financial status .</p>
+				</div>
+				<div class="col-lg-6">
+					<img src="{{ asset('build/images/about.png') }}" class="img-fluid img-shadow" alt="about">
+				</div>
 			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<h2>See some of our<br>Creative work.</h2>
+		</div>
+	</section>
+	<!-- //home page about -->
+
+	<!-- home page service grids -->
+	<section id="services" class="bg-light">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-8 offset-lg-2 col-md-12 col-sm-12">
+					<h4 class="section-title">Meet Our Solution For You</h4>
+					<p class="text-center">The purpose of stock management software is to maintain an optimal stock level, track goods during transport between locations, receive new items, manage warehouse processes such as picking, packing, and shipping, prevent product obsolescence and spoilage, and ensure your products are never out of stock.</p>
+				</div>
+			</div>
+			<div class="row mt-lg-5">
+				<div class="col-lg-4 col-md-6 col-sm-12">
+					<div class="box-wrap">
+						<div class="icon">
+							<span class="fa fa-briefcase"></span>
+						</div>
+						<h4><a href="#url">Business Services</a></h4>
+						<p>Making and sending your orders to the providers, saving and following your customer's orders.</p>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-12 col-lg-4 work-box">
-						<div class="photobox photobox_type10">
-							<div class="photobox__previewbox">
-								<!-- Replace Patch to Image Under -->
-								<img src="{{ asset('build/images/1.png') }}" class="photobox__preview" alt="Preview">
-								<!-- Replace Image Title Under -->
-								<span class="photobox__label">Awesome Work</span>
-							</div>
+				<div class="col-lg-4 col-md-6 col-sm-12">
+					<div class="box-wrap">
+						<div class="icon">
+							<span class="fa fa-shield"></span>
 						</div>
-					</div>
-					<div class="col-12 col-lg-4 work-box">
-						<div class="photobox photobox_type10">
-							<div class="photobox__previewbox">
-								<!-- Replace Patch to Image Under -->
-								<img src="{{ asset('build/images/2.png') }}" class="photobox__preview" alt="Preview">
-								<!-- Replace Image Title Under -->
-								<span class="photobox__label">Awesome Work</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-lg-4 work-box">
-						<div class="photobox photobox_type10">
-							<div class="photobox__previewbox">
-								<!-- Replace Patch to Image Under -->
-								<img src="{{ asset('build/images/3.png') }}" class="photobox__preview" alt="Preview">
-								<!-- Replace Image Title Under -->
-								<span class="photobox__label">Awesome Work</span>
-							</div>
-						</div>
+						<h4><a href="#url">Product Consulting</a></h4>
+						<p>Prevent product obsolescence and spoilage and ensure your products are never out of stock.</p>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-12 col-lg-4 work-box">
-						<div class="photobox photobox_type10">
-							<div class="photobox__previewbox">
-								<!-- Replace Patch to Image Under -->
-								<img src="{{ asset('build/images/4.png') }}" class="photobox__preview" alt="Preview">
-								<!-- Replace Image Title Under -->
-								<span class="photobox__label">Awesome Work</span>
-							</div>
+				<div class="col-lg-4 col-md-6 col-sm-12">
+					<div class="box-wrap">
+						<div class="icon">
+							<span class="fa fa-dollar"></span>
 						</div>
-					</div>
-					<div class="col-12 col-lg-4 work-box">
-						<div class="photobox photobox_type10">
-							<div class="photobox__previewbox">
-								<!-- Replace Patch to Image Under -->
-								<img src="{{ asset('build/images/5.png') }}" class="photobox__preview" alt="Preview">
-								<!-- Replace Image Title Under -->
-								<span class="photobox__label">Awesome Work</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-12 col-lg-4 work-box">
-						<div class="photobox photobox_type10">
-							<div class="photobox__previewbox">
-								<!-- Replace Patch to Image Under -->
-								<img src="{{ asset('build/images/6.png') }}" class="photobox__preview" alt="Preview">
-								<!-- Replace Image Title Under -->
-								<span class="photobox__label">Awesome Work</span>
-							</div>
-						</div>
+						<h4><a href="#url">Financial Consulting</a></h4>
+						<p>Clear idea about your financial status , our solution give you the way to improve your financial status in order of sells .</p>
 					</div>
 				</div>
-				<!-- Hidden Images From Portfolio -->
-				<div id="hiden-gallery" class="hide">
-					<div class="row">
-						<div class="col-12 col-lg-4 work-box">
-							<div class="photobox photobox_type10">
-								<div class="photobox__previewbox">
-									<!-- Replace Patch to Image Under -->
-									<img src="{{ asset('build/images/6.png') }}" class="photobox__preview" alt="Preview">
-									<!-- Replace Image Title Under -->
-									<span class="photobox__label">Awesome Work</span>
-								</div>
-							</div>
+				<div class="col-lg-4 col-md-6 col-sm-12">
+					<div class="box-wrap">
+						<div class="icon">
+							<span class="fa fa-industry"></span>
 						</div>
-						<div class="col-12 col-lg-4 work-box">
-							<div class="photobox photobox_type10">
-								<div class="photobox__previewbox">
-									<!-- Replace Patch to Image Under -->
-									<img src="{{ asset('build/images/7.png') }}" class="photobox__preview" alt="Preview">
-									<!-- Replace Image Title Under -->
-									<span class="photobox__label">Awesome Work</span>
-								</div>
-							</div>
+						<h4><a href="#url">Investment Planning</a></h4>
+						<p>Our solution will draw statistics for you to give you idea bout sells , users and the movements of your products.</p>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 col-sm-12">
+					<div class="box-wrap">
+						<div class="icon">
+							<span class="fa fa-lightbulb-o"></span>
 						</div>
-						<div class="col-12 col-lg-4 work-box">
-							<div class="photobox photobox_type10">
-								<div class="photobox__previewbox">
-									<!-- Replace Patch to Image Under -->
-									<img src="{{ asset('build/images/8.png') }}" class="photobox__preview" alt="Preview">
-									<!-- Replace Image Title Under -->
-									<span class="photobox__label">Awesome Work</span>
+						<h4><a href="#url">Business Growth</a></h4>
+						<p>Our solution will help you growing your business,by .</p>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 col-sm-12">
+					<div class="box-wrap">
+						<div class="icon">
+							<span class="fa fa-picture-o"></span>
+						</div>
+						<h4><a href="#url">Projects Worldwide</a></h4>
+						<p>Lorem ipsum dolor sit amet sed consectetur adipisicing elit.
+							doloret quas saepe autem, dolor set.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- //home page service grids -->
+
+	<!-- testimonials section -->
+	<section id="slider" class="testimonials">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-8 offset-lg-2 col-md-12 col-sm-12">
+					<h4 class="section-title">What they said about us</h4>
+					<p class="text-center">There are many variations of passages of Lorem Ipsum available, but the majority
+						have
+						suffered alteration in some form, by injected humour</p>
+				</div>
+			</div>
+			<div class="large-12 columns mt-5">
+				<div class="owl-carousel owl-theme">
+					<div class="item">
+						<div class="w3l-customers-7">
+							<div class="customers_sur">
+								<div class="customers-left_sur">
+									<div class="customers_grid">
+										<div class="custo-img-res">
+											<img src="assets/images/testi1.jpg" alt=" " class="">
+										</div>
+										<div class="ratings my-4 my-4">
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+										</div>
+										<p>Lorem ipsum dolor, sit amet consect adipis icing elit. Ab commodi iure minus
+											placeat quia, animi. Eveniet, iure et. ipsum dolor sed ut init et.</p>
+										<div class="customers-bottom_sur">
+											<div class="custo_grid">
+												<h5>Tanguy De</h5>
+												<span>Designation</span>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 more-btn">
-						<!-- Show Me More/Less Button -->
-						<a class="more-btn-inside">Show More.</a>
+					<div class="item">
+						<div class="w3l-customers-7">
+							<div class="customers_sur">
+								<div class="customers-left_sur">
+									<div class="customers_grid">
+										<div class="custo-img-res">
+											<img src="assets/images/testi2.jpg" alt=" " class="img-fluid">
+										</div>
+										<div class="ratings my-4">
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+										</div>
+										<p>Lorem ipsum dolor, sit amet consect adipis icing elit. Ab commodi iure minus
+											placeat quia, animi. Eveniet, iure et. ipsum dolor sed ut init et.</p>
+										<div class="customers-bottom_sur">
+											<div class="custo_grid">
+												<h5>Christopher</h5>
+												<span>Designation</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="w3l-customers-7">
+							<div class="customers_sur">
+								<div class="customers-left_sur">
+									<div class="customers_grid">
+										<div class="custo-img-res">
+											<img src="assets/images//testi3.jpg" alt=" " class="img-fluid">
+										</div>
+										<div class="ratings my-4">
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+										</div>
+										<p>Lorem ipsum dolor, sit amet consect adipis icing elit. Ab commodi iure minus
+											placeat quia, animi. Eveniet, iure et. ipsum dolor sed ut init et.</p>
+										<div class="customers-bottom_sur">
+											<div class="custo_grid">
+												<h5>Edward</h5>
+												<span>Designation</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="w3l-customers-7">
+							<div class="customers_sur">
+								<div class="customers-left_sur">
+									<div class="customers_grid">
+										<div class="custo-img-res">
+											<img src="assets/images//testi4.jpg" alt=" " class="img-fluid">
+										</div>
+										<div class="ratings my-4">
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+										</div>
+										<p>Lorem ipsum dolor, sit amet consect adipis icing elit. Ab commodi iure minus
+											placeat quia, animi. Eveniet, iure et. ipsum dolor sed ut init et.</p>
+										<div class="customers-bottom_sur">
+											<div class="custo_grid">
+												<h5>Abigail</h5>
+												<span>Designation</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="w3l-customers-7">
+							<div class="customers_sur">
+								<div class="customers-left_sur">
+									<div class="customers_grid">
+										<div class="custo-img-res">
+											<img src="assets/images//testi5.jpg" alt=" " class="img-fluid">
+										</div>
+										<div class="ratings my-4">
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
+										</div>
+										<p>Lorem ipsum dolor, sit amet consect adipis icing elit. Ab commodi iure minus
+											placeat quia, animi. Eveniet, iure et. ipsum dolor sed ut init et.</p>
+										<div class="customers-bottom_sur">
+											<div class="custo_grid">
+												<h5>Abigail</h5>
+												<span>Designation</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- BLOG SECTION -->
-	<section id="blog" class="blog">
-		<div class="container-fluid">
-			<div class="blog-aside">
-				<img src="{{ asset('build/images/aside4.svg') }}" alt="">
+	<!--//testimonials section -->
+
+	<!-- stats section -->
+	<section id="stats" class="stats">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 margin-md-60">
+					<h2 class="left-title">Some of Our Company Real Facts.</h2>
+					<p class="white">Lorem ipsum dolor, sit amet consectet et adipis icing elit. Ab commodi iure minus
+						laboriosam placeat quia, dolorem animi. Eveniet repudiandae, iure et.</p>
+				</div>
+				<div class="col-lg-7 mt-lg-0 mt-5">
+					<div class="d-sm-flex justify-content-lg-around justify-content-between counter-main">
+						<div class="counter">
+							<div class="icon">
+								<span class="fa fa-folder-open-o"></span>
+							</div>
+							<p class="value">385</p>
+							<p class="title white">Projects</p>
+						</div>
+						<div class="counter">
+							<div class="icon">
+								<span class="fa fa-headphones"></span>
+							</div>
+							<p class="value">260</p>
+							<p class="title white">Consultant</p>
+						</div>
+						<div class="counter">
+							<div class="icon">
+								<span class="fa fa-trophy"></span>
+							</div>
+							<p class="value">150</p>
+							<p class="title white">Awards</p>
+						</div>
+					</div>
+				</div>
 			</div>
+		</div>
+	</section>
+	<!-- //stats section -->
+
+	<!-- homepage blog grids -->
+	<section id="blog">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-8 offset-lg-2 col-md-12 col-sm-12">
+					<h4 class="section-title">Company News</h4>
+					<p class="text-center">There are many variations of passages of Lorem Ipsum available, but the majority
+						have
+						suffered alteration in some form, by injected humour</p>
+				</div>
+			</div>
+			<div class="blog-grids row mt-5">
+				<div class="col-lg-4 col-md-6 col-sm-12 blog-grid" id="zoomIn">
+					<a href="#blog-single.html">
+						<figure><img src="assets/images/blog.jpg" class="img-fluid" alt=""></figure>
+					</a>
+					<div class="blog-info">
+						<h3><a href="#blog-single.html">4 Steps To Consider Before You Start</a> </h3>
+						<ul>
+							<li><a href="#author"><span class="fa fa-user-o mr-2"></span>Johnson smith</a></li>
+							<li><span class="fa fa-calendar mr-2"></span>Jan 16, 2020</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 col-sm-12 mt-md-0 mt-4 blog-grid" id="zoomIn">
+					<a href="#blog-single.html">
+						<figure><img src="assets/images/blog1.jpg" class="img-fluid" alt=""></figure>
+					</a>
+					<div class="blog-info">
+						<h3><a href="#blog-single.html">Strategic Plan Execution Management</a> </h3>
+						<ul>
+							<li><a href="#author"><span class="fa fa-user-o mr-2"></span>Alexander</a></li>
+							<li><span class="fa fa-calendar mr-2"></span>Jan 19, 2020</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-6 col-sm-12 mt-lg-0 mt-4 blog-grid" id="zoomIn">
+					<a href="#blog-single.html">
+						<figure><img src="assets/images/blog2.jpg" class="img-fluid" alt=""></figure>
+					</a>
+					<div class="blog-info">
+						<h3><a href="#blog-single.html">Business planning, strategy and execution</a> </h3>
+						<ul>
+							<li><a href="#author"><span class="fa fa-user-o mr-2"></span>Elizabeth ker</a></li>
+							<li><span class="fa fa-calendar mr-2"></span>Jan 21, 2020</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- //homepage blog grids -->
+
+	<!-- site footer -->
+	<footer id="site-footer">
+		<div class="top-footer">
+			<div class="container my-md-5 my-4">
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="footer-logo mb-3">
+							<a href="index.html">
+								<span class="fa fa-shield"></span> Captivate
+							</a>
+						</div>
+						<div>
+							<p class="">Lorem ipsum dolor, sit amet consectet et adipis icing elit. Ab commodi iure minus
+								laboriosam
+								placeat quia, dolorem animi. Eveniet repudiandae, perferendis nesciunt deserunt iure et, consequatur
+								optio!</p>
+						</div>
+					</div>
+					<!-- Quick Links -->
+					<div class="col-lg-3 col-md-4 mt-lg-0 mt-5">
+						<h4 class="footer-title">Quick Links</h4>
+						<ul class="footer-list">
+							<li><a href="about.html"> About company</a></li>
+							<li><a href="services.html"> Explore services</a></li>
+							<li><a href="#work"> How does we Work?</a></li>
+							<li><a href="#projects"> View projects</a></li>
+						</ul>
+					</div>
+					<!-- Newsletter -->
+					<div class="col-lg-5 col-md-8 mt-lg-0 mt-5">
+						<h4 class="footer-title">Newsletter</h4>
+						<p class="mb-4">By subscribing to our mailing list you will always be updated with the latest news from us.
+						</p>
+						<form class="newsletter-form">
+							<input class="input-rounded" type="text" required="" placeholder="Enter Email Address">
+							<button type="submit" title="Subscribe" class="btn btn-primary btn-style" name="submit" value="Submit">
+								Subscribe
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bottom-footer">
 			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<h5>BLOG STORIES</h5>
-						<h2>Check Our News</h2>
-					</div>
-				</div>
-				<div id="blog-drag" class="row blog-slider">
-					<div class="col-12 col-lg-4 blog-box blog-first">
-						<!-- Blog Post Title -->
-						<h6>NEW ADVENTURE</h6>
-						<!-- Blog Post Date -->
-						<p>17 March 2019</p>
-						<!-- Blog Post -->
-						<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-					</div>
-					<div class="col-12 col-lg-4 blog-box">
-						<!-- Blog Post Title -->
-						<h6>NEW ADVENTURE</h6>
-						<!-- Blog Post Date -->
-						<p>17 March 2019</p>
-						<!-- Blog Post -->
-						<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-					</div>
-					<div class="col-12 col-lg-4 blog-box">
-						<!-- Blog Post Title -->
-						<h6>NEW ADVENTURE</h6>
-						<!-- Blog Post Date -->
-						<p>17 March 2019</p>
-						<!-- Blog Post -->
-						<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-					</div>
-					<!-- Blog Section to be showed on Drag  -->
-					<div class="col-12 col-lg-4 blog-box hiden-blog hide-blog">
-						<!-- Blog Post Title -->
-						<h6>NEW ADVENTURE</h6>
-						<!-- Blog Post Date -->
-						<p>17 March 2019</p>
-						<!-- Blog Post -->
-						<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-					</div>
-					<div class="col-12 col-lg-4 blog-box hiden-blog  hide-blog">
-						<!-- Blog Post Title -->
-						<h6>NEW ADVENTURE</h6>
-						<!-- Blog Post Date -->
-						<p>17 March 2019</p>
-						<!-- Blog Post -->
-						<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-					</div>
-					<div class="col-12 col-lg-4 blog-box hiden-blog  hide-blog">
-						<!-- Blog Post Title -->
-						<h6>NEW ADVENTURE</h6>
-						<!-- Blog Post Date -->
-						<p>17 March 2019</p>
-						<!-- Blog Post -->
-						<p>Vestibulum ac diam sit amet quam vehicula elementum amet est on dui. Nulla porttitor accumsan tincidunt.</p>
-					</div>
-				</div>
-				<!-- Blog Button to Show More or Less on Mobile&Tablet View  -->
-				<button class="hide-me" id="blog-btn">Show More Stories</button>
-			</div>
-		</div>
-	</section>
-	<!-- CONTACT SECTION -->
-	<section id="contact-us" class="contact">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h5>CONTACT US</h5>
-					<h2>Get in Touch</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-lg-6 email">
-					<input placeholder="Your email" type="email" id="email" pattern=".+@globex.com" size="30" required>
-				</div>
-				<div class="col-12 col-lg-6 email">
-					<input placeholder="Subject" type="subject" id="subject" size="30" required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 message">
-					<textarea id="message" name="message" rows="5" cols="1">Message here...</textarea>
-				</div>
-				<div class="col-12">
-					<div class="hero-btns contact-btn">
-						<!-- Send Message Btn -->
-						<a href="#">Send Message</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- FOOTER SECTION -->
-	<footer>
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<h5>DOOB</h5>
-					<h3>CREATIVITY ABOVE</h3>
-					<ul class="contact-nav">
-						<li><a data-scroll href="#home">Home.</a></li>
-						<li><a data-scroll href="#about-us">About Us.</a></li>
-						<li><a data-scroll href="#portfolio">Portfolio.</a></li>
-						<li><a data-scroll href="#blog">Blog.</a></li>
-						<li><a data-scroll href="#contact-us">Contact.</a></li>
-					</ul>
-					<h6>© 2019 - Doob,All Right Reserved</h6>
-					<ul class="social">
-						<li><a href="#"><i class="icofont-facebook"></i></a></li>
-						<li><a href="#"><i class="icofont-twitter"></i></a></li>
-						<li><a href="#"><i class="icofont-dribbble"></i></a></li>
-					</ul>
-				</div>
+
 			</div>
 		</div>
 	</footer>
+	<!-- //site footer -->
+
+	<!-- move top -->
+	<button onclick="topFunction()" id="movetop" class="bg-primary" title="Go to top">
+		<span class="fa fa-angle-up"></span>
+	</button>
+
+	<script>
+		// When the user scrolls down 20px from the top of the document, show the button
+		window.onscroll = function () {
+			scrollFunction()
+		};
+		function scrollFunction() {
+			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				document.getElementById("movetop").style.display = "block";
+			} else {
+				document.getElementById("movetop").style.display = "none";
+			}
+		}
+		// When the user clicks on the button, scroll to the top of the document
+		function topFunction() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		}
+	</script>
 {% endblock %}
 {% block javascripts %}
-	{{ parent() }}
-	<script src="{{ asset('build/js/main.js')}}"></script>
-	<script src="{{ asset('build/js/slick.min.js')}}"></script>
-	<script src="{{ asset('build/js/smooth-scroll.min.js')}}"></script>
+
+	<script src="{{ asset('build/js/jquery-3.3.1.min.js')}}"></script>
+	<script src="{{ asset('build/js/lightbox-plus-jquery.min.js')}}"></script>
+	<script src="{{ asset('build/js/owl.carousel.js')}}"></script>
+	<script src="{{ asset('build/js/particles.min.js')}}"></script>
+	<script src="{{ asset('build/js/script.js')}}"></script>
+	<script src="{{ asset('build/js/bootstrap.min.js')}}"></script>
 {% endblock %}

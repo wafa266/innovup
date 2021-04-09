@@ -8,7 +8,6 @@ use App\Entity\CustomerOrders;
 use App\Entity\Product;
 use App\Entity\Provider;
 use App\Entity\ProviderOrders;
-use App\Entity\ProviderOrdersProduct;
 use App\Entity\User;
 use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
@@ -57,7 +56,8 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('ERP Stock Management');
+            ->setTitle('ERP Stock Management')
+            ->disableUrlSignatures();
 
     }
 
@@ -69,7 +69,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Fournisseurs', 'fa fa-truck', Provider::class);
         yield MenuItem::linkToCrud('clients', 'fa fa-shopping-bag', Customer::class);
         yield MenuItem::linkToCrud('Catégories', 'fa fa-list-alt', Category::class);
-        yield MenuItem::linkToCrud('Commandes fournisseurs', 'fa fa-shopping-cart', ProviderOrdersProduct::class);
+        yield MenuItem::linkToCrud('Commandes fournisseurs', 'fa fa-shopping-cart', ProviderOrders::class);
         yield MenuItem::linkToCrud('Commandes clients', 'fa fa-shopping-bag', CustomerOrders::class);
     }
     public function configureAssets(): Assets

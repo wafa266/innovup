@@ -47,8 +47,12 @@ class ProviderCrudController extends AbstractCrudController
             EmailField::new('Email'),
             TextField::new('address'),
             TelephoneField::new('phone'),
-            DateTimeField::new('createdAt')->hideOnForm(),
-            DateTimeField::new('updatedAt')->hideOnForm(),
+            DateTimeField::new('createdAt')->formatValue(function ($value, $entity) {
+                return date('d/m/Y H:i:s', strtotime($value));
+            })->hideOnForm(),
+            DateTimeField::new('updatedAt')->formatValue(function ($value, $entity) {
+                return date('d/m/Y H:i:s', strtotime($value));
+            })->hideOnForm(),
 
 
 

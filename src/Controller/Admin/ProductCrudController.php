@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -21,6 +22,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ProductCrudController extends AbstractCrudController
 {
+
 
     public static function getEntityFqcn(): string
     {
@@ -75,7 +77,17 @@ class ProductCrudController extends AbstractCrudController
 
         $fields = [
             IdField::new('id')->onlyOnDetail(),
-            TextField::new('barcode'),
+            Field::new('barcode')->formatValue(function($value, $entity) {
+                $barcode = new BarcodeGenerator();
+                $barcode->setText("12");
+                $barcode->setType(BarcodeGenerator::Code128);
+                $barcode->setScale(2);
+                $barcode->setThickness(25);
+                $barcode->setFontSize(10);
+                $code = $barcode->generate();
+
+                return '<img src="data:image/png;base64,'.$code.'" />';
+            })->setTemplatePath('product/barcode.html.twig'),
             TextField::new('name')->setTemplatePath('bundles/EasyAdminBundle/page/field_custom.html.twig'),
             NumberField::new('price', "prix d'achat"),
             NumberField::new('priceExcludingTax', "prix hors tax"),
@@ -92,6 +104,6 @@ class ProductCrudController extends AbstractCrudController
         ];
 
         return $fields;
-    }
 
+}
 }

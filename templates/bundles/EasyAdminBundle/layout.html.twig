@@ -201,6 +201,7 @@
         {% for js_asset in ea.assets.jsFiles ?? [] %}
             <script src="{{ asset(js_asset) }}"></script>
         {% endfor %}
+
     {% endblock %}
 
     {% block configured_body_contents %}

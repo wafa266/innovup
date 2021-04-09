@@ -1,0 +1,16 @@
+
+{% extends ea.templatePath('layout') %}
+
+{% block main %}
+    <form method="post" action="{{ path('product_new') }}">
+        {{ form_errors(form) }}
+        {{ form_row(form.isPaid) }}
+        {{ form_row(form.provider) }}
+        {% for product in form.products.vars.choices %}
+            <input type="checkbox" id="provider_orders_products_{{ product.value }}" name="provider_orders[products][]" value="{{ product.value }}">
+            {{ product.label }}
+            <input type="text" id="provider_orders_products_1" name="provider_orders[quantity][]" value="{{ product.value }}"><br>
+        {% endfor %}
+        <input type="submit" class="ui button green" value="create"/>
+    </form>
+{% endblock main %}

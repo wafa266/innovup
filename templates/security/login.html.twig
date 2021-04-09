@@ -3,7 +3,6 @@
 {% block title %}Login
 {% endblock %}
 {% block stylesheets %}
-	{{ parent() }}
 	<link href="{{ asset('build/css/login.css') }}" rel="stylesheet">
 {% endblock %}
 {% block bodyclass %}class="login"
@@ -12,57 +11,34 @@
 	{% if error %}
 		<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 	{% endif %}
-
 	{% if app.user %}
 		<div class="mb-3">
 			You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
 		</div>
 	{% endif %}
-	<div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-		<div class="card card0 border-0">
-			<div class="row d-flex">
-				<div class="col-lg-6">
-					<div class="card1 pb-5">
-						<div class="row"> <img src="build\images\erplogo.png" class="logo"> </div>
-						<div class="row px-3 justify-content-center mt-4 mb-5 border-line hidden-sm hidden-xs"> <img src="{{ asset('build/images/bg-login.png') }}" class="image"> </div>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="card2 card border-0 px-4 py-5">
-						<div class="row mb-4 px-3">
-							<h4 class="mb-0 mr-4 mt-2 ">ERPLeading</h4>
-
-						</div>
-						<form method="post">
-							<div class="row px-3 mb-4">
-								<div class="line"></div> <strong class="or text-center"  style="color:DodgerBlue;" > LOGIN </strong>
-								<div class="line"></div>
-							</div>
-							<div class="row px-3"> <label class="mb-1">
-									<h6 class="mb-0 text-sm">Email Address</h6>
-								</label> <input class="mb-4" type="text" value="{{ last_username }}" name="_username" id="inputText" class="form-control" required autofocus placeholder="Enter a valid email address"> </div>
-							<div class="row px-3"> <label class="mb-1">
-									<h6 class="mb-0 text-sm">Password</h6>
-								</label> <input type="password" name="_password" id="inputPassword" placeholder="Enter password"> </div>
-							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-							<div class="row px-3 mb-4">
-								<div class="custom-control custom-checkbox custom-control-inline">
-									<input id="chk1" type="checkbox" name="_remember_me" class="custom-control-input">
-									<label for="chk1" class="custom-control-label text-sm">Remember me</label> </div>
-								<a href="#" class="ml-auto mb-0 text-sm">Forgot Password?</a>
-							</div>
-							<div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Login</button> </div>
-							<div class="row mb-4 px-3"> <small class="font-weight-bold">Don't have an account? <a class="text-danger ">Register</a></small> </div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class=" bg-blue py-4">
-				<div class="row px-3"> <small class="ml-4 ml-sm-5 mb-2"></small>
-					<div class="social-contact ml-4 ml-sm-auto"> <span class="fa fa-facebook mr-4 text-sm"></span> <span class="fa fa-google-plus mr-4 text-sm"></span> <span class="fa fa-linkedin mr-4 text-sm"></span> <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span> </div>
-				</div>
-			</div>
+	<div class="animated bounceInDown" id="particles-js">
+		<div class="container">
+			<span class="error animated tada" id="msg"></span>
+			<form name="form1" method="post" class="box" onsubmit="return checkStuff()">
+				<h4>My<span>ERP </span></h4>
+				<h5>Sign in to your account.</h5>
+				<input class="mb-4" type="text" value="{{ last_username }}" name="_username" id="inputText" class="form-control" required autofocus placeholder="Enter a valid email address">
+				<i class="typcn typcn-eye" id="eye"></i>
+				<input type="password" name="_password" id="pwd" placeholder="Enter password">
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				<label>
+					<input id="chk1" type="checkbox" name="_remember_me" class="custom-control-input">
+					<span></span>
+					<small class="rmb">Remember me</small>
+				</label>
+				<a href="#" class="forgetpass">Forget Password?</a>
+				<input type="submit" value="Sign in" class="btn1">
+			</form>
 		</div>
+
 	</div>
 {% endblock %}
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+	<script src="{{ asset('build/js/particles.min.js')}}"></script>
+	<script src="{{ asset('build/js/login.min.js')}}"></script>
+{% endblock %}
