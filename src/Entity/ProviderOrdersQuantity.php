@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductProviderOrdersRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ProductProviderOrdersRepository::class)
+ * @ORM\Entity()
  */
-class ProductProviderOrders
+class ProviderOrdersQuantity
 {
     /**
      * @ORM\Id
@@ -23,9 +22,14 @@ class ProductProviderOrders
     private $quantity;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="productProviderOrders")
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="providerOrdersQuantities", cascade={"persist"})
      */
     private $product;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ProviderOrders::class, inversedBy="providerOrdersQuantities", cascade={"persist"})
+     */
+    private $providerOrders;
 
     public function getId(): ?int
     {
@@ -52,6 +56,19 @@ class ProductProviderOrders
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+
+    public function getProviderOrders(): ?ProviderOrders
+    {
+        return $this->providerOrders;
+    }
+
+    public function setProviderOrders(?ProviderOrders $providerOrders): self
+    {
+        $this->providerOrders = $providerOrders;
 
         return $this;
     }

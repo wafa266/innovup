@@ -34,7 +34,7 @@ class DashboardController extends AbstractDashboardController
         CustomerRepository $customerRepository,
         ProductRepository $product
     ) {
-      $this->userRepository=$userRepository;
+        $this->userRepository=$userRepository;
         $this->customerRepository=$customerRepository;
         $this->product=$product;
 
@@ -76,7 +76,7 @@ class DashboardController extends AbstractDashboardController
     {
         return Assets::new()
             ->addCssFile('bundles/easyadmin/css/style.css');
-       }
+    }
 
     public function configureUserMenu(UserInterface $user): UserMenu
     {

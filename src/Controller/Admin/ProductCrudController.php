@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -31,8 +32,8 @@ class ProductCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX,'Liste de vos produits ')
-            ->overrideTemplate('crud/index', 'bundles/EasyAdminBundle/page/crud_index.html.twig');
+            ->setPageTitle(Crud::PAGE_INDEX,'Liste de vos produits ');
+            //->overrideTemplate('crud/index', 'product/index.html.twig');
 
     }
 
@@ -67,28 +68,29 @@ class ProductCrudController extends AbstractCrudController
             })
             //->disable(Action::DELETE, Action::EDIT)
             ->add(Crud::PAGE_INDEX, $detailUser);
+
             //->add(Crud::PAGE_INDEX, $removeUser)
             //->add(Crud::PAGE_INDEX, $updateUser);
     }
+     public function  codebar(): Response
+     {
+         $barcode = new BarcodeGenerator();
+         $barcode->setText("12");
+         $barcode->setType(BarcodeGenerator::Code128);
+         $barcode->setScale(2);
+         $barcode->setThickness(25);
+         $barcode->setFontSize(10);
+         $code = $barcode->generate();
+         return $this->render('product/barcode.html.twig');
 
+     }
     public function configureFields(string $pageName): iterable
     {
 
 
         $fields = [
             IdField::new('id')->onlyOnDetail(),
-            Field::new('barcode')->formatValue(function($value, $entity) {
-                $barcode = new BarcodeGenerator();
-                $barcode->setText("12");
-                $barcode->setType(BarcodeGenerator::Code128);
-                $barcode->setScale(2);
-                $barcode->setThickness(25);
-                $barcode->setFontSize(10);
-                $code = $barcode->generate();
-
-                return '<img src="data:image/png;base64,'.$code.'" />';
-            })->setTemplatePath('product/barcode.html.twig'),
-            TextField::new('name')->setTemplatePath('bundles/EasyAdminBundle/page/field_custom.html.twig'),
+            TextField::new('name')->setTemplatePath('bundles/easyAdminBundle/page/field_custom.html.twig'),
             NumberField::new('price', "prix d'achat"),
             NumberField::new('priceExcludingTax', "prix hors tax"),
             NumberField::new('tva'),
@@ -98,12 +100,37 @@ class ProductCrudController extends AbstractCrudController
             Field::new('imageFile')->setFormType(VichImageType::class)->onlyOnDetail(),
             ImageField::new('image')->setBasePath('uploads\images\products')
                 ->setCustomOption('uploadDir', 'public\uploads\images\products'),
+            CollectionField::new('providerOrdersQuantities', 'Commandes Fournisseur')
+                ->formatValue(function ($value, $entity) {
+                    $nn = '';
+                    /* @var $entity \App\Entity\Product */
+                    foreach($entity->getProviderOrdersQuantities() as $orders)
+                    {
+                        $nn .= $orders->getId() . '-' . $orders->getQuantity() . ',';
+                    }
+                    return $nn;
+                })
+                ->onlyOnDetail(),
+            CollectionField::new('CustomerOrdersQuantities', 'Commandes Client')
+                ->formatValue(function ($value, $entity) {
+                    $nn = '';
+                    /* @var $entity \App\Entity\Product */
+                    foreach($entity->getCustomerOrdersQuantities()as $orders)
+                    {
+                        $nn .= $orders->getId() . '-' . $orders->getQuantity() . ',';
+                    }
+                    return $nn;
+                })
+                ->onlyOnDetail(),
 
             DateTimeField::new('createdAt')->onlyOnDetail(),
-            DateTimeField::new('UpdatedAt')->onlyOnDetail()
+            DateTimeField::new('UpdatedAt')->onlyOnDetail(),
+
         ];
+
 
         return $fields;
 
-}
+
+    }
 }

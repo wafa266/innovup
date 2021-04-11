@@ -28,13 +28,6 @@ class CustomerOrders
     private $id;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=false)
-     */
-    private $price;
-
-    /**
      * @var bool|null
      *
      * @ORM\Column(name="is_paid", type="boolean", nullable=true)
@@ -71,32 +64,24 @@ class CustomerOrders
      * })
      */
     private $customer;
-
     /**
-     * @ORM\OneToMany(targetEntity="CustomerOrdersProduct", mappedBy="customerOrders")
+     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="customerOrders")
      */
-    protected $customerOrdersProducts;
+    private $products;
+    /**
+     * @ORM\OneToMany(targetEntity=CustomerOrdersQuantity::class, mappedBy="customerOrders")
+     */
+    private $customerOrdersQuantities;
 
     public function __construct()
     {
-        $this->customerOrdersProducts = new ArrayCollection();
+        $this->products = new ArrayCollection();
+        $this->customerOrdersQuantities = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPrice(): ?float
-    {
-        return $this->price;
-    }
-
-    public function setPrice(float $price): self
-    {
-        $this->price = $price;
-
-        return $this;
     }
 
     public function getIsPaid(): ?bool
@@ -174,14 +159,14 @@ class CustomerOrders
     }
 
     /**
-     * @return Collection|CustomerOrdersProduct[]
+     * @return Collection|CustomerOrdersQuantity[]
      */
     public function getCustomerOrdersProducts(): Collection
     {
         return $this->customerOrdersProducts;
     }
 
-    public function addCustomerOrdersProduct(CustomerOrdersProduct $customerOrdersProduct): self
+    public function addCustomerOrdersProduct(CustomerOrdersQuantity $customerOrdersProduct): self
     {
         if (!$this->customerOrdersProducts->contains($customerOrdersProduct)) {
             $this->customerOrdersProducts[] = $customerOrdersProduct;
@@ -191,12 +176,70 @@ class CustomerOrders
         return $this;
     }
 
-    public function removeCustomerOrdersProduct(CustomerOrdersProduct $customerOrdersProduct): self
+    public function removeCustomerOrdersProduct(CustomerOrdersQuantity $customerOrdersProduct): self
     {
         if ($this->customerOrdersProducts->removeElement($customerOrdersProduct)) {
             // set the owning side to null (unless already changed)
             if ($customerOrdersProduct->getCustomerOrders() === $this) {
                 $customerOrdersProduct->setCustomerOrders(null);
+            }
+        }
+
+        return $this;
+    }
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        $this->products->removeElement($product);
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return 'product';
+    }
+
+    /**
+     * @return Collection|CustomerOrdersQuantity[]
+     */
+    public function getCustomerOrdersQuantities(): Collection
+    {
+        return $this->customerOrdersQuantities;
+    }
+
+    public function addCustomerOrdersQuantity(CustomerOrdersQuantity $customerOrdersQuantity): self
+    {
+        if (!$this->customerOrdersQuantities->contains($customerOrdersQuantity)) {
+            $this->customerOrdersQuantities[] = $customerOrdersQuantity;
+            $customerOrdersQuantity->setCustomerOrders($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerOrdersQuantity(CustomerOrdersQuantity $customerOrdersQuantity): self
+    {
+        if ($this->customerOrdersQuantities->removeElement($customerOrdersQuantity)) {
+            // set the owning side to null (unless already changed)
+            if ($customerOrdersQuantity->getCustomerOrders() === $this) {
+                $customerOrdersQuantity->setCustomerOrders(null);
             }
         }
 
