@@ -128,20 +128,26 @@ class Product
     private $providersOrders;
 
     /**
-     * @ORM\OneToMany(targetEntity="CustomerOrdersProduct", mappedBy="product")
+     * @ORM\ManyToMany(targetEntity=CustomerOrders::class, mappedBy="products", cascade={"persist"})
      */
-    protected $customerOrdersProducts;
+    private $customerOrders;
 
     /**
-     * @ORM\OneToMany(targetEntity=ProductProviderOrders::class, mappedBy="product")
+     * @ORM\OneToMany(targetEntity="CustomerOrdersQuantity", mappedBy="product")
      */
-    private $productProviderOrders;
+    protected $customerOrdersQuantities;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProviderOrdersQuantity::class, mappedBy="product")
+     */
+    private $providerOrdersQuantities;
 
     public function __construct()
     {
-        $this->customerOrdersProducts = new ArrayCollection();
+        $this->customerOrdersQuantities = new ArrayCollection();
         $this->providersOrders = new ArrayCollection();
-        $this->productProviderOrders = new ArrayCollection();
+        $this->customerOrders = new ArrayCollection();
+        $this->providerOrdersQuantities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -329,44 +335,14 @@ class Product
     }
 
     /**
-     * @return Collection|ProviderOrdersProduct[]
-     */
-    public function getProviderOrdersProducts(): Collection
-    {
-        return $this->providerOrdersProducts;
-    }
-
-    public function addProviderOrdersProduct(ProviderOrdersProduct $providerOrdersProduct): self
-    {
-        if (!$this->providerOrdersProducts->contains($providerOrdersProduct)) {
-            $this->providerOrdersProducts[] = $providerOrdersProduct;
-            $providerOrdersProduct->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProviderOrdersProduct(ProviderOrdersProduct $providerOrdersProduct): self
-    {
-        if ($this->providerOrdersProducts->removeElement($providerOrdersProduct)) {
-            // set the owning side to null (unless already changed)
-            if ($providerOrdersProduct->getProduct() === $this) {
-                $providerOrdersProduct->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CustomerOrdersProduct[]
+     * @return Collection|CustomerOrdersQuantity[]
      */
     public function getCustomerOrdersProducts(): Collection
     {
         return $this->customerOrdersProducts;
     }
 
-    public function addCustomerOrdersProduct(CustomerOrdersProduct $customerOrdersProduct): self
+    public function addCustomerOrdersProduct(CustomerOrdersQuantity $customerOrdersProduct): self
     {
         if (!$this->customerOrdersProducts->contains($customerOrdersProduct)) {
             $this->customerOrdersProducts[] = $customerOrdersProduct;
@@ -376,7 +352,7 @@ class Product
         return $this;
     }
 
-    public function removeCustomerOrdersProduct(CustomerOrdersProduct $customerOrdersProduct): self
+    public function removeCustomerOrdersProduct(CustomerOrdersQuantity $customerOrdersProduct): self
     {
         if ($this->customerOrdersProducts->removeElement($customerOrdersProduct)) {
             // set the owning side to null (unless already changed)
@@ -427,14 +403,14 @@ class Product
     }
 
     /**
-     * @return Collection|ProductProviderOrders[]
+     * @return Collection|ProviderOrdersQuantity[]
      */
     public function getProductProviderOrders(): Collection
     {
         return $this->productProviderOrders;
     }
 
-    public function addProductProviderOrder(ProductProviderOrders $productProviderOrder): self
+    public function addProductProviderOrder(ProviderOrdersQuantity $productProviderOrder): self
     {
         if (!$this->productProviderOrders->contains($productProviderOrder)) {
             $this->productProviderOrders[] = $productProviderOrder;
@@ -444,7 +420,7 @@ class Product
         return $this;
     }
 
-    public function removeProductProviderOrder(ProductProviderOrders $productProviderOrder): self
+    public function removeProductProviderOrder(ProviderOrdersQuantity $productProviderOrder): self
     {
         if ($this->productProviderOrders->removeElement($productProviderOrder)) {
             // set the owning side to null (unless already changed)
@@ -454,5 +430,108 @@ class Product
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|CustomerOrders[]
+     */
+    public function getCustomerOrders(): Collection
+    {
+        return $this->customerOrders;
+    }
+
+    public function addCustomerOrder(CustomerOrders $customerOrder): self
+    {
+        if (!$this->customerOrders->contains($customerOrder)) {
+            $this->customerOrders[] = $customerOrder;
+            $customerOrder->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerOrder(CustomerOrders $customerOrder): self
+    {
+        if ($this->customerOrders->removeElement($customerOrder)) {
+            $customerOrder->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CustomerOrdersQuantity[]
+     */
+    public function getCustomerOrdersQuantity(): Collection
+    {
+        return $this->customerOrdersQuantities;
+    }
+
+    public function addCustomerOrdersQuantity(CustomerOrdersQuantity $customerOrdersQuantity): self
+    {
+        if (!$this->customerOrdersQuantities->contains($customerOrdersQuantity)) {
+            $this->customerOrdersQuantities[] = $customerOrdersQuantity;
+            $customerOrdersQuantity->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerOrdersQuantity(CustomerOrdersQuantity $customerOrdersQuantity): self
+    {
+        if ($this->customerOrdersQuantities->removeElement($customerOrdersQuantity)) {
+            // set the owning side to null (unless already changed)
+            if ($customerOrdersQuantity->getProduct() === $this) {
+                $customerOrdersQuantity->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProviderOrdersQuantity[]
+     */
+    public function getProviderOrdersQuantity(): Collection
+    {
+        return $this->providerOrdersQuantity;
+    }
+
+    public function addProviderOrdersQuantity(ProviderOrdersQuantity $providerOrdersQuantity): self
+    {
+        if (!$this->providerOrdersQuantity->contains($providerOrdersQuantity)) {
+            $this->providerOrdersQuantity[] = $providerOrdersQuantity;
+            $providerOrdersQuantity->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProviderOrdersQuantity(ProviderOrdersQuantity $providerOrdersQuantity): self
+    {
+        if ($this->providerOrdersQuantity->removeElement($providerOrdersQuantity)) {
+            // set the owning side to null (unless already changed)
+            if ($providerOrdersQuantity->getProduct() === $this) {
+                $providerOrdersQuantity->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CustomerOrdersQuantity[]
+     */
+    public function getCustomerOrdersQuantities(): Collection
+    {
+        return $this->customerOrdersQuantities;
+    }
+
+    /**
+     * @return Collection|ProviderOrdersQuantity[]
+     */
+    public function getProviderOrdersQuantities(): Collection
+    {
+        return $this->providerOrdersQuantities;
     }
 }

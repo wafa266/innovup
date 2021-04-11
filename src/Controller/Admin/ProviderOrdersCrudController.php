@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
-use App\Entity\ProductProviderOrders;
+use App\Entity\ProviderOrdersQuantity;
 use App\Entity\ProviderOrders;
 use App\Form\ProviderOrdersType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -36,10 +36,10 @@ class ProviderOrdersCrudController extends AbstractCrudController
      */
     public function newProduct(Request $request)
     {
-        $task = new ProviderOrders();
+        $providerOrders = new ProviderOrders();
         $entityManager = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(ProviderOrdersType::class, $task);
+        $form = $this->createForm(ProviderOrdersType::class, $providerOrders);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,14 +48,16 @@ class ProviderOrdersCrudController extends AbstractCrudController
             $quantities = $dataForm['quantity'];
             $products = $form->get('products')->getData();
 
-            $entityManager->persist($data);
+            //$entityManager->persist($providerOrders);
+            //$entityManager->flush();
 
 
             foreach($products as $key => $product) {
-                $productProviderOrders = new ProductProviderOrders();
-                $productProviderOrders->setQuantity($quantities[$product->getId()]);
-                $productProviderOrders->setProduct($product);
-                $entityManager->persist($productProviderOrders);
+                $providerOrdersQuantity = new ProviderOrdersQuantity();
+                $providerOrdersQuantity->setQuantity($quantities[$key]);
+                $providerOrdersQuantity->setProduct($product);
+                $providerOrdersQuantity->setProviderOrders($providerOrders);
+                $entityManager->persist($providerOrdersQuantity);
             }
 
             $entityManager->flush();
@@ -68,7 +70,7 @@ class ProviderOrdersCrudController extends AbstractCrudController
             ]);
         }
 
-        return $this->render('product/new.html.twig', [
+        return $this->render('ProviderOrders/new.html.twig', [
             'form' => $form->createView()
         ]);
     }

@@ -1,0 +1,297 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{% trans_default_domain ea.i18n.translationDomain %}
+
+<!DOCTYPE html>
+<html lang="{{ ea.i18n.htmlLocale }}" dir="{{ ea.i18n.textDirection }}">
+<head>
+    {% block head_metas %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots"
+              content="noindex, nofollow, noarchive, nosnippet, noodp, noimageindex, notranslate, nocache"/>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <meta name="generator" content="EasyAdmin"/>
+    {% endblock head_metas %}
+
+    <title>{% block page_title %}{{ block('content_title')|striptags|raw }}{% endblock %}</title>
+
+    {% block head_stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.css') }}">
+    {% endblock %}
+
+    {% block configured_stylesheets %}
+        {% for css_asset in ea.assets.cssFiles ?? [] %}
+            <link rel="stylesheet" href="{{ asset(css_asset) }}">
+        {% endfor %}
+    {% endblock %}
+
+    {% block head_favicon %}
+        <link rel="shortcut icon" href="{{ asset(ea.dashboardFaviconPath) }}">
+    {% endblock %}
+
+    {% block head_javascript %}
+        <script src="{{ asset('bundles/easyadmin/app.js') }}"></script>
+    {% endblock head_javascript %}
+
+    {% if 'rtl' == ea.i18n.textDirection %}
+        <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app.rtl.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/easyadmin/app-custom-rtl.css') }}">
+    {% endif %}
+
+    {% block configured_head_contents %}
+        {% for htmlContent in ea.assets.headContents ?? [] %}
+            {{ htmlContent|raw }}
+        {% endfor %}
+    {% endblock %}
+</head>
+
+{% block body %}
+    <body id="{% block body_id %}{% endblock %}" class="ea {% block body_class %}{% endblock %}">
+    {% block javascript_page_layout %}
+        <script>
+            document.body.classList.add(
+                'ea-content-width-' + (localStorage.getItem('ea/content/width') || '{{ ea.crud.contentWidth ?? ea.dashboardContentWidth ?? 'normal' }}'),
+                'ea-sidebar-width-' + (localStorage.getItem('ea/sidebar/width') || '{{ ea.crud.sidebarWidth ?? ea.dashboardSidebarWidth ?? 'normal' }}')
+            );
+        </script>
+    {% endblock javascript_page_layout %}
+
+    {% block wrapper_wrapper %}
+        {% block flash_messages %}
+            {{ include(ea.templatePath('flash_messages')) }}
+        {% endblock flash_messages %}
+
+        <div id="main-wrapper" class="mini-sidebar" data-theme="light" data-layout="vertical" data-navbarbg="skin6"
+             data-sidebartype="full"
+             data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+            {% block wrapper %}
+                <header class="topbar" data-navbarbg="skin6">
+                    {% block header %}
+                        <nav class="navbar top-navbar navbar-expand-md navbar-light" role="navigation">
+                            {# logo #}
+                            <div data-logobg="skin6" class="navbar-header">
+                                <div id="header-logo" class="navbar-brand">
+                                    <span class="logo-text">
+                                        <!-- Light Logo text -->
+                                     <img src="{{ asset('/build/images/logo.png') }}" width="50" class="light-logo"
+                                     alt="homepage">
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="navbar-collapse collapse">
+                                <ul class="navbar-nav float-left mr-auto ml-3 pl-1"></ul>
+                                <ul class="navbar-nav float-right">
+                                    <li class="nav-item d-none d-md-block">
+                                        <a class="nav-link " href="javascript:void(0)">
+                                            {% block listing_search_wrapper %}{% endblock listing_search_wrapper %}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown show">
+                                        <a class="nav-link dropdown-toggle" href="javascript:void(0)"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {% if ea.userMenu.isAvatarDisplayed %}
+                                                {% if null == ea.userMenu.avatarUrl %}
+                                                    <i class="fa fa-fw {{ ea.user is not null ? 'fa-user-circle' : 'fa-user-times' }} user-avatar"></i>
+                                                {% else %}
+                                                    <img class="rounded-circle" src="{{ ea.userMenu.avatarUrl }}"
+                                                         width="20"/>
+                                                {% endif %}
+                                            {% endif %}
+                                            <span class="ml-2 d-none d-lg-inline-block">
+                                                <span class="text-dark">
+                                                    {% if ea.userMenu.isNameDisplayed %}
+                                                        <span class="user-name">{{ ea.userMenu.name }}</span>
+                                                    {% endif %}
+                                                </span>
+                                                </span>
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                                            <a class="dropdown-item" href="javascript:void(0)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-user svg-icon mr-2 ml-1">
+                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="12" cy="7" r="4"></circle>
+                                                </svg>
+                                                My Profile</a>
+                                            <a class="dropdown-item" href="javascript:void(0)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-credit-card svg-icon mr-2 ml-1">
+                                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                                </svg>
+                                                My Balance</a>
+                                            <a class="dropdown-item" href="javascript:void(0)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-mail svg-icon mr-2 ml-1">
+                                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                                </svg>
+                                                Inbox</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="javascript:void(0)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-settings svg-icon mr-2 ml-1">
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                                </svg>
+                                                Account Setting</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="javascript:void(0)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-power svg-icon mr-2 ml-1">
+                                                    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                                                    <line x1="12" y1="2" x2="12" y2="12"></line>
+                                                </svg>
+                                                Logout</a>
+                                            <div class="dropdown-divider"></div>
+                                            <div class="pl-4 p-3"><a href="javascript:void(0)"
+                                                                     class="btn btn-sm btn-info">View
+                                                    Profile</a></div>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            {% block header_custom_menu %}
+                                {% set _user_menu_content %}
+
+                                    <div class="popover-content-section user-details {{ ea.userMenu.items|length > 0 ? 'user-has-actions' }}">
+                                        <p class="small text-muted mb-0">{{ 'user.logged_in_as'|trans(domain = 'EasyAdminBundle') }}</p>
+                                        <p class="user-details-name">
+                                            {{ ea.user is null ? 'user.anonymous'|trans(domain = 'EasyAdminBundle') : ea.userMenu.name }}
+                                        </p>
+                                    </div>
+
+                                    {% block user_menu %}
+                                        {% if ea.userMenu.items|length > 0 %}
+                                            <div class="dropdown-menu dropdown-menu-right user-dd">
+                                                {% for item in ea.userMenu.items %}
+                                                    {% if item.isMenuSection %}
+                                                        <hr class="m-0"/>
+                                                    {% else %}
+                                                        <a href="{{ item.linkUrl }}"
+                                                           class="user-action {{ item.cssClass }}"
+                                                           target="{{ item.linkTarget }}" rel="{{ item.linkRel }}"
+                                                           referrerpolicy="origin-when-cross-origin">
+                                                            {% if item.icon is not empty %}<i
+                                                                class="fa fa-fw {{ item.icon }}"></i>{% endif %}
+                                                            <span>{{ item.label }}</span>
+                                                        </a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    {% endblock user_menu %}
+
+                                {% endset %}
+
+                                {% if constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_IMPERSONATOR') is defined %}
+                                    {% set impersonator_permission = 'IS_IMPERSONATOR' %}
+                                {% else %}
+                                    {% set impersonator_permission = 'ROLE_PREVIOUS_ADMIN' %}
+                                {% endif %}
+
+                                <div class="user user-menu-wrapper {{ is_granted(impersonator_permission) ? 'user-is-impersonated' }}"
+                                     data-toggle="popover" data-placement="bottom" data-container=".user-menu-wrapper"
+                                     data-content="{{ _user_menu_content|e('html_attr') }}" data-html="true">
+
+                                </div>
+                            {% endblock header_custom_menu %}
+                        </nav>
+                    {% endblock header %}
+                </header>
+
+                <aside class="left-sidebar" style="float: left" data-sidebarbg="skin6">
+                    {% block sidebar %}
+                        <div class="scroll-sidebar ps-container ps-theme-default ps-active-y" data-sidebarbg="skin6">
+                            {% block main_menu_wrapper %}
+                                {{ include(ea.templatePath('main_menu')) }}
+                            {% endblock main_menu_wrapper %}
+                        </div>
+
+                    {% endblock sidebar %}
+                </aside>
+
+                <div class="content-wrapper">
+                    <div id="sidebar-resizer-handler" class="resizer-handler resizer-handler-left"></div>
+
+                    {% block content %}
+                        <div class="content">
+                            {% block content_header_wrapper %}
+                                {% set has_help_message = (ea.crud.helpMessage ?? '') is not empty %}
+                                <section class="content-header">
+                                    {% block content_header %}
+                                        <div class="d-flex flex-row justify-content-between align-content-center w-100">
+                                            <div class="content-header-title">
+                                                <h1 class="title">
+                                                    {% block content_title %}{% endblock %}
+
+                                                    {% block content_help %}
+                                                        {% if has_help_message %}
+                                                            <span class="content-header-help">
+                                                                <i class="far fa-question-circle" data-toggle="tooltip"
+                                                                   title="{{ ea.crud.helpMessage|e('html_attr') }}"></i>
+                                                            </span>
+                                                        {% endif %}
+                                                    {% endblock %}
+                                                </h1>
+                                            </div>
+
+                                            {% block page_actions_wrapper %}
+                                                <div class="page-actions">{% block page_actions %}{% endblock %}</div>
+                                            {% endblock %}
+                                        </div>
+                                    {% endblock content_header %}
+                                </section>
+                            {% endblock content_header_wrapper %}
+
+                            <section id="main" class="content-body">
+                                {% block main %}{% endblock %}
+                            </section>
+
+                            {% block content_footer_wrapper %}
+                                {% set content_footer = block('content_footer') is defined ? block('content_footer') : '' %}
+                                {% if content_footer is not empty %}
+                                    <section class="content-footer">
+                                        {{ content_footer }}
+                                    </section>
+                                {% endif %}
+                            {% endblock %}
+                        </div>
+                    {% endblock content %}
+
+                    <div id="content-resizer-handler" class="resizer-handler resizer-handler-right"></div>
+                </div>
+            {% endblock wrapper %}
+        </div>
+    {% endblock wrapper_wrapper %}
+
+    {% block body_javascript %}{% endblock body_javascript %}
+
+    {% block configured_javascripts %}
+        {% for js_asset in ea.assets.jsFiles ?? [] %}
+            <script src="{{ asset(js_asset) }}"></script>
+        {% endfor %}
+
+    {% endblock %}
+
+    {% block configured_body_contents %}
+        {% for htmlContent in ea.assets.bodyContents ?? [] %}
+            {{ htmlContent|raw }}
+        {% endfor %}
+    {% endblock %}
+    </body>
+{% endblock body %}
+</html>

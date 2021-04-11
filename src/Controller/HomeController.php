@@ -29,9 +29,8 @@ class HomeController extends AbstractController
         $barcode->setFontSize(10);
         $code = $barcode->generate();
 
-        echo '<img src="data:image/png;base64,'.$code.'" />';die;
-        return $this->render('home/contact.html.twig');
-    }/**
+    }
+        /**
      * @Route("/service", name="service")
      */
     public function service(): Response

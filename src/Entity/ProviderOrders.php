@@ -69,9 +69,15 @@ class ProviderOrders
      */
     private $provider;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ProviderOrdersQuantity::class, mappedBy="providerOrders")
+     */
+    private $providerOrdersQuantities;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->providerOrdersQuantities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,36 +158,6 @@ class ProviderOrders
     }
 
     /**
-     * @return Collection|ProviderOrdersProduct[]
-     */
-    public function getProviderOrdersProducts(): ?Collection
-    {
-        return $this->providerOrdersProducts;
-    }
-
-    public function addProviderOrdersProduct(ProviderOrdersProduct $providerOrdersProduct): self
-    {
-        if (!$this->providerOrdersProducts->contains($providerOrdersProduct)) {
-            $this->providerOrdersProducts[] = $providerOrdersProduct;
-            $providerOrdersProduct->setProviderOrders($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProviderOrdersProduct(ProviderOrdersProduct $providerOrdersProduct): self
-    {
-        if ($this->providerOrdersProducts->removeElement($providerOrdersProduct)) {
-            // set the owning side to null (unless already changed)
-            if ($providerOrdersProduct->getProviderOrders() === $this) {
-                $providerOrdersProduct->setProviderOrders(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Product[]
      */
     public function getProducts(): Collection
@@ -208,5 +184,35 @@ class ProviderOrders
     public function __toString()
     {
         return 'product';
+    }
+
+    /**
+     * @return Collection|ProviderOrdersQuantity[]
+     */
+    public function getProviderOrdersQuantities(): Collection
+    {
+        return $this->providerOrdersQuantities;
+    }
+
+    public function addProviderOrdersQuantity(ProviderOrdersQuantity $providerOrdersQuantity): self
+    {
+        if (!$this->providerOrdersQuantities->contains($providerOrdersQuantity)) {
+            $this->providerOrdersQuantities[] = $providerOrdersQuantity;
+            $providerOrdersQuantity->setProviderOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProviderOrdersQuantity(ProviderOrdersQuantity $providerOrdersQuantity): self
+    {
+        if ($this->providerOrdersQuantities->removeElement($providerOrdersQuantity)) {
+            // set the owning side to null (unless already changed)
+            if ($providerOrdersQuantity->getProviderOrder() === $this) {
+                $providerOrdersQuantity->setProviderOrder(null);
+            }
+        }
+
+        return $this;
     }
 }
