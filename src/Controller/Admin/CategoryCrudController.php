@@ -46,7 +46,6 @@ class CategoryCrudController extends AbstractCrudController
         return [
             //IdField::new('id'),
             TextField::new('Name'),
-            AssociationField::new('products'),
             DateTimeField::new('createdAt'),
             DateTimeField::new('updatedAt'),
 

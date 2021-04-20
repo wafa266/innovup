@@ -8,6 +8,10 @@ use App\Entity\ProviderOrdersQuantity;
 use App\Entity\ProviderOrders;
 use App\Form\CustomerOrdersType;
 use App\Form\ProviderOrdersType;
+use App\Repository\CustomerOrdersRepository;
+use App\Repository\CustomerRepository;
+use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -15,6 +19,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Component\HttpFoundation\Request;
 use function Sodium\add;
 use App\Entity\Product;
@@ -30,7 +36,23 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CustomerOrdersCrudController extends AbstractCrudController
-{
+{  protected $product;
+    /**
+     * @var CustomerOrdersRepository
+     */
+   private $customerOrders;
+   private $snappy;
+    public function __construct(
+        ProductRepository $product,CustomerOrdersRepository $customerOrders , Pdf $snappy
+    ) {
+
+        $this->product=$product;
+        $this->customerOrders=$customerOrders;
+        $this->snappy=$snappy;
+
+
+    }
+
     public static function getEntityFqcn(): string
     {
         return CustomerOrders::class;
@@ -65,17 +87,46 @@ class CustomerOrdersCrudController extends AbstractCrudController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin', [
+            return $this->redirectToRoute('customer_order_show', [
                 'entity' => 'CustomerOrders',
                 'crudAction' => 'index',
                 'menuIndex' => 1,
-                'crudControllerFqcn' => 'App\Controller\Admin\CustomerOrdersCrudController'
+                'crudControllerFqcn' => 'App\Controller\Admin\CustomerOrdersCrudController',
+                'id' =>$customerOrders->getId(),
             ]);
         }
 
         return $this->render('customerOrders/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'Product'=>$this->product->findAll(),
+            //'customerOrders'=>$this->customerOrders->getCreatedAt(),
+
         ]);
+    }
+    /**
+     * @Route(path="/admin_74ze5f/customer/show/{id}", name="customer_order_show")
+     */
+    public function showCustomerOrders($id)
+    {
+        $customerOrder = $this->customerOrders->find($id);
+        return $this->render('customerOrders/show.html.twig', [
+            'customerOrders' => $customerOrder
+        ]);
+    }
+    /**
+     * @Route(path="/admin_74ze5f/customer/show/pdf/{id}", name="customer_orders_pdf")
+     */
+    public function showpdfCustomerOrders($id)
+    {
+        $customerOrder = $this->customerOrders->find($id);
+        $html = $this->renderView('customerOrders/pdf.html.twig',[
+            'customerOrders' => $customerOrder
+        ]);
+
+        return new PdfResponse(
+            $this->snappy->getOutputFromHtml($html),
+            'file'.$id.'.pdf'
+        );
     }
     public function configureActions(Actions $actions): Actions
     {

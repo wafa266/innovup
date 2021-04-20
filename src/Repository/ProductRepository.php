@@ -4,7 +4,6 @@ namespace App\Repository;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\DomCrawler\Image;
 
 /**
 * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,5 +46,16 @@ return $this->createQueryBuilder('u')
 ;
 }
 */
+
+    /**
+     * @return int|mixed|string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public  function  CountAllProduct(){
+        $queryBuilder=$this->createQueryBuilder('a');
+        $queryBuilder->select('COUNT(a.id) as value');
+
+        return  $queryBuilder->getQuery()->getOneOrNullResult();
+    }
   
 }

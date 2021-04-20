@@ -7246,8 +7246,8 @@ a.text-dark:hover, a.text-dark:focus {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url("../fonts/fontawesome-webfont.eot?v=4.7.0");
-  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"), url("../fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"), url("../fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"), url("../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format("svg");
+  src: url("../../fonts/fontawesome-webfont.eot?v=4.7.0");
+  src: url("../../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format("embedded-opentype"), url("../../fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"), url("../../fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"), url("../../fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"), url("../../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal; }
 
@@ -10089,7 +10089,7 @@ max-width: 480px
     width: 100%; } }
 
 .stats {
-  background: url(../images/stats_bg.jpg) no-repeat center;
+  background: url(../../images/stats_bg.jpg) no-repeat center;
   background-size: cover;
   position: relative; }
 
@@ -10723,7 +10723,7 @@ a.author:hover {
 
 .forms-29 select.input__style {
   color: #777;
-  background: #fff url(../images/down.png) no-repeat 94% 52%; }
+  background: #fff url(../../images/down.png) no-repeat 94% 52%; }
 
 .forms-29 button.btn {
   margin: auto;

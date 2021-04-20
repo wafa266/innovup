@@ -21,7 +21,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  */
 class Product
-{
+
+{  public $value;
     /**
      * @var int
      *
@@ -115,7 +116,7 @@ class Product
     /**
      * @var \Category
      *
-     * @ORM\ManyToOne(targetEntity="Category", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })
@@ -492,24 +493,24 @@ class Product
     /**
      * @return Collection|ProviderOrdersQuantity[]
      */
-    public function getProviderOrdersQuantity(): Collection
+    public function getProviderOrdersQuantities(): Collection
     {
-        return $this->providerOrdersQuantity;
+        return $this->providerOrdersQuantities;
     }
 
-    public function addProviderOrdersQuantity(ProviderOrdersQuantity $providerOrdersQuantity): self
+    public function addProviderOrdersQuantities(ProviderOrdersQuantity $providerOrdersQuantity): self
     {
-        if (!$this->providerOrdersQuantity->contains($providerOrdersQuantity)) {
-            $this->providerOrdersQuantity[] = $providerOrdersQuantity;
+        if (!$this->providerOrdersQuantities->contains($providerOrdersQuantity)) {
+            $this->providerOrdersQuantities[] = $providerOrdersQuantity;
             $providerOrdersQuantity->setProduct($this);
         }
 
         return $this;
     }
 
-    public function removeProviderOrdersQuantity(ProviderOrdersQuantity $providerOrdersQuantity): self
+    public function removeProviderOrdersQuantities(ProviderOrdersQuantity $providerOrdersQuantity): self
     {
-        if ($this->providerOrdersQuantity->removeElement($providerOrdersQuantity)) {
+        if ($this->providerOrdersQuantities->removeElement($providerOrdersQuantity)) {
             // set the owning side to null (unless already changed)
             if ($providerOrdersQuantity->getProduct() === $this) {
                 $providerOrdersQuantity->setProduct(null);
@@ -527,11 +528,5 @@ class Product
         return $this->customerOrdersQuantities;
     }
 
-    /**
-     * @return Collection|ProviderOrdersQuantity[]
-     */
-    public function getProviderOrdersQuantities(): Collection
-    {
-        return $this->providerOrdersQuantities;
-    }
+
 }

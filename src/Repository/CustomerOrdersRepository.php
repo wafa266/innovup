@@ -4,24 +4,23 @@
 namespace App\Repository;
 
 
-use App\Entity\Customer;
 use App\Entity\CustomerOrders;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 
     /**
-     * @method Customer|null find($id, $lockMode = null, $lockVersion = null)
-     * @method Customer|null findOneBy(array $criteria, array $orderBy = null)
-     * @method Customer[]    findAll()
-     * @method Customer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+     * @method CustomerOrders|null find($id, $lockMode = null, $lockVersion = null)
+     * @method CustomerOrders|null findOneBy(array $criteria, array $orderBy = null)
+     * @method CustomerOrders[]    findAll()
+     * @method CustomerOrders[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
      */
     class CustomerOrdersRepository extends ServiceEntityRepository
 
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Customer::class);
+        parent::__construct($registry, CustomerOrders::class);
     }
 
 // /**
@@ -50,8 +49,18 @@ use Doctrine\Persistence\ManagerRegistry;
     ->getQuery()
     ->getOneOrNullResult()
     ;
+    }*/
+    /**
+     * @return int|mixed|string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public  function  countAllCustomerOrders(){
+        $queryBuilder=$this->createQueryBuilder('a');
+        $queryBuilder->select('COUNT(a.id) as value');
+
+        return  $queryBuilder->getQuery()->getOneOrNullResult();
     }
-    */
+
 
 
 }
