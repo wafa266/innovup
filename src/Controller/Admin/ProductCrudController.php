@@ -5,11 +5,13 @@ namespace App\Controller\Admin;
 use App\Entity\Category;
 use App\Entity\Product;
 use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -24,7 +26,6 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 class ProductCrudController extends AbstractCrudController
 {
 
-
     public static function getEntityFqcn(): string
     {
         return Product::class;
@@ -32,8 +33,9 @@ class ProductCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle(Crud::PAGE_INDEX,'Liste de vos produits ');
-            //->overrideTemplate('crud/index', 'product/index.html.twig');
+            ->setPageTitle(Crud::PAGE_INDEX,'Liste de vos produits ')
+           ;
+
 
     }
 
@@ -42,6 +44,9 @@ class ProductCrudController extends AbstractCrudController
         $detailUser = Action::new('detailUser', 'Detail', 'fa fa-cubes')
           ->linkToCrudAction(Crud::PAGE_DETAIL)
           ->addCssClass('btn btn-info');
+
+        $showproduct = Action::new('Product', 'product list', 'fa fa-cubes')
+          ->addCssClass('btn btn-primary');
         /*
         $removeUser = Action::new('removeUser', 'Supprimer', 'fa fa-trash')
             ->addCssClass('btn btn-danger')
@@ -66,10 +71,10 @@ class ProductCrudController extends AbstractCrudController
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
             return $action->setIcon('fa fa-pencil')->setLabel(false);
             })
+
             //->disable(Action::DELETE, Action::EDIT)
             ->add(Crud::PAGE_INDEX, $detailUser);
-
-            //->add(Crud::PAGE_INDEX, $removeUser)
+            //->add(Crud::PAGE_INDEX, $showproduct);
             //->add(Crud::PAGE_INDEX, $updateUser);
     }
      public function  codebar(): Response
@@ -81,7 +86,7 @@ class ProductCrudController extends AbstractCrudController
          $barcode->setThickness(25);
          $barcode->setFontSize(10);
          $code = $barcode->generate();
-         return $this->render('product/barcode.html.twig');
+         return $this->render('ProviderOrders/PvReception.html.twig');
 
      }
     public function configureFields(string $pageName): iterable
@@ -92,7 +97,7 @@ class ProductCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnDetail(),
             TextField::new('name')->setTemplatePath('bundles/easyAdminBundle/page/field_custom.html.twig'),
             NumberField::new('price', "prix d'achat"),
-            NumberField::new('priceExcludingTax', "prix hors tax"),
+            NumberField::new('priceExcludingTax', "prix hors tax")->setValue(3),
             NumberField::new('tva'),
             NumberField::new('priceTtc', 'prix vente'),
             NumberField::new('quantity', 'quantity'),
@@ -100,28 +105,19 @@ class ProductCrudController extends AbstractCrudController
             Field::new('imageFile')->setFormType(VichImageType::class)->onlyOnDetail(),
             ImageField::new('image')->setBasePath('uploads\images\products')
                 ->setCustomOption('uploadDir', 'public\uploads\images\products'),
-            CollectionField::new('providerOrdersQuantities', 'Commandes Fournisseur')
+
+          //  CollectionField::new('providerOrdersQuantities', 'Commandes Fournisseur'),
+
+          /*  CollectionField::new('CustomerOrdersQuantities', 'Commandes Client')
                 ->formatValue(function ($value, $entity) {
                     $nn = '';
                     /* @var $entity \App\Entity\Product */
-                    foreach($entity->getProviderOrdersQuantities() as $orders)
+                    /*foreach($entity->getCustomerOrdersQuantities()as $orders)
                     {
                         $nn .= $orders->getId() . '-' . $orders->getQuantity() . ',';
                     }
                     return $nn;
-                })
-                ->onlyOnDetail(),
-            CollectionField::new('CustomerOrdersQuantities', 'Commandes Client')
-                ->formatValue(function ($value, $entity) {
-                    $nn = '';
-                    /* @var $entity \App\Entity\Product */
-                    foreach($entity->getCustomerOrdersQuantities()as $orders)
-                    {
-                        $nn .= $orders->getId() . '-' . $orders->getQuantity() . ',';
-                    }
-                    return $nn;
-                })
-                ->onlyOnDetail(),
+                })*/
 
             DateTimeField::new('createdAt')->onlyOnDetail(),
             DateTimeField::new('UpdatedAt')->onlyOnDetail(),
@@ -133,4 +129,5 @@ class ProductCrudController extends AbstractCrudController
 
 
     }
+
 }

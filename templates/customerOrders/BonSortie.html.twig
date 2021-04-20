@@ -1,0 +1,21 @@
+
+{% extends ea.templatePath('layout') %}
+
+{% block main %}
+    <p style="text-align: center;"><span style="color: #0000ff;"><span style="text-decoration: underline;"><em><strong>Bon de sortie</strong></em></span></span></p>
+    <p>Date<br />Nom client: <br />adresse:<br />tel:</p>
+    <table border="3" style="height: 34px; width: 100%; border-collapse: collapse; border-color: #0000ff;">
+        <tbody>
+        <tr style="height: 17px;">
+            <td style="width: 25%; height: 17px;">ID</td>
+            <td style="width: 25%; height: 17px;">Produit</td>
+            <td style="width: 25%; height: 17px;">quantit&eacute;</td>
+            <td style="width: 25%; height: 17px;">prix</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>IL est certifi&eacute; que les produits ci-dessus ont quitt&eacute;s le stock&nbsp;</p>
+    <p></p>
+    <p><span style="color: #0000ff;">&nbsp;IL EST CERTIFI&Eacute; QUE LES MARCHANDISES CI-DESSUS ONT &Eacute;T&Eacute; RECUES EN BON ETAT&nbsp;</span></p>
+    <p style="text-align: right;"><span style="color: #000000;">Nom et signature du responsable :</span></p>
+{% endblock main %}

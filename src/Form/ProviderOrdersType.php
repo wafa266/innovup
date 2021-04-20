@@ -23,8 +23,8 @@ class ProviderOrdersType extends AbstractType
             //->add('updatedAt')
             //->add('deletedAt')
             ->add('products',  EntityType::class, [
-                'class'     => Product::class,
-                'expanded'  => true,
+               'class'     => Product::class,
+               'expanded'  => true,
                 'multiple'  => true
            ])
             ->add('provider')

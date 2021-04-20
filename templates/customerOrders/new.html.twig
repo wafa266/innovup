@@ -1,16 +1,30 @@
 
 {% extends ea.templatePath('layout') %}
-
 {% block main %}
     <form method="post" action="{{ path('customer_orders_new') }}">
         {{ form_errors(form) }}
         {{ form_row(form.isPaid) }}
+        <input type="submit" STYLE="float: right"  class=" btn-style btn-danger" value="create"/>
+        <style>
+            .btn-style  {width: 134px;
+                height: 38px;
+                margin-top: -21px;
+            font-family:revert}
+            body{ font-weight: 600;}
+            .cn{width: 49px;
+                height: 21px;}
+
+
+        </style>
         {{ form_row(form.customer) }}
+
         {% for product in form.products.vars.choices %}
-            <input type="checkbox" id="customer_orders_products_{{ product.value }}" name="customer_orders[products][]" value="{{ product.value }}">
-            {{ product.label }} <i>( {{ product.data.price }} DT )</i>
-            <input type="text" id="customer_orders_products_{{ product.value }}" name="customer_orders[quantity][]" value=""><br>
+            <li class="list-group-item d-flex justify-content-between align-items-center bg-blue">
+            <input   type="checkbox"  id="customer_orders_products_{{ product.value }}" name="customer_orders[products][]" value="{{ product.value}}">
+            {{ product.label }} <i>( {{ product.data.priceTtc}} DT )</i>
+            <input type="number"  class="cn" min=1 step=1 max="{{ product.data.quantity }}" id="customer_orders_products_{{ product.value }}" name="customer_orders[quantity][]" value=""><br>
+            </li>
         {% endfor %}
-        <input type="submit" class="ui button green" value="create"/>
+
     </form>
 {% endblock main %}

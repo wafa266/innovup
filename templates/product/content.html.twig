@@ -1,0 +1,295 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{% extends ea.templatePath('layout') %}
+{% trans_default_domain ea.i18n.translationDomain %}
+
+{% block body_class 'page-content page-content-with-padding' %}
+
+{% block content %}
+    {% set has_page_title = block('page_title') is defined and block('page_title')|trim is not empty %}
+    {% set has_page_actions = block('page_actions') is defined and block('page_actions')|trim is not empty %}
+    {% set has_page_footer = block('page_footer') is defined and block('page_footer')|trim is not empty %}
+
+    <div class="content">
+        {% block content_header_wrapper %}
+            {% if has_page_title or has_page_actions %}
+                <section class="content-header">
+                    {% block content_header %}
+                        <div class="d-flex flex-row justify-content-between align-content-center w-100">
+                            <div class="content-header-title">
+                                {% if has_page_title %}
+                                    <h1 class="title">
+                                        {% block page_title %}{% endblock %}
+                                    </h1>
+                                {% endif %}
+                            </div>
+
+                            {% block page_actions_wrapper %}
+                                <div class="page-actions">{% block page_actions %}{% endblock %}</div>
+                            {% endblock %}
+                        </div>
+                    {% endblock content_header %}
+                </section>
+            {% endif %}
+        {% endblock content_header_wrapper %}
+
+        <section id="main">
+            {% block main %}
+            <div class="content-panel">
+                <div class="content-panel-body without-header {{ not has_page_footer ? 'without-footer' }}">
+                    <div class="container">
+                        <div class="row clearfix">
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img href="" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Simple Black Clock</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price"></li>
+                                                <li class="new_price">$13.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Simple Black Clock</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$12.00</li>
+                                                <li class="new_price">$11.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Brone Candle</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$23.00</li>
+                                                <li class="new_price">$17.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Simple Black Clock</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$16.00</li>
+                                                <li class="new_price">$10.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Brone Lamp Glasses</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$18.00</li>
+                                                <li class="new_price">$15.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Unero Small Bag</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$21.00</li>
+                                                <li class="new_price">$17.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Unero Round lass</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$16.00</li>
+                                                <li class="new_price">$10.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Wood Simple Clock</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$16.00</li>
+                                                <li class="new_price">$10.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Wood Long TV</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$16.00</li>
+                                                <li class="new_price">$10.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Simple Black Clock</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$16.00</li>
+                                                <li class="new_price">$10.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Wood Simple Chair</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$16.00</li>
+                                                <li class="new_price">$10.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <div class="card product_item">
+                                    <div class="body">
+                                        <div class="cp_img">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Product" class="img-fluid">
+                                            <div class="hover">
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-plus"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm waves-effect"><i class="zmdi zmdi-shopping-cart"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="product_details">
+                                            <h5><a href="ec-product-detail.html">Simple Black</a></h5>
+                                            <ul class="product_price list-unstyled">
+                                                <li class="old_price">$16.00</li>
+                                                <li class="new_price">$10.00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endblock %}
+            </div>
+
+            {% if has_page_footer %}
+                <section class="content-panel-footer without-padding">
+                    {{ block('page_footer') }}
+                </section>
+            {% endif %}
+        </section>
+    </div>
+{% endblock content %}
+

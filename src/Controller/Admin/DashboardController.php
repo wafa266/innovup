@@ -9,6 +9,7 @@ use App\Entity\Product;
 use App\Entity\Provider;
 use App\Entity\ProviderOrders;
 use App\Entity\User;
+use App\Repository\CustomerOrdersRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
@@ -27,19 +28,26 @@ class DashboardController extends AbstractDashboardController
     protected $userRepository;
     protected $customerRepository;
     protected $product;
+    protected $customerOrdersRepository;
+
 
 
     public function __construct(
         UserRepository $userRepository,
         CustomerRepository $customerRepository,
-        ProductRepository $product
-    ) {
-        $this->userRepository=$userRepository;
-        $this->customerRepository=$customerRepository;
-        $this->product=$product;
+        ProductRepository $product,
+        CustomerOrdersRepository $customerOrdersRepository
+    )
+    {
+        $this->userRepository = $userRepository;
+        $this->customerRepository = $customerRepository;
+        $this->product = $product;
+        $this->customerOrdersRepository= $customerOrdersRepository;
+
 
 
     }
+
     /**
      * @Route("/{_locale}/admin", name="admin")
      */
@@ -47,35 +55,63 @@ class DashboardController extends AbstractDashboardController
     {
         return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
             'controller_name' => 'DashboardController',
-            'CountAllUser'=>$this->userRepository->countAllUser() ,
-            'CountAllCustomer'=>$this->customerRepository->CountAllCustomer(),
-            'Product'=>$this->product->findAll(),
+            'CountAllUser' => $this->userRepository->countAllUser(),
+            'CountAllCustomer' => $this->customerRepository->CountAllCustomer(),
+            'Product' => $this->product->findAll(),
+            'CustomerOrders'=>$this->customerOrdersRepository->countAllCustomerOrders(),
         ]);
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('ERP Stock Management')
+            ->setTitle('MyErp')
             ->disableUrlSignatures();
-
     }
+
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-users', User::class);
-        yield MenuItem::linkToCrud('Produits', 'fa fa-cubes', Product::class);
-        yield MenuItem::linkToCrud('Fournisseurs', 'fa fa-truck', Provider::class);
-        yield MenuItem::linkToCrud('clients', 'fa fa-shopping-bag', Customer::class);
-        yield MenuItem::linkToCrud('Catégories', 'fa fa-list-alt', Category::class);
-        yield MenuItem::linkToCrud('Commandes fournisseurs', 'fa fa-shopping-cart', ProviderOrders::class);
-        yield MenuItem::linkToCrud('Commandes clients', 'fa fa-shopping-bag', CustomerOrders::class);
+
+
+        return [
+            MenuItem::linktoDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::linkToCrud('Utilisateurs', 'fa fa-users', User::class),
+                MenuItem::linkToCrud('Produits', 'fa fa-cubes', Product::class),
+                MenuItem::linkToCrud('Categories', 'fa fa-tags', Category::class),
+                MenuItem::linkToCrud('Commandes fournisseurs', 'fa fa-tags', ProviderOrders ::class),
+                MenuItem::linkToCrud('Fournisseurs', 'fa fa-truck', Provider::class),
+
+                MenuItem::linkToCrud('Commandes clients', 'fa fa-shopping-bag', CustomerOrders::class),
+                MenuItem::linkToCrud('clients', 'fa fa-shopping-bag', Customer::class)
+            ];
+
+
+
+            // ...
+
     }
+
     public function configureAssets(): Assets
     {
         return Assets::new()
-            ->addCssFile('bundles/easyadmin/css/style.css');
+
+            ->addCssFile('build/css/innovup/c3.min.css')
+            ->addCssFile('build/css/innovup/jquery-jvectormap-2.0.2.css')
+            ->addCssFile('build/css/innovup/chartist.min.css')
+            ->addCssFile('build/css/innovup/style.min.css')
+            ->addCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css')
+
+            ->addJsFile('build/js/innovup/jquery.min.js')
+            ->addJsFile('build/js/innovup/popper.min.js')
+            ->addJsFile('build/js/innovup/bootstrap.min.js')
+            ->addJsFile('build/js/innovup/app-style-switcher.js')
+            ->addJsFile('build/js/innovup/feather.min.js')
+            ->addJsFile('build/js/innovup/bootstrap-tagsinput.js')
+            ->addJsFile('build/js/innovup/perfect-scrollbar.jquery.min.js')
+            ->addJsFile('build/js/innovup/sidebarmenu.js')
+            ->addJsFile('build/js/innovup/custom.min.js')
+            ->addJsFile('build/js/innovup/innovup.js');
     }
 
     public function configureUserMenu(UserInterface $user): UserMenu

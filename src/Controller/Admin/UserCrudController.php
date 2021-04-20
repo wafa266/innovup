@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -25,6 +26,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Controller;
 use EasyCorp\Bundle\EasyAdminBundle\Factory\AdminContextFactory;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use function Sodium\add;
 
@@ -39,7 +41,7 @@ class UserCrudController extends AbstractCrudController
     {
         $detailProduct = Action::new('detailProduct', 'Detail')
                     ->linkToCrudAction(Crud::PAGE_DETAIL)
-                    ->addCssClass('btn btn-info')
+                    ->addCssClass('btn btn-warning')
         ->setIcon('fa fa-user');
 
         return $actions
@@ -52,6 +54,7 @@ class UserCrudController extends AbstractCrudController
 
             //->disable(Action::DELETE, Action::EDIT)
             ->add(Crud::PAGE_INDEX, $detailProduct);
+
 
         //->add(Crud::PAGE_INDEX, $updateUser);
     }
@@ -66,9 +69,9 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnDetail(),
-            Field::new('imageFile')->setFormType(VichImageType::class)->onlyOnDetail(),
-            ImageField::new('image')->setBasePath('uploads\images\users')
-                ->setCustomOption('uploadDir', 'public\uploads\images\users'),
+           // Field::new('imageFile')->setFormType(VichImageType::class)->onlyOnDetail(),
+           ImageField::new('image')->setBasePath('uploads\images\users')
+               ->setCustomOption('uploadDir', 'public\uploads\images\users'),
             TextField::new('firstName'),
             TextField::new('lastName'),
             EmailField::new('email'),
