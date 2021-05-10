@@ -1,4 +1,31 @@
 dashboard:
   welcome: Bienvenue dans votre espace adminisatration
-  hello: Bonjour
 
+
+Hello: Bonjour
+MYERP: wafe
+User: utilisateur
+Customer: client
+Category: catégorie
+Product: produit
+Users: Utilisateurs
+Products: Produits
+Providers: Fournisseurs
+Provider: Fournisseur
+Customers: Clients
+Categories: Catégories
+Provider Orders: Commandes des fournisseurs
+Customer Orders: Commandes des clients
+Invoice Receipt: Bons de réception
+Exit Voucher:   Bons de sortie
+Firstname: Nom
+Lastname: Prénom
+Address: Adresse
+Phone: Téléphone
+Create new order: Créer nouvelle commande
+create: Créer
+First Name: Nom
+Last Name: Prénom
+Password: Mot de passe
+price: Prix
+quantity: quantité

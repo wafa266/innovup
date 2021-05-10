@@ -26,6 +26,12 @@ class CustomerOrders
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="reference", type="string", length=100, nullable=true)
+     */
+    private $reference;
 
     /**
      * @var bool|null
@@ -72,11 +78,17 @@ class CustomerOrders
      * @ORM\OneToMany(targetEntity=CustomerOrdersQuantity::class, mappedBy="customerOrders")
      */
     private $customerOrdersQuantities;
+    /**
+     * @ORM\OneToMany(targetEntity=ExitVoucher::class, mappedBy="customerOrders")
+     */
+    private $invoice;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->customerOrdersQuantities = new ArrayCollection();
+        $this->invoice = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -141,6 +153,17 @@ class CustomerOrders
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
 
         return $this;
     }
@@ -243,6 +266,34 @@ class CustomerOrders
             }
         }
 
+        return $this;
+    }
+    /**
+     * @return Collection|InvoiceReceipt[]
+     */
+    public function getInvoice(): ?Collection
+    {
+        return $this->invoice;
+    }
+
+    public function addInvoice(InvoiceReceipt $invoiceReceipt): self
+    {
+        if (!$this->invoice->contains($invoiceReceipt)) {
+            $this->invoice[] = $invoiceReceipt;
+            $invoiceReceipt->setCustomerOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(InvoiceReceipt $invoiceReceipt): self
+    {
+        if ($this->invoice->removeElement($invoiceReceipt)) {
+            // set the owning side to null (unless already changed)
+            if ($invoiceReceipt->getCustomerOrder() === $this) {
+                $invoiceReceipt->setCustomerOrder(null);
+            }
+        }
         return $this;
     }
 }

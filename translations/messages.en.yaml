@@ -1,3 +1,5 @@
-dashboard:
-  welcome: Welcome to your administration space
-  hello: Hello
+Dashboard:
+Welcome to your administration space: welcome
+
+produit: Product
+

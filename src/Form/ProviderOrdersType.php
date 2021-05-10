@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use App\Entity\Provider;
 use App\Entity\ProviderOrders;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -19,6 +21,7 @@ class ProviderOrdersType extends AbstractType
     {
         $builder
             ->add('isPaid')
+            ->add('reference')
            // ->add('createdAt')
             //->add('updatedAt')
             //->add('deletedAt')
@@ -27,8 +30,11 @@ class ProviderOrdersType extends AbstractType
                'expanded'  => true,
                 'multiple'  => true
            ])
-            ->add('provider')
-        ;
+            ->add('provider',EntityType::class, [
+                'class'     => Provider::class,
+                'label' => false
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

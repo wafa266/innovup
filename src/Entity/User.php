@@ -4,14 +4,20 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\File;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactory;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * User
- *
+ *  @UniqueEntity(
+ *     fields={"email"},
+ *     errorPath="email",
+ *     message="This email is already  used ."
+ * )
  * @ORM\Table(name="user")
  * @ORM\Entity
 
@@ -31,6 +37,14 @@ class User implements UserInterface
     /**
      * @var string|null
      *
+     /**
+     * @Assert\NotBlank
+     * @Assert\Length(min=3)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Your name cannot contain a number"
+     * )
      * @ORM\Column(name="first_name", type="string", length=50, nullable=true)
      */
     private $firstName;
@@ -38,14 +52,22 @@ class User implements UserInterface
     /**
      * @var string|null
      *
+    /**
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Your name cannot contain a number"
+     * )
      * @ORM\Column(name="last_name", type="string", length=50, nullable=true)
      */
     private $lastName;
 
     /**
      * @var string
-     *
+
      * @ORM\Column(name="email", type="string", length=45, nullable=false)
+     *
      */
     private $email;
 
@@ -60,6 +82,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="phone", type="string", length=45, nullable=true)
+     * @Assert\Length(min = 8, max = 8, minMessage = "min lenght 8 ", maxMessage = "max ")
      */
     private $phone;
 
@@ -67,6 +90,7 @@ class User implements UserInterface
      * @var json|null
      *
      * @ORM\Column(name="roles", type="json", nullable=true)
+     * @Assert\NotBlank
      */
     private $roles;
 
@@ -189,6 +213,29 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function add(?string $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+            $role->setRoles($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct( $role): self
+    {
+        if ($this->roles->contains($role)) {
+            $this->roles->removeElement($role);
+            // set the owning side to null (unless already changed)
+            if ($role->getRoles() === $this) {
+                $role->setRoles(null);
+            }
+        }
+
+        return $this;
+    }
     /**
      * @param string|null $image
      * @return $this
@@ -263,7 +310,7 @@ class User implements UserInterface
 
     public function getUsername()
     {
-        return (string) $this->email;
+        return (string) $this->firstName.' '.$this->lastName;
     }
 
     public function eraseCredentials()

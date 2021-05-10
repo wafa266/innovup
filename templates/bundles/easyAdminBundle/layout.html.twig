@@ -71,6 +71,7 @@
                 <nav class="navbar top-navbar navbar-expand-md">
                     <div class="navbar-header" data-logobg="skin6">
                         {% block header_navbar %}
+
                             <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
                                 <i class="ti-menu ti-close"></i>
                             </a>
@@ -101,13 +102,13 @@
                         <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
                             <!-- Notification -->
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
+                                <a class="nav-link dropdown-toggle notification-dd-toggle pl-md-3 position-relative" href="javascript:void(0)"
                                    id="bell" role="button" data-toggle="dropdown" aria-haspopup="true"
                                    aria-expanded="false">
                                     <span><i data-feather="bell" class="svg-icon"></i></span>
                                     <span class="badge badge-primary notify-no rounded-circle">5</span>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-left mailbox animated bounceInDown">
+                                <div class="dropdown-menu dropdown-menu-left notification-dd mailbox animated bounceInDown">
                                     <ul class="list-style-none">
                                         <li>
                                             <div class="message-center notifications position-relative">
@@ -178,27 +179,16 @@
                             <!-- ============================================================== -->
                             <!-- create new -->
                             <!-- ============================================================== -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="settings" class="svg-icon"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </li>
+
                             <li class="nav-item d-none d-md-block">
                                 <a class="nav-link" href="javascript:void(0)">
-                                    <div class="customize-input">
-                                        <select
-                                                class="custom-select form-control bg-white custom-radius custom-shadow border-0">
-                                            <option selected>EN</option>
-                                            <option value="1">AB</option>
-                                            <option value="2">AK</option>
-                                            <option value="3">BE</option>
+                                    <div class="custom-select form-control bg-white custom-radius custom-shadow border-0">
+
+                                        <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                             <option>langue</option>
+                                            <option  value="http://innovup.io/en/admin?menuIndex=0&submenuIndex=-1">EN</option>
+                                            <option value="http://innovup.io/fr/admin?menuIndex=0&submenuIndex=-1">FR</option>
+
                                         </select>
                                     </div>
                                 </a>
@@ -211,17 +201,7 @@
                             <!-- ============================================================== -->
                             <!-- Search -->
                             <!-- ============================================================== -->
-                            <li class="nav-item d-none d-md-block">
-                                <a class="nav-link" href="javascript:void(0)">
-                                    <form>
-                                        <div class="customize-input">
-                                            <input class="form-control custom-shadow custom-radius border-0 bg-white"
-                                                   type="search" placeholder="Search" aria-label="Search">
-                                            <i class="form-control-icon" data-feather="search"></i>
-                                        </div>
-                                    </form>
-                                </a>
-                            </li>
+
                             <!-- ============================================================== -->
                             <!-- User profile and search -->
                             <!-- ============================================================== -->
@@ -245,7 +225,7 @@
                                 </a>
                                 <div class="dropdown dropdown-menu-right user-dd">
                                     <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                        <a class="dropdown-item" href="javascript:void(0)">
+                                        <a class="dropdown-item" href="{{ path('app_profile') }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -328,7 +308,17 @@
                     </nav>
             </header>
 
-
+           <style>
+               .text-dark {
+                   color: #8079eb!important;
+               }
+               #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link .feather-icon, #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link i, #main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link .feather-icon, #main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link i {
+                   color: #ff4f70!important;
+               }
+               #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link, #main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link {
+                   color: #012bf6;
+               }
+           </style>
 
             {% endblock header %}
             <aside class="left-sidebar" data-sidebarbg="skin6">
@@ -391,12 +381,8 @@
                         {% endif %}
                     {% endblock %}
                 </div>
+
             {% endblock content %}
-
-
-
-
-
 
 
         {% endblock wrapper %}

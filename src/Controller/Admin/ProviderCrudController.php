@@ -24,14 +24,17 @@ class ProviderCrudController extends AbstractCrudController
         return Provider::class;
     }
     public function configureActions(Actions $actions): Actions
-    {
+    {         $detailUser = Action::new('detailUser', '')
+        ->linkToCrudAction(Crud::PAGE_DETAIL)->setIcon('fa fa-eye')
+        ->addCssClass('btn btn-circle btn-success');
         return $actions
             // ...
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-                return $action->setIcon('fa fa-trash')->setLabel(false);
+                return $action->setIcon('fa fa-trash')->setLabel('')->addCssClass('btn btn-circle btn btn-outline-danger');
             })
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
-                return $action->setIcon('fa fa-pencil')->setLabel(false);})
+                return $action->setIcon('fa fa-pencil')->setLabel('')->addCssClass('btn btn-circle btn-info');})
+            ->add(Crud::PAGE_INDEX, $detailUser);
 
             // in PHP 7.4 and newer you can use arrow functions
             // ->update(Crud::PAGE_INDEX, Action::NEW,
@@ -49,10 +52,10 @@ class ProviderCrudController extends AbstractCrudController
             TelephoneField::new('phone'),
             DateTimeField::new('createdAt')->formatValue(function ($value, $entity) {
                 return date('d/m/Y H:i:s', strtotime($value));
-            })->hideOnForm(),
+            })->onlyOnDetail(),
             DateTimeField::new('updatedAt')->formatValue(function ($value, $entity) {
                 return date('d/m/Y H:i:s', strtotime($value));
-            })->hideOnForm(),
+            })->onlyOnDetail(),
 
 
 
@@ -63,6 +66,12 @@ class ProviderCrudController extends AbstractCrudController
 
 
         ];
+    }
+    public function configureCrud(Crud $crud): Crud
+    {
+return $crud
+    ->setPageTitle('index', 'Providers');
+
     }
 
 }

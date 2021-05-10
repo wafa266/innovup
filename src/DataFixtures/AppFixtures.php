@@ -52,7 +52,7 @@ class AppFixtures extends Fixture
                 ->setPrice(20)
                 ->setTva(1.3)
                 ->setPrice_ttc(10)
-                ->setPriceExcludingTax(30)
+                ->setPriceExcludingTax(50)
                 ->setBarcode('14578998736356336')
                 ->setImage('Image.jpg')
                 ->setCategory($cat);

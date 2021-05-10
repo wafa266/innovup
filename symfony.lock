@@ -1,4 +1,7 @@
 {
+    "beberlei/doctrineextensions": {
+        "version": "v1.3.0"
+    },
     "codeitnowin/barcode": {
         "version": "3.0.5"
     },
@@ -560,6 +563,9 @@
         "version": "v5.2.5"
     },
     "twig/extra-bundle": {
+        "version": "v3.3.0"
+    },
+    "twig/intl-extra": {
         "version": "v3.3.0"
     },
     "twig/twig": {

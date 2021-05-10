@@ -9,6 +9,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\InvoiceReceipt;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -17,7 +18,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Entity\Product;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 /**
  * When visiting the homepage, this listener redirects the user to the most
  * appropriate localized version according to the browser settings.

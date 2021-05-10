@@ -13,49 +13,70 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class ProductRepository extends ServiceEntityRepository
 {
-public function __construct(ManagerRegistry $registry)
-{
-parent::__construct($registry, Product::class);
-}
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Product::class);
+    }
 
 // /**
 //  * @return User[] Returns an array of User objects
 //  */
-/*
-public function findByExampleField($value)
-{
-return $this->createQueryBuilder('u')
-->andWhere('u.exampleField = :val')
-->setParameter('val', $value)
-->orderBy('u.id', 'ASC')
-->setMaxResults(10)
-->getQuery()
-->getResult()
-;
-}
-*/
+    /*
+    public function findByExampleField($value)
+    {
+    return $this->createQueryBuilder('u')
+    ->andWhere('u.exampleField = :val')
+    ->setParameter('val', $value)
+    ->orderBy('u.id', 'ASC')
+    ->setMaxResults(10)
+    ->getQuery()
+    ->getResult()
+    ;
+    }
+    */
 
-/*
-public function findOneBySomeField($value): ?User
-{
-return $this->createQueryBuilder('u')
-->andWhere('u.exampleField = :val')
-->setParameter('val', $value)
-->getQuery()
-->getOneOrNullResult()
-;
-}
-*/
+    /*
+    public function findOneBySomeField($value): ?User
+    {
+    return $this->createQueryBuilder('u')
+    ->andWhere('u.exampleField = :val')
+    ->setParameter('val', $value)
+    ->getQuery()
+    ->getOneOrNullResult()
+    ;
+    }
+    */
 
     /**
      * @return int|mixed|string|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public  function  CountAllProduct(){
-        $queryBuilder=$this->createQueryBuilder('a');
+    public function CountAllProduct()
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
         $queryBuilder->select('COUNT(a.id) as value');
 
-        return  $queryBuilder->getQuery()->getOneOrNullResult();
+        return $queryBuilder->getQuery()->getOneOrNullResult();
     }
-  
+    /**
+     * @return int|mixed|string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function CountLastProduct()
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder->select('COUNT(a.id) as value')
+            ->andWhere('a.createdAt >= :begin')
+            ->andWhere('a.createdAt <= :end')
+            ->setParameter('begin', new \DateTime('- 1days'))
+            ->setParameter('end', new \DateTime('+ 1 days'));
+
+
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+
+    }
+
+
+
 }

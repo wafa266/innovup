@@ -21,35 +21,13 @@ use Doctrine\Persistence\ManagerRegistry;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CustomerOrders::class);
+        $em = $registry->getManager();
+
+        $emConfig = $em->getConfiguration();
+        $emConfig->addCustomDatetimeFunction('YEAR', 'DoctrineExtensions\Query\Mysql\Year');
+        $emConfig->addCustomDatetimeFunction('MONTH', 'DoctrineExtensions\Query\Mysql\Month');
     }
 
-// /**
-//  * @return User[] Returns an array of User objects
-//  */
-    /*
-    public function findByExampleField($value)
-    {
-    return $this->createQueryBuilder('u')
-    ->andWhere('u.exampleField = :val')
-    ->setParameter('val', $value)
-    ->orderBy('u.id', 'ASC')
-    ->setMaxResults(10)
-    ->getQuery()
-    ->getResult()
-    ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-    return $this->createQueryBuilder('u')
-    ->andWhere('u.exampleField = :val')
-    ->setParameter('val', $value)
-    ->getQuery()
-    ->getOneOrNullResult()
-    ;
-    }*/
     /**
      * @return int|mixed|string|null
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -61,6 +39,56 @@ use Doctrine\Persistence\ManagerRegistry;
         return  $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
+    /**
+     * @return int|mixed|string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public  function  maxCustomerOrders()
+    {
+        $customerOrder = 0;
+        $queryBuilder=$this->createQueryBuilder('a');
+        $queryBuilder->select('count(a.id)', 'a')
+            ->groupBy('a.customer')
+            ->orderBy('count(a.id)', 'DESC')
+            ;
+        $data = $queryBuilder->getQuery()->getResult();
+        $max = 0;
+        foreach($data as $key => $value) {
+            if($value['1'] > $max) {
+                $max = $value['1'];
+                $customerOrder = $value['0'];
+            }
+        }
+
+        return $customerOrder;
+
+    }
+
+        /**
+         * Get Customer orders by month
+         */
+        public function monthCustomerOrders()
+        {
+            $queryBuilder = $this->createQueryBuilder('a');
+            $queryBuilder->select('YEAR(a.createdAt) as year' , 'MONTH(a.createdAt) as month', 'count(a.id) as val')
+                ->groupBy('year')
+                ->addGroupBy('month')
+                ->orderBy('count(a.id)', 'DESC');
+
+            return $queryBuilder->getQuery()->getResult();
+        }
 
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+    }

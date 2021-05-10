@@ -4,14 +4,19 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
+
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ArrayFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
@@ -19,16 +24,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 use App\Form\UserType;
-use phpDocumentor\Reflection\Types\Context;
+
+use EasyCorp\Bundle\EasyAdminBundle\Filter\ComparisonFilter;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Type\ComparisonFilterType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller;
-use EasyCorp\Bundle\EasyAdminBundle\Factory\AdminContextFactory;
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
-use function Sodium\add;
+
 
 
 class UserCrudController extends AbstractCrudController
@@ -37,23 +38,45 @@ class UserCrudController extends AbstractCrudController
     {
         return User::class;
     }
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->overrideTemplate('crud/index', 'user/index.html.twig')
+            ->overrideTemplate('crud/detail', 'user/detail.html.twig')
+            ->setPageTitle('index', 'Users');
+
+
+
+
+    }
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+           ->add('roles') ;
+    }
+
     public function configureActions(Actions $actions): Actions
     {
-        $detailProduct = Action::new('detailProduct', 'Detail')
+        $detailProduct = Action::new('')
                     ->linkToCrudAction(Crud::PAGE_DETAIL)
-                    ->addCssClass('btn btn-warning')
-        ->setIcon('fa fa-user');
+          ->setIcon('fa fa-user')->setCssClass('btn btn-circle  btn-success');
 
         return $actions
+            ->setPermission(Action::NEW, 'ROLE_ADMIN')
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN')
+            ->setPermission(Action::EDIT, 'ROLE_ADMIN')
+            ->setPermission(Action::DETAIL, 'ROLE_USER')
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
-                return $action->setIcon('fa fa-pencil')->addCssClass('btn btn-success');
+                return $action->setIcon('fa fa-pencil')->setLabel('')->setCssClass('btn btn-circle  btn-info');
             })
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-                return $action->setIcon('fa fa-trash')->setLabel('Delete');
+                return $action->setIcon('fa fa-trash')->setLabel('')->addCssClass('btn btn-circle btn btn-outline-danger');
             })
 
             //->disable(Action::DELETE, Action::EDIT)
-            ->add(Crud::PAGE_INDEX, $detailProduct);
+            ->add(Crud::PAGE_INDEX, $detailProduct)
+        ;
+
 
 
         //->add(Crud::PAGE_INDEX, $updateUser);
@@ -64,6 +87,22 @@ class UserCrudController extends AbstractCrudController
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
 
 
+    /**
+     * @Route("/admin", name="app_profile")
+     */
+    public function Showprofile()
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        return $this->redirectToRoute('admin', [
+            'user' => User::class,
+            'entity' => 'User',
+            'crudAction' => 'detail',
+            'menuIndex' => 1,
+            'entityId' => $user->getId(),
+            'crudControllerFqcn' => 'App\Controller\Admin\UserCrudController',
+        ]);
+    }
 
     public function configureFields(string $pageName): iterable
     {
@@ -77,7 +116,15 @@ class UserCrudController extends AbstractCrudController
             EmailField::new('email'),
             TelephoneField::new('phone'),
             TextField::new('password')->hideOnIndex(),
+            ChoiceField::new('roles')->setChoices([
+                'admin'=>'ROLE_ADMIN',
+                'magasinier'=>'ROLE_MAG',
+                'responsable achat'=>'ROLE_PURCHASING_MANAGER',
+                'responsable de vente'=>'ROLE_SALES_MANAGER'
+            ])->allowMultipleChoices('false')
+            ,
             DateTimeField::new('createdAt')->onlyOnDetail(),
+            
 
 
         ];

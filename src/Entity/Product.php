@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\FormTypeInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Product
@@ -35,7 +36,16 @@ class Product
     /**
      * @var string
      *
+    /**
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long Wafe",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
+     *
      * @ORM\Column(name="name", type="string", length=45, nullable=false)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -45,6 +55,7 @@ class Product
      * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
      */
     private $price;
+
 
     /**
      * @var float|null
@@ -66,13 +77,21 @@ class Product
      * @ORM\Column(name="price_ttc", type="float", precision=10, scale=0, nullable=true)
      */
     private $priceTtc;
-
+    /**
+     * @var float|null
+     *
+     * @ORM\Column(name="Benefice_margin", type="float", precision=10, scale=0, nullable=true)
+     *
+     */
+    private $BeneficeMargin;
     /**
      * @var string|null
      *
      * @ORM\Column(name="barcode", type="string", length=250, nullable=true)
      */
+
     private $barcode;
+
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -86,40 +105,21 @@ class Product
 
     private $imageFile;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-
-    private $createdAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
-     */
-    private $deletedAt;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotBlank
      */
     private $quantity;
 
     /**
      * @var \Category
      *
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })
+     * @Assert\NotBlank
      */
     private $category;
 
@@ -142,6 +142,27 @@ class Product
      * @ORM\OneToMany(targetEntity=ProviderOrdersQuantity::class, mappedBy="product")
      */
     private $providerOrdersQuantities;
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     */
+
+    private $createdAt;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
+     * @var \DateTime|null
+     *
+     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
     public function __construct()
     {
@@ -149,6 +170,7 @@ class Product
         $this->providersOrders = new ArrayCollection();
         $this->customerOrders = new ArrayCollection();
         $this->providerOrdersQuantities = new ArrayCollection();
+        $this->setCreatedAt(new \DateTime());
     }
 
     public function getId(): ?int
@@ -178,6 +200,7 @@ class Product
         $this->price = $price;
 
         return $this;
+
     }
 
     public function getTva(): ?float
@@ -191,6 +214,8 @@ class Product
 
         return $this;
     }
+
+
 
     public function getBarcode(): ?string
     {
@@ -222,6 +247,17 @@ class Product
     public function setPrice_ttc(?float $priceTtc): self
     {
         $this->priceTtc = $priceTtc;
+
+        return $this;
+    }
+    public function getBeneficeMargin(): ?float
+    {
+        return $this->BeneficeMargin;
+    }
+
+    public function setBeneficeMargin(?float $BeneficeMargin): self
+    {
+        $this->BeneficeMargin = $BeneficeMargin;
 
         return $this;
     }
@@ -327,6 +363,8 @@ class Product
             $this->setCreatedAt($now);
         }
     }
+
+
 
     public function setPriceTtc(?float $priceTtc): self
     {
