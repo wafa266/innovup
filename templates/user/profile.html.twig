@@ -1,0 +1,111 @@
+{% extends ea.templatePath('layout') %}
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+{% endblock %}
+{% block main %}
+    <div class="container">
+        <div class="team-single">
+            <div class="row">
+                <div class="col-lg-4 col-md-5 xs-margin-30px-bottom">
+                    <div class="team-single-img">
+                        {% if app.user.image is null %}
+                        <img src="{{ asset('build/images/avatar.PNG') }}" alt="">
+                        {% else %}
+                            <img src="../uploads/images/users/{{ app.user.image }}" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="bg-light-gray padding-30px-all md-padding-25px-all sm-padding-20px-all text-center">
+                        <div class="margin-20px-top team-single-icons">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-md-7">
+                    <div class="team-single-text padding-50px-left sm-no-padding-left">
+                        <h4 class="font-size38 sm-font-size32 xs-font-size30"></h4>
+                        <div class="contact-info-section margin-40px-tb">
+                            <ul class="list-style9 no-margin">
+                                    <div class="row">
+                                        <div class="col-md-5 col-5">
+                                            <i class="fa fa-check-circle"></i>
+                                            <strong class="margin-10px-left text-yellow">Id User:</strong>
+                                        </div>
+                                        <div class="col-md-7 col-7">
+                                            <p>{{ app.user.id }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-5">
+                                            <i class="text-cyan"></i>
+                                            <strong class="margin-10px-left text-yellow">First Name:</strong>
+                                        </div>
+                                        <div class="col-md-7 col-7">
+                                            <p>{{ app.user.firstName }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-5 col-5">
+                                            <i class="text-yellow"></i>
+                                            <strong class="margin-10px-left text-yellow">Last Name:</strong>
+                                        </div>
+                                        <div class="col-md-7 col-7">
+                                            <p>{{ app.user.lastName }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-5 col-5">
+                                            <i class="fa fa-graduation-cap text-orange"></i>
+                                            <strong class="margin-10px-left text-orange">Roles:</strong>
+                                        </div>
+                                        <div class="col-md-7 col-7">
+                                            <p> {% for role in app.user.roles %}
+                                                    {{ role }}<br>
+                                                {% endfor%}</p>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-5 col-5">
+                                            <i class="fa fa-phone text-purple"></i>
+                                            <strong class="margin-10px-left xs-margin-four-left text-purple">Phone:</strong>
+                                        </div>
+                                        <div class="col-md-7 col-7">
+                                            <p>{{ app.user.phone }}</p>
+                                        </div>
+                                    </div>
+
+                                </li>
+
+                                    <div class="row">
+                                        <div class="col-md-5 col-5">
+                                            <i class="fa fa-envelope text-pink"></i>
+                                            <strong class="margin-10px-left xs-margin-four-left text-pink">Email:</strong>
+                                        </div>
+                                        <div class="col-md-7 col-7">
+                                            <p><a href="javascript:void(0)">{{ app.user.email }}</a></p>
+                                        </div>
+                                    </div>
+
+                            </ul>
+                        </div>
+<style>
+    a.link, body {
+        color: #0364fa;
+    }
+    address, dl, ol, p, pre, ul {
+        margin-bottom: 3rem;
+    }
+</style>
+
+                <div class="col-md-12">
+
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+{% endblock %}

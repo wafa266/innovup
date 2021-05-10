@@ -1,28 +1,41 @@
-
 {% extends ea.templatePath('layout') %}
 {% block main %}
-    <form method="post" action="{{ path('product_new') }}">
+    <form method="post" action="{{ path('product_new') }}" >
         {{ form_errors(form) }}
 
         {{ form_row(form.isPaid) }}
+        {{ form_row(form.reference) }}
         <input type="submit" STYLE="float: right"  class=" btn-style btn-danger" value="create"/>
-        {{ form_row(form.provider) }}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Provider</label>
+            </div>
+            {{ form_row(form.provider, {'attr': {'class': 'custom-select'} }) }}
+        </div>
+
 
         <style>
             .btn-style  {width: 134px;
                 height: 38px;
                 margin-top: -21px;
                 font-family:revert}
-            body{ font-weight: 600;}
             .cn{width: 49px;
                 height: 21px;}
+            .input-group-text{
+                background-color: #8798e7;
+                color: #eceef6;
+            }
+            span.product-name {
+                min-width: 200px;
+            }
             </style>
 
         {% for product in form.products.vars.choices %}
         <li class="list-group-item d-flex justify-content-between align-items-center bg-blue">
             <input type="checkbox" id="provider_orders_products_{{ product.data.name }}" name="provider_orders[products][]" value="{{ product.value }}">
-            {{ product.data.name }} <i>{{ product.data.price }}</i>
-            <input type="number" class="cn" min=1 step=1 max="{{ product.data.quantity }}" id="provider_orders_products_1" name="provider_orders[quantity][]"><br>
+            <span class="product-name">{{ product.data.name }}</span> <i>{{ product.data.price }}</i>
+            <input type="number" class="cn" min="1" step="1" max="{{ product.data.quantity }}" id="provider_orders_products_1" name="provider_quantities[{{  product.data.id }}]">
+            <br>
         </li>
         {% endfor %}
 

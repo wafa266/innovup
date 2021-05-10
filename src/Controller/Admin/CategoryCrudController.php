@@ -18,24 +18,36 @@ use Symfony\Flex\Event\UpdateEvent;
 
 class CategoryCrudController extends AbstractCrudController
 {
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPageTitle('index', 'Categories');
+}
     public static function getEntityFqcn(): string
     {
         return Category::class;}
 
     public function configureActions(Actions $actions): Actions
     {
+        $detailProduct = Action::new('')
+            ->linkToCrudAction(Crud::PAGE_DETAIL)
+            ->addCssClass('btn btn-circle btn-success')
+            ->setLabel('')
+        ->setIcon('fa fa-eye');
         return $actions
             // ...
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-                return $action->setIcon('fa fa-trash')->setLabel(false); })
+                return $action->setCssClass('btn btn-circle btn btn-outline-danger')->setLabel('')->setIcon('fa fa-trash'); })
 
                 ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
-                    return $action->setIcon('fa fa-pencil')->setLabel(false);
+                   return $action->setLabel('')->setCssClass("btn btn-circle  btn-info")->setIcon('fa fa-pencil');
 
             })
+            ->add(Crud::PAGE_INDEX, $detailProduct);
 
 
-            // in PHP 7.4 and newer you can use arrow functions
+
+        // in PHP 7.4 and newer you can use arrow functions
             // ->update(Crud::PAGE_INDEX, Action::NEW,
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
             ;

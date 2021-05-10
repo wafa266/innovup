@@ -52,6 +52,11 @@ class CustomerOrdersCrudController extends AbstractCrudController
 
 
     }
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPageTitle('index', 'Customer Orders');
+}
 
     public static function getEntityFqcn(): string
     {
@@ -143,7 +148,7 @@ class CustomerOrdersCrudController extends AbstractCrudController
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
 
             ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->setIcon('fa fa-pencil')->setLabel('Create')->linkToRoute('customer_orders_new');});
+                return $action->setIcon('fa fa-pencil')->setLabel('Create new order')->linkToRoute('customer_orders_new');});
 
     }
 
@@ -167,7 +172,7 @@ class CustomerOrdersCrudController extends AbstractCrudController
 
             DateTimeField::new('createdAt')->formatValue(function ($value, $entity) {
                 return date('d/m/Y H:i:s', strtotime($value));
-            }),
+            })->onlyOnDetail(),
             DateTimeField::new('updatedAt')->onlyOnDetail(),
 
         ];

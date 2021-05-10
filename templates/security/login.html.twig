@@ -3,42 +3,42 @@
 {% block title %}Login
 {% endblock %}
 {% block stylesheets %}
-	<link href="{{ asset('build/css/home/login.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/home/login.css') }}" rel="stylesheet">
 {% endblock %}
 {% block bodyclass %}class="login"
 {% endblock %}
 {% block body %}
-	{% if error %}
-		<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-	{% endif %}
-	{% if app.user %}
-		<div class="mb-3">
-			You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-		</div>
-	{% endif %}
-	<div class="animated bounceInDown" id="particles-js">
-		<div class="container">
-			<span class="error animated tada" id="msg"></span>
-			<form name="form1" method="post" class="box" onsubmit="return checkStuff()">
-				<h4>My<span>ERP </span></h4>
-				<h5>Sign in to your account.</h5>
-				<input class="mb-4" type="text" value="{{ last_username }}" name="_username" id="inputText" class="form-control" required autofocus placeholder="Enter a valid email address">
-				<i class="typcn typcn-eye" id="eye"></i>
-				<input type="password" name="_password" id="pwd" placeholder="Enter password">
-				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-				<label>
-					<input id="chk1" type="checkbox" name="_remember_me" class="custom-control-input">
-					<span></span>
-					<small class="rmb">Remember me</small>
-				</label>
-				<a href="#" class="forgetpass">Forget Password?</a>
-				<input type="submit" value="Sign in" class="btn1">
-			</form>
-		</div>
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+    <div class="animated bounceInDown" id="particles-js">
+        <div class="container">
+            <span class="error animated tada" id="msg"></span>
+            <form name="form1" method="post" class="box" onsubmit="return checkStuff()">
+                <h4>My<span>ERP </span></h4>
+                <h5>Sign in to your account.</h5>
+                <input class="mb-4" type="text" value="{{ last_username }}" name="_username" id="inputText" class="form-control" required autofocus placeholder="Enter a valid email address">
+                <i class="typcn typcn-eye" id="eye"></i>
+                <input type="password" name="_password" id="pwd" placeholder="Enter password">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <label>
+                    <input id="chk1" type="checkbox" name="_remember_me" class="custom-control-input">
+                    <span></span>
+                    <small class="rmb">Remember me</small>
+                </label>
+                <a href="#" class="forgetpass">Forget Password?</a>
+                <input type="submit" value="Sign in" class="btn1">
+            </form>
+        </div>
 
-	</div>
+    </div>
 {% endblock %}
 {% block javascripts %}
-	<script src="{{ asset('build/js/home/particles.min.js')}}"></script>
-	<script src="{{ asset('build/js/home/login.min.js')}}"></script>
+    <script src="{{ asset('build/js/home/particles.min.js')}}"></script>
+    <script src="{{ asset('build/js/home/login.min.js')}}"></script>
 {% endblock %}

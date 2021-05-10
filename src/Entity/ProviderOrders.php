@@ -25,6 +25,12 @@ class ProviderOrders
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="reference", type="string", length=100, nullable=true)
+     */
+    private $reference;
 
     /**
      * @var bool|null
@@ -74,10 +80,17 @@ class ProviderOrders
      */
     private $providerOrdersQuantities;
 
+    /**
+     * @ORM\OneToMany(targetEntity=InvoiceReceipt::class, mappedBy="providerOrders")
+     */
+    private $invoice;
+
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->providerOrdersQuantities = new ArrayCollection();
+        $this->invoice = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,6 +106,18 @@ class ProviderOrders
     public function setIsPaid(?bool $isPaid): self
     {
         $this->isPaid = $isPaid;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
 
         return $this;
     }
@@ -116,7 +141,7 @@ class ProviderOrders
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->updatedAt=$updatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -144,6 +169,7 @@ class ProviderOrders
 
         return $this;
     }
+
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -181,10 +207,13 @@ class ProviderOrders
         return $this;
     }
 
-    public function __toString()
-    {
-        return 'product';
+    public function __toString() {
+        if(is_null($this->reference)) {
+            return 'NULL';
+        }
+        return $this->reference;
     }
+
 
     /**
      * @return Collection|ProviderOrdersQuantity[]
@@ -213,6 +242,35 @@ class ProviderOrders
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection|InvoiceReceipt[]
+     */
+    public function getInvoice(): ?Collection
+    {
+        return $this->invoice;
+    }
+
+    public function addInvoice(InvoiceReceipt $invoiceReceipt): self
+    {
+        if (!$this->invoice->contains($invoiceReceipt)) {
+            $this->invoice[] = $invoiceReceipt;
+            $invoiceReceipt->setProviderOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(InvoiceReceipt $invoiceReceipt): self
+    {
+        if ($this->invoice->removeElement($invoiceReceipt)) {
+            // set the owning side to null (unless already changed)
+            if ($invoiceReceipt->getProviderOrder() === $this) {
+                $invoiceReceipt->setProviderOrder(null);
+            }
+        }
         return $this;
     }
 }

@@ -35,6 +35,9 @@ services:
     App\EventSubscriber\RedirectToLocaleSubscriber:
         arguments: [ '@router', '%app_locales%', '%locale%' ]
 
+    App\EventSubscriber\EasyAdminSubscriber:
+        arguments: [ '@router', '%app_locales%', '%locale%' ]
+
     App\EventListener\SearchIndexer:
         tags:
             - name: 'doctrine.event_listener'

@@ -3,14 +3,13 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    {{ dump(productOrders) }}
 <a href="{{ path('product_orders_pdf', {id: productOrders.id}) }} ">PDF</a>
 
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <div class="page-content container">
-    <div class="page-header text-blue-d2">
+    <div class="page-header text-blue-d2">z
         <div class="col-lg-6">
             <!-- col-lg-6 start here -->
             <div class="invoice-logo"><img width="100" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Invoice logo"></div>
@@ -80,9 +79,9 @@
 
                             <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date:</span> {{ productOrders.createdAt|date('d/m/y')}}</div>
                             {% if productOrders.ispaid == 'true' %}
-                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-success badge-pill px-25">paid</span></div>
+                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-success badge-pill px-25">paid</span></div>
                             {% else %}
-                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-danger badge-pill px-25">Unpaid</span></div>
+                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-danger badge-pill px-25">Unpaid</span></div>
                             {% endif %}
                         </div>
                     </div>
@@ -99,18 +98,16 @@
                         <div class="col-9 col-sm-5">Product</div>
                         <div class="d-none d-sm-block col-4 col-sm-2">Quantity</div>
                         <div class="d-none d-sm-block col-sm-2">Unit Price</div>
-                        <div class="col-2">Amount</div>
                     </div>
                     {% set sum = 0 %}
-                    {% for product in productOrders.products %}
-                    {% set sum = sum + (product.priceTtc * product.providerOrdersQuantities[0].quantity) %}
+                    {% for providerOrdersQuantitie in productOrders.providerOrdersQuantities %}
+                    {% set sum = sum + providerOrdersQuantitie.product.priceTtc %}
                     <div class="text-95 text-secondary-d3">
                         <div class="row mb-2 mb-sm-0 py-25">
-                            <div class="d-none d-sm-block col-1">{{ product.id }}</div>
-                            <div class="col-9 col-sm-5">{{ product.name }}</div>
-                            <div class="d-none d-sm-block col-2">{{ product.providerOrdersQuantities[0].quantity }}</div>
-                            <div class="d-none d-sm-block col-2 text-95">{{ product.priceTtc}} DT</div>
-                            <div class="col-2 text-secondary-d2">$20</div>
+                            <div class="d-none d-sm-block col-1">{{ providerOrdersQuantitie.product.id }}</div>
+                            <div class="col-9 col-sm-5">{{ providerOrdersQuantitie.product.name }}</div>
+                            <div class="d-none d-sm-block col-2">{{ providerOrdersQuantitie.quantity }}</div>
+                            <div class="d-none d-sm-block col-2 text-95">{{ providerOrdersQuantitie.product.priceTtc}} DT</div>
                         </div>
                         {% endfor %}
                     </div>
@@ -184,7 +181,7 @@
 
                     <div>
                         <span class="text-secondary-d1 text-105">Thank you for your business</span>
-                        <a href="#" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a>
+                        <a href="{{ path('product_orders_save') }}" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a>
                     </div>
                 </div>
             </div>
