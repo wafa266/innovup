@@ -56,7 +56,8 @@ class ProviderOrdersCrudController extends AbstractCrudController
     {
         return $crud
             ->overrideTemplate('crud/index', 'providerOrders/index.html.twig')
-->setPageTitle('index','Provider Orders');
+            ->overrideTemplate('crud/detail', 'providerOrders/detail.html.twig')
+          ->setPageTitle('index','Provider Orders');
 
     }
 

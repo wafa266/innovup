@@ -3,23 +3,19 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-<a href="{{ path('product_orders_pdf', {id: productOrders.id}) }} ">PDF</a>
 
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <div class="page-content container">
-    <div class="page-header text-blue-d2">z
-        <div class="col-lg-6">
-            <!-- col-lg-6 start here -->
-            <div class="invoice-logo"><img width="100" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Invoice logo"></div>
-        </div>
+    <div class="page-header text-blue-d2">
+
 
         <div class="page-tools">
             <div class="action-buttons">
                 <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="Print">
                     <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
-                    Print
+                   Envoyer par mail
                 </a>
                 <a class="btn bg-white btn-light mx-1px text-95" href="{{ path('product_orders_pdf', {id: productOrders.id}) }} " data-title="PDF">
                     <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
@@ -35,7 +31,6 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="text-center text-150">
-                            <i class="fa fa-book fa-2x text-success-m2 mr-1"></i>
                             <span class="text-default-d3"><h1 class="page-title text-secondary-d1">
             Commande
             <small class="page-info">
@@ -101,7 +96,7 @@
                     </div>
                     {% set sum = 0 %}
                     {% for providerOrdersQuantitie in productOrders.providerOrdersQuantities %}
-                    {% set sum = sum + providerOrdersQuantitie.product.priceTtc %}
+                    {% set sum = sum + (providerOrdersQuantitie.quantity * providerOrdersQuantitie.product.priceTtc) %}
                     <div class="text-95 text-secondary-d3">
                         <div class="row mb-2 mb-sm-0 py-25">
                             <div class="d-none d-sm-block col-1">{{ providerOrdersQuantitie.product.id }}</div>
@@ -144,34 +139,18 @@
 
                     <div class="row mt-3">
                         <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
-                            Extra note such as company or payment information...
+                            cliquer sur le bouton pour revenir à la liste des commandes ...
                         </div>
 
                         <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
-                            <div class="row my-2">
-                                <div class="col-7 text-right">
-                                    SubTotal
-                                </div>
-                                <div class="col-5">
-                                    <span class="text-120 text-secondary-d1">{{ sum }}</span>
-                                </div>
-                            </div>
 
-                            <div class="row my-2">
-                                <div class="col-7 text-right">
-                                    Tax (10%)
-                                </div>
-                                <div class="col-5">
-                                    <span class="text-110 text-secondary-d1">$225</span>
-                                </div>
-                            </div>
 
                             <div class="row my-2 align-items-center bgc-primary-l3 p-2">
                                 <div class="col-7 text-right">
-                                    Total Amount
+                                    Total
                                 </div>
                                 <div class="col-5">
-                                    <span class="text-150 text-success-d3 opacity-2">$2,475</span>
+                                    <span class="text-150 text-success-d3 opacity-2">{{ sum }} DT</span>
                                 </div>
                             </div>
                         </div>
@@ -180,8 +159,8 @@
                     <hr />
 
                     <div>
-                        <span class="text-secondary-d1 text-105">Thank you for your business</span>
-                        <a href="{{ path('product_orders_save') }}" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a>
+                        <span class="text-secondary-d1 text-105"></span>
+                        <a href="{{ path('product_orders_save') }}" class="btn btn-info btn-bold px-4 float-right mt-3 mt-lg-0">Retour à la liste des commandes </a>
                     </div>
                 </div>
             </div>
