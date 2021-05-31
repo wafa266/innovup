@@ -15,6 +15,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Notifier\Notification\Notification;
@@ -24,7 +25,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 class InvoiceReceiptCrudController extends AbstractCrudController
-{
+{/**
+ * @var InvoiceReceiptRepository
+ */
+ private $invoiceRepository;
+ private $snappy;
+
     public function __construct(Pdf $snappy,  InvoiceReceiptRepository $invoiceRepository)
     {
         $this->snappy = $snappy;
@@ -51,11 +57,23 @@ class InvoiceReceiptCrudController extends AbstractCrudController
             $manager=$this->getDoctrine()->getManager();
             //creation du formulaire
             $form=$this->createForm(InvoiceReceiptType::class,$invoice);
+        }
+    /**
+     * @Route(path="/admin_74ze5f/invoiceReceipt/pdf/{id}", name="invoice_receipt_pdf")
+     */
+    public function pdfProviderOrders($id)
+    {
+        $invoice = $this->invoiceRepository->find($id);
+        $html = $this->renderView('invoiceReceipt/invoicePdf.html.twig', [
+            'invoice' => $invoice
+        ]);
 
+        return new PdfResponse(
+            $this->snappy->getOutputFromHtml($html),
+            'file'.$id.'.pdf'
+        );
+    }
 
-
-
-            }
     public function configureActions(Actions $actions): Actions
     {  $detailProduct = Action::new('')
         ->linkToCrudAction(Crud::PAGE_DETAIL)
@@ -65,7 +83,7 @@ class InvoiceReceiptCrudController extends AbstractCrudController
 
         return $actions
         ->add(Crud::PAGE_INDEX, $detailProduct)
-            ->disable('delete')
+            ->disable('delete','edit')
         ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
         return $action->setLabel('Update ProviderOrder')->setCssClass('btn   btn-info');
     });

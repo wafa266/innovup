@@ -146,6 +146,7 @@
                 {% block table_body %}
                     {% for entity in entities %}
                         {{ dump(entity) }}
+
                         {% if not entity.isAccessible %}
                             {% set some_results_are_hidden = true %}
                         {% else %}
@@ -167,12 +168,9 @@
                                                 {{ include(action.templatePath, { action: action, entity: entity, isIncludedInDropdown: ea.crud.showEntityActionsAsDropdown }, with_context = false) }}
                                             {% endfor %}
                                         {% else %}
-                                            <div class="dropdown dropdown-actions">
-                                                <a class="dropdown-toggle btn btn-secondary btn-sm" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-fw fa-ellipsis-h"></i>
-                                                </a>
 
-                                                <div class="dropdown-menu dropdown-menu-right">
+
+                                        <div class="dropdown-menu dropdown-menu-right">
                                                     {% for action in entity.actions %}
                                                         {{ include(action.templatePath, { action: action, isIncludedInDropdown: ea.crud.showEntityActionsAsDropdown }, with_context = false) }}
                                                     {% endfor %}

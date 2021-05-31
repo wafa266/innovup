@@ -58,8 +58,8 @@ class CategoryCrudController extends AbstractCrudController
         return [
             //IdField::new('id'),
             TextField::new('Name'),
-            DateTimeField::new('createdAt'),
-            DateTimeField::new('updatedAt'),
+            DateTimeField::new('createdAt')->onlyOnDetail(),
+            DateTimeField::new('updatedAt')->onlyOnDetail(),
 
         ];
     }

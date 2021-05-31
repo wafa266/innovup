@@ -24,6 +24,7 @@ class CustomerOrdersType extends AbstractType
     {
         $builder
             ->add('isPaid')
+            ->add('reference')
             // ->add('createdAt')
             //->add('updatedAt')
             //->add('deletedAt')

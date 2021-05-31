@@ -1,0 +1,279 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}  {% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('build/css/style-starter.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css" />
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+{% endblock %}
+{% block page_content %}
+
+    <!-- *************************************************************** -->
+    <!-- Start First Cards -->
+    <!-- *************************************************************** -->
+    <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Hello {{ app.user.firstName }} {{ app.user.lastName }}</h3>
+    <a >Welcome to your administration space as purchasing manager </a>
+    <div class="row">
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 bg-primary text-center">
+                    <h1 class="font-light text-white">{{(CountAllUser['value'])  }}</h1>
+                    <h6 class="text-white">New Users</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 bg-cyan text-center">
+                    <h1 class="font-light text-white">1,738</h1>
+                    <h6 class="text-white">Responded</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 bg-success text-center">
+                    <h1 class="font-light text-white">1100</h1>
+                    <h6 class="text-white">Resolve</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+        <div class="col-md-6 col-lg-3 col-xlg-3">
+            <div class="card card-hover">
+                <div class="p-2 bg-danger text-center">
+                    <h1 class="font-light text-white">964</h1>
+                    <h6 class="text-white">Pending</h6>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>    <!-- *************************************************************** -->
+    <!-- End First Cards -->
+    <!-- *************************************************************** -->
+    <!-- *************************************************************** -->
+    <!-- Start Sales Charts Section -->
+    <!-- *************************************************************** -->
+    <div class="row">
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Top 3 customerOrders</h4>
+                    <div id="campaign-v2" class="mt-2 c3" style="height: 283px; width: 100%; max-height: 283px; position: relative;"><svg width="326.38751220703125" height="283" style="overflow: hidden;"><defs><clipPath id="c3-1618584866199-clip"><rect width="326.38751220703125" height="259"></rect></clipPath><clipPath id="c3-1618584866199-clip-xaxis"><rect x="-31" y="-20" width="388.38751220703125" height="40"></rect></clipPath><clipPath id="c3-1618584866199-clip-yaxis"><rect x="-29" y="-4" width="20" height="283"></rect></clipPath><clipPath id="c3-1618584866199-clip-grid"><rect width="326.38751220703125" height="259"></rect></clipPath><clipPath id="c3-1618584866199-clip-subchart"><rect width="326.38751220703125"></rect></clipPath></defs><g transform="translate(0.5,4.5)"><text class="c3-text c3-empty" text-anchor="middle" dominant-baseline="middle" x="163.19375610351562" y="129.5" style="opacity: 0;"></text><rect class="c3-zoom-rect" width="326.38751220703125" height="259" style="opacity: 0;"></rect><g clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip)" class="c3-regions" style="visibility: hidden;"></g><g clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip-grid)" class="c3-grid" style="visibility: hidden;"><g class="c3-xgrid-focus"><line class="c3-xgrid-focus" x1="-10" x2="-10" y1="0" y2="259" style="visibility: hidden;"></line></g></g><g clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip)" class="c3-chart"><g class="c3-event-rects c3-event-rects-single" style="fill-opacity: 0;"><rect class=" c3-event-rect c3-event-rect-0" x="0.806243896484375" y="0" width="326.38751220703125" height="259"></rect></g><g class="c3-chart-bars"><g class="c3-chart-bar c3-target c3-target-Direct-Sales" style="pointer-events: none;"><g class=" c3-shapes c3-shapes-Direct-Sales c3-bars c3-bars-Direct-Sales" style="cursor: pointer;"></g></g><g class="c3-chart-bar c3-target c3-target-Referral-Sales" style="pointer-events: none;"><g class=" c3-shapes c3-shapes-Referral-Sales c3-bars c3-bars-Referral-Sales" style="cursor: pointer;"></g></g><g class="c3-chart-bar c3-target c3-target-Afilliate-Sales" style="pointer-events: none;"><g class=" c3-shapes c3-shapes-Afilliate-Sales c3-bars c3-bars-Afilliate-Sales" style="cursor: pointer;"></g></g><g class="c3-chart-bar c3-target c3-target-Indirect-Sales" style="pointer-events: none;"><g class=" c3-shapes c3-shapes-Indirect-Sales c3-bars c3-bars-Indirect-Sales" style="cursor: pointer;"></g></g></g><g class="c3-chart-lines"><g class="c3-chart-line c3-target c3-target-Direct-Sales" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Direct-Sales c3-lines c3-lines-Direct-Sales"></g><g class=" c3-shapes c3-shapes-Direct-Sales c3-areas c3-areas-Direct-Sales"></g><g class=" c3-selected-circles c3-selected-circles-Direct-Sales"></g><g class=" c3-shapes c3-shapes-Direct-Sales c3-circles c3-circles-Direct-Sales" style="cursor: pointer;"></g></g><g class="c3-chart-line c3-target c3-target-Referral-Sales" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Referral-Sales c3-lines c3-lines-Referral-Sales"></g><g class=" c3-shapes c3-shapes-Referral-Sales c3-areas c3-areas-Referral-Sales"></g><g class=" c3-selected-circles c3-selected-circles-Referral-Sales"></g><g class=" c3-shapes c3-shapes-Referral-Sales c3-circles c3-circles-Referral-Sales" style="cursor: pointer;"></g></g><g class="c3-chart-line c3-target c3-target-Afilliate-Sales" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Afilliate-Sales c3-lines c3-lines-Afilliate-Sales"></g><g class=" c3-shapes c3-shapes-Afilliate-Sales c3-areas c3-areas-Afilliate-Sales"></g><g class=" c3-selected-circles c3-selected-circles-Afilliate-Sales"></g><g class=" c3-shapes c3-shapes-Afilliate-Sales c3-circles c3-circles-Afilliate-Sales" style="cursor: pointer;"></g></g><g class="c3-chart-line c3-target c3-target-Indirect-Sales" style="opacity: 1; pointer-events: none;"><g class=" c3-shapes c3-shapes-Indirect-Sales c3-lines c3-lines-Indirect-Sales"></g><g class=" c3-shapes c3-shapes-Indirect-Sales c3-areas c3-areas-Indirect-Sales"></g><g class=" c3-selected-circles c3-selected-circles-Indirect-Sales"></g><g class=" c3-shapes c3-shapes-Indirect-Sales c3-circles c3-circles-Indirect-Sales" style="cursor: pointer;"></g></g></g><g class="c3-chart-arcs" transform="translate(163.19375610351562,124.5)"><text class="c3-chart-arcs-title" style="text-anchor: middle; opacity: 1; font-family: Rubik;">Sales</text><g class="c3-chart-arc c3-target c3-target-Direct-Sales"><g class=" c3-shapes c3-shapes-Direct-Sales c3-arcs c3-arcs-Direct-Sales"><path class=" c3-shape c3-shape c3-arc c3-arc-Direct-Sales" transform="" style="fill: #22ca80!important; cursor: pointer;" d="M7.242255008457659e-15,-118.27499999999999A118.27499999999999,118.27499999999999 0 0,1 78.43083240343007,88.53010873993695L66.49462455509575,75.05691527285713A100.27499999999999,100.27499999999999 0 0,0 6.140072889225042e-15,-100.27499999999999Z"></path></g><text dy=".35em" class="" transform="translate(88.47123688289395,-33.55271441196473)" style="opacity: 1; text-anchor: middle; pointer-events: none;"></text></g><g class="c3-chart-arc c3-target c3-target-Referral-Sales"><g class=" c3-shapes c3-shapes-Referral-Sales c3-arcs c3-arcs-Referral-Sales"><path class=" c3-shape c3-shape c3-arc c3-arc-Referral-Sales" transform="" style="fill: rgb(95, 118, 232); cursor: pointer;" d="M78.43083240343007,88.53010873993695A118.27499999999999,118.27499999999999 0 0,1 -78.43083240342997,88.53010873993702L-66.49462455509568,75.0569152728572A100.27499999999999,100.27499999999999 0 0,0 66.49462455509575,75.05691527285713Z"></path></g><text dy=".35em" class="" transform="translate(4.781352504277906e-14,94.62)" style="opacity: 1; text-anchor: middle; pointer-events: none;"></text></g><g class="c3-chart-arc c3-target c3-target-Afilliate-Sales"><g class=" c3-shapes c3-shapes-Afilliate-Sales c3-arcs c3-arcs-Afilliate-Sales"><path class=" c3-shape c3-shape c3-arc c3-arc-Afilliate-Sales" transform="" style="fill: rgb(255, 79, 112); cursor: pointer;" d="M-97.33841673857228,-67.18785791962735A118.27499999999999,118.27499999999999 0 0,1 -1.2677606761540528e-13,-118.27499999999999L-1.0748230970310517e-13,-100.27499999999999A100.27499999999999,100.27499999999999 0 0,0 -82.52470715248646,-56.96269247846656Z"></path></g><text dy=".35em" class="" transform="translate(-43.97210653878152,-83.78184914730666)" style="opacity: 1; text-anchor: middle; pointer-events: none;"></text></g><g class="c3-chart-arc c3-target c3-target-Indirect-Sales"><g class=" c3-shapes c3-shapes-Indirect-Sales c3-arcs c3-arcs-Indirect-Sales"><path class=" c3-shape c3-shape c3-arc c3-arc-Indirect-Sales" transform="" style="fill: rgb(1, 202, 241); cursor: pointer;" d="M-78.43083240342997,88.53010873993702A118.27499999999999,118.27499999999999 0 0,1 -97.33841673857228,-67.18785791962735L-82.52470715248646,-56.96269247846656A100.27499999999999,100.27499999999999 0 0,0 -66.49462455509568,75.0569152728572Z"></path></g><text dy=".35em" class="" transform="translate(-93.93011366715785,11.405180685758795)" style="opacity: 1; text-anchor: middle; pointer-events: none;"></text></g></g><g class="c3-chart-texts"><g class="c3-chart-text c3-target c3-target-Direct-Sales" style="opacity: 1; pointer-events: none;"><g class=" c3-texts c3-texts-Direct-Sales"></g></g><g class="c3-chart-text c3-target c3-target-Referral-Sales" style="opacity: 1; pointer-events: none;"><g class=" c3-texts c3-texts-Referral-Sales"></g></g><g class="c3-chart-text c3-target c3-target-Afilliate-Sales" style="opacity: 1; pointer-events: none;"><g class=" c3-texts c3-texts-Afilliate-Sales"></g></g><g class="c3-chart-text c3-target c3-target-Indirect-Sales" style="opacity: 1; pointer-events: none;"><g class=" c3-texts c3-texts-Indirect-Sales"></g></g></g></g><g clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip-grid)" class="c3-grid c3-grid-lines"><g class="c3-xgrid-lines"></g><g class="c3-ygrid-lines"></g></g><g class="c3-axis c3-axis-x" clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip-xaxis)" transform="translate(0,259)" style="visibility: visible; opacity: 0;"><text class="c3-axis-x-label" transform="" style="text-anchor: end;" x="326.38751220703125" dx="-0.5em" dy="-0.5em"></text><g class="tick" transform="translate(164, 0)" style="opacity: 1;"><line x1="0" x2="0" y2="6"></line><text x="0" y="9" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">0</tspan></text></g><path class="domain" d="M0,6V0H326.38751220703125V6"></path></g><g class="c3-axis c3-axis-y" clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip-yaxis)" transform="translate(0,0)" style="visibility: visible; opacity: 0;"><text class="c3-axis-y-label" transform="rotate(-90)" style="text-anchor: end;" x="0" dx="-0.5em" dy="1.2em"></text><g class="tick" transform="translate(0,238)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">10</tspan></text></g><g class="tick" transform="translate(0,209)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">12</tspan></text></g><g class="tick" transform="translate(0,181)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">14</tspan></text></g><g class="tick" transform="translate(0,152)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">16</tspan></text></g><g class="tick" transform="translate(0,123)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">18</tspan></text></g><g class="tick" transform="translate(0,95)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">20</tspan></text></g><g class="tick" transform="translate(0,66)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">22</tspan></text></g><g class="tick" transform="translate(0,37)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">24</tspan></text></g><g class="tick" transform="translate(0,9)" style="opacity: 1;"><line x2="-6"></line><text x="-9" y="0" style="text-anchor: end;"><tspan x="-9" dy="3">26</tspan></text></g><path class="domain" d="M-6,1H0V259H-6"></path></g><g class="c3-axis c3-axis-y2" transform="translate(326.38751220703125,0)" style="visibility: hidden; opacity: 0;"><text class="c3-axis-y2-label" transform="rotate(-90)" style="text-anchor: end;" x="0" dx="-0.5em" dy="-0.5em"></text><g class="tick" transform="translate(0,259)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0</tspan></text></g><g class="tick" transform="translate(0,234)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.1</tspan></text></g><g class="tick" transform="translate(0,208)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.2</tspan></text></g><g class="tick" transform="translate(0,182)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.3</tspan></text></g><g class="tick" transform="translate(0,156)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.4</tspan></text></g><g class="tick" transform="translate(0,130)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.5</tspan></text></g><g class="tick" transform="translate(0,105)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.6</tspan></text></g><g class="tick" transform="translate(0,79)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.7</tspan></text></g><g class="tick" transform="translate(0,53)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.8</tspan></text></g><g class="tick" transform="translate(0,27)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">0.9</tspan></text></g><g class="tick" transform="translate(0,1)" style="opacity: 1;"><line x2="6" y2="0"></line><text x="9" y="0" style="text-anchor: start;"><tspan x="9" dy="3">1</tspan></text></g><path class="domain" d="M6,1H0V259H6"></path></g></g><g transform="translate(0.5,283.5)" style="visibility: hidden;"><g clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip-subchart)" class="c3-chart"><g class="c3-chart-bars"></g><g class="c3-chart-lines"></g></g><g clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip)" class="c3-brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><rect class="background" x="0" width="326.38751220703125" style="visibility: hidden; cursor: crosshair;"></rect><rect class="extent" x="0" width="0" style="cursor: move;"></rect><g class="resize e" transform="translate(0,0)" style="cursor: ew-resize; display: none;"><rect x="-3" width="6" height="6" style="visibility: hidden;"></rect></g><g class="resize w" transform="translate(0,0)" style="cursor: ew-resize; display: none;"><rect x="-3" width="6" height="6" style="visibility: hidden;"></rect></g></g><g class="c3-axis-x" transform="translate(0,0)" clip-path="url(http://adminmart.com/src/html/index.html#c3-1618584866199-clip-xaxis)" style="visibility: hidden; opacity: 0;"><g class="tick" transform="translate(164, 0)" style="opacity: 1;"><line x1="0" x2="0" y2="6"></line><text x="0" y="9" transform="" style="text-anchor: middle; display: block;"><tspan x="0" dy=".71em" dx="0">0</tspan></text></g><path class="domain" d="M0,6V0H326.38751220703125V6"></path></g></g><g transform="translate(0,263)"><g class="c3-legend-item c3-legend-item-Direct-Sales" style="visibility: hidden; cursor: pointer; opacity: 1;"><text x="14" y="9" style="pointer-events: none;">Direct Sales</text><rect class="c3-legend-item-event" x="0" y="-5" width="0" height="0" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="-2" y1="4" x2="8" y2="4" stroke-width="10" style="stroke: rgb(237, 242, 246); pointer-events: none;"></line></g><g class="c3-legend-item c3-legend-item-Referral-Sales" style="visibility: hidden; cursor: pointer; opacity: 1;"><text x="14" y="9" style="pointer-events: none;">Referral Sales</text><rect class="c3-legend-item-event" x="0" y="-5" width="0" height="0" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="-2" y1="4" x2="8" y2="4" stroke-width="10" style="stroke: rgb(95, 118, 232); pointer-events: none;"></line></g><g class="c3-legend-item c3-legend-item-Afilliate-Sales" style="visibility: hidden; cursor: pointer;"><text x="14" y="9" style="pointer-events: none;">Afilliate Sales</text><rect class="c3-legend-item-event" x="0" y="-5" width="0" height="0" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="-2" y1="4" x2="8" y2="4" stroke-width="10" style="stroke: rgb(255, 79, 112); pointer-events: none;"></line></g><g class="c3-legend-item c3-legend-item-Indirect-Sales" style="visibility: hidden; cursor: pointer; opacity: 1;"><text x="14" y="9" style="pointer-events: none;">Indirect Sales</text><rect class="c3-legend-item-event" x="0" y="-5" width="0" height="0" style="fill-opacity: 0;"></rect><line class="c3-legend-item-tile" x1="-2" y1="4" x2="8" y2="4" stroke-width="10" style="stroke: rgb(1, 202, 241); pointer-events: none;"></line></g></g><text class="c3-title" x="163.19375610351562" y="0"></text></svg><div class="c3-tooltip-container" style="position: absolute; pointer-events: none; display: none; top: 46.5px; left: 111.5px;"><table class="c3-tooltip"><tbody><tr class="c3-tooltip-name--Afilliate-Sales"><td class="name"><span style="background-color:#ff4f70"></span>Afilliate Sales</td><td class="value">15.4%</td></tr></tbody></table></div></div>
+                    <ul class="list-style-none mb-0">
+                        <li>
+                            <i class="fa fa-circle text-primary font-10 mr-2"></i>
+                            <span class="text-muted">Best Customer</span>
+                            <span class="text-dark float-right font-weight-medium">
+                                {% if maxCustomerOrders.customer is defined%}
+                                    {{ maxCustomerOrders.customer.firstName}}
+                                {% endif %}
+
+                    </span>
+                        </li>
+                        <li class="mt-3">
+                            <i class="fa fa-circle text-danger font-10 mr-2"></i>
+                            <span class="text-muted">Best Product </span>
+                            <span class="text-dark float-right font-weight-medium">
+                                {% if maxProductOrders.product is defined %}
+                                    {{ maxProductOrders.product.name}}
+                                {% endif %}
+
+
+                            </span>
+                        </li>
+                        <li class="mt-3">
+                            <i class="fa fa-circle text-cyan font-10 mr-2"></i>
+                            <span class="text-muted">Best Category </span>
+                            <span class="text-dark float-right font-weight-medium">
+                                {% if maxProductOrders.product is defined%}
+                                    {{ maxProductOrders.product.category}}
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="card ct-chart ct-perfect-fourth">
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <!-- *************************************************************** -->
+    <!-- End Sales Charts Section -->
+    <!-- *************************************************************** -->
+    <!-- *************************************************************** -->
+    <!-- Start Location and Earnings Charts Section -->
+    <!-- *************************************************************** -->
+    <div class="row">
+        <div class="col-md-6 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-start">
+                        <h4 class="card-title mb-0">Earning Statistics</h4>
+                        <div class="ml-auto">
+                            <div class="dropdown sub-dropdown">
+                                <button class="btn btn-link text-muted dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
+                                    <a class="dropdown-item" href="#">Insert</a>
+                                    <a class="dropdown-item" href="#">Update</a>
+                                    <a class="dropdown-item" href="#">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pl-4 mb-5">
+                        <div class="stats ct-charts position-relative" style="height: 315px;"><div class="chartist-tooltip"></div><svg xmlns:ct="http://gionkunz.github.com/chartist-js/ct" width="100%" height="100%" class="ct-chart-line" style="width: 100%; height: 100%;"><g class="ct-grids"><line x1="30" x2="30" y1="15" y2="280" class="ct-grid ct-horizontal"></line><line x1="140.63333129882812" x2="140.63333129882812" y1="15" y2="280" class="ct-grid ct-horizontal"></line><line x1="251.26666259765625" x2="251.26666259765625" y1="15" y2="280" class="ct-grid ct-horizontal"></line><line x1="361.8999938964844" x2="361.8999938964844" y1="15" y2="280" class="ct-grid ct-horizontal"></line><line x1="472.5333251953125" x2="472.5333251953125" y1="15" y2="280" class="ct-grid ct-horizontal"></line><line x1="583.1666564941406" x2="583.1666564941406" y1="15" y2="280" class="ct-grid ct-horizontal"></line><line x1="693.7999877929688" x2="693.7999877929688" y1="15" y2="280" class="ct-grid ct-horizontal"></line><line y1="280" y2="280" x1="30" x2="693.7999877929688" class="ct-grid ct-vertical"></line><line y1="235.83333333333334" y2="235.83333333333334" x1="30" x2="693.7999877929688" class="ct-grid ct-vertical"></line><line y1="191.66666666666669" y2="191.66666666666669" x1="30" x2="693.7999877929688" class="ct-grid ct-vertical"></line><line y1="147.5" y2="147.5" x1="30" x2="693.7999877929688" class="ct-grid ct-vertical"></line><line y1="103.33333333333334" y2="103.33333333333334" x1="30" x2="693.7999877929688" class="ct-grid ct-vertical"></line><line y1="59.16666666666666" y2="59.16666666666666" x1="30" x2="693.7999877929688" class="ct-grid ct-vertical"></line><line y1="15" y2="15" x1="30" x2="693.7999877929688" class="ct-grid ct-vertical"></line></g><g><g class="ct-series ct-series-a"><path d="M30,280L30,182.833C66.878,185.778,103.756,191.667,140.633,191.667C177.511,191.667,214.389,163.561,251.267,147.5C288.144,131.439,325.022,94.5,361.9,94.5C398.778,94.5,435.656,156.333,472.533,156.333C509.411,156.333,546.289,76.833,583.167,76.833C620.044,76.833,656.922,141.611,693.8,174L693.8,280Z" class="ct-area" x1="NaN"></path><path d="M30,182.833C66.878,185.778,103.756,191.667,140.633,191.667C177.511,191.667,214.389,163.561,251.267,147.5C288.144,131.439,325.022,94.5,361.9,94.5C398.778,94.5,435.656,156.333,472.533,156.333C509.411,156.333,546.289,76.833,583.167,76.833C620.044,76.833,656.922,141.611,693.8,174" class="ct-line"></path><line x1="30" y1="182.83333333333331" x2="30.01" y2="182.83333333333331" class="ct-point" ct:value="11"></line><line x1="140.63333129882812" y1="191.66666666666669" x2="140.64333129882812" y2="191.66666666666669" class="ct-point" ct:value="10"></line><line x1="251.26666259765625" y1="147.5" x2="251.27666259765624" y2="147.5" class="ct-point" ct:value="15"></line><line x1="361.8999938964844" y1="94.5" x2="361.90999389648437" y2="94.5" class="ct-point" ct:value="21"></line><line x1="472.5333251953125" y1="156.33333333333331" x2="472.5433251953125" y2="156.33333333333331" class="ct-point" ct:value="14"></line><line x1="583.1666564941406" y1="76.83333333333334" x2="583.1766564941406" y2="76.83333333333334" class="ct-point" ct:value="23"></line><line x1="693.7999877929688" y1="174" x2="693.8099877929687" y2="174" class="ct-point" ct:value="12"></line></g></g><g class="ct-labels"><foreignObject style="overflow: visible;" x="30" y="285" width="110.63333129882812" height="20"><span class="ct-label ct-horizontal ct-end" xmlns="http://www.w3.org/2000/xmlns/" style="width: 111px; height: 20px;">Mon</span></foreignObject><foreignObject style="overflow: visible;" x="140.63333129882812" y="285" width="110.63333129882812" height="20"><span class="ct-label ct-horizontal ct-end" xmlns="http://www.w3.org/2000/xmlns/" style="width: 111px; height: 20px;">Tue</span></foreignObject><foreignObject style="overflow: visible;" x="251.26666259765625" y="285" width="110.63333129882812" height="20"><span class="ct-label ct-horizontal ct-end" xmlns="http://www.w3.org/2000/xmlns/" style="width: 111px; height: 20px;">Wed</span></foreignObject><foreignObject style="overflow: visible;" x="361.8999938964844" y="285" width="110.63333129882812" height="20"><span class="ct-label ct-horizontal ct-end" xmlns="http://www.w3.org/2000/xmlns/" style="width: 111px; height: 20px;">Thu</span></foreignObject><foreignObject style="overflow: visible;" x="472.5333251953125" y="285" width="110.63333129882812" height="20"><span class="ct-label ct-horizontal ct-end" xmlns="http://www.w3.org/2000/xmlns/" style="width: 111px; height: 20px;">Fri</span></foreignObject><foreignObject style="overflow: visible;" x="583.1666564941406" y="285" width="110.63333129882812" height="20"><span class="ct-label ct-horizontal ct-end" xmlns="http://www.w3.org/2000/xmlns/" style="width: 111px; height: 20px;">Sat</span></foreignObject><foreignObject style="overflow: visible;" x="693.7999877929688" y="285" width="30" height="20"><span class="ct-label ct-horizontal ct-end" xmlns="http://www.w3.org/2000/xmlns/" style="width: 30px; height: 20px;">Sun</span></foreignObject><foreignObject style="overflow: visible;" y="235.83333333333334" x="10" height="44.166666666666664" width="10"><span class="ct-label ct-vertical ct-start" xmlns="http://www.w3.org/2000/xmlns/" style="height: 44px; width: 10px;">0k</span></foreignObject><foreignObject style="overflow: visible;" y="191.66666666666669" x="10" height="44.166666666666664" width="10"><span class="ct-label ct-vertical ct-start" xmlns="http://www.w3.org/2000/xmlns/" style="height: 44px; width: 10px;">5k</span></foreignObject><foreignObject style="overflow: visible;" y="147.5" x="10" height="44.16666666666667" width="10"><span class="ct-label ct-vertical ct-start" xmlns="http://www.w3.org/2000/xmlns/" style="height: 44px; width: 10px;">10k</span></foreignObject><foreignObject style="overflow: visible;" y="103.33333333333334" x="10" height="44.16666666666666" width="10"><span class="ct-label ct-vertical ct-start" xmlns="http://www.w3.org/2000/xmlns/" style="height: 44px; width: 10px;">15k</span></foreignObject><foreignObject style="overflow: visible;" y="59.16666666666666" x="10" height="44.166666666666686" width="10"><span class="ct-label ct-vertical ct-start" xmlns="http://www.w3.org/2000/xmlns/" style="height: 44px; width: 10px;">20k</span></foreignObject><foreignObject style="overflow: visible;" y="15" x="10" height="44.16666666666666" width="10"><span class="ct-label ct-vertical ct-start" xmlns="http://www.w3.org/2000/xmlns/" style="height: 44px; width: 10px;">25k</span></foreignObject><foreignObject style="overflow: visible;" y="-15" x="10" height="30" width="10"><span class="ct-label ct-vertical ct-start" xmlns="http://www.w3.org/2000/xmlns/" style="height: 30px; width: 10px;">30k</span></foreignObject></g><defs><linearGradient id="gradient" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="rgba(255, 255, 255, 1)"></stop><stop offset="1" stop-color="rgba(80, 153, 255, 1)"></stop></linearGradient></defs></svg></div>
+                    </div>
+                    <ul class="list-inline text-center mt-4 mb-0">
+                        <li class="list-inline-item text-muted font-italic">Earnings for this month</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Recent Activity</h4>
+                    <div class="mt-4 activity">
+                        <div class="d-flex align-items-start border-left-line pb-3">
+                            <div>
+                                <a href="javascript:void(0)" class="btn btn-info btn-circle mb-2 btn-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                                </a>
+                            </div>
+                            <div class="ml-3 mt-2">
+                                <h5 class="text-dark font-weight-medium mb-2">New Product Sold!</h5>
+                                <p class="font-14 mb-2 text-muted"> {% for product in lastProducts %}
+                                    {{ product }} New Product Sold! {% endfor %}<br>
+                                </p>
+                                <span class="font-weight-light font-14 text-muted">10 Minutes Ago</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start border-left-line pb-3">
+                            <div>
+                                <a href="javascript:void(0)" class="btn btn-danger btn-circle mb-2 btn-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                                </a>
+                            </div>
+                            <div class="ml-3 mt-2">
+                                <h5 class="text-dark font-weight-medium mb-2">New User</h5>
+                                <p class="font-14 mb-2 text-muted">{% for gets in get %}
+                                    {{ gets }} New User! {% endfor %}<br>
+                                </p>
+                                <span class="font-weight-light font-14 text-muted">25 Minutes Ago</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start border-left-line">
+                            <div>
+                                <a href="javascript:void(0)" class="btn btn-cyan btn-circle mb-2 btn-item">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                                </a>
+                            </div>
+                            <div class="ml-3 mt-2">
+                                <h5 class="text-dark font-weight-medium mb-2">Notification Pending Order!
+                                </h5>
+                                <p class="font-14 mb-2 text-muted"> {% for customer in CustomerOrder %}{{ customer}} {% endfor %}new Customer Orders <br> {% for provider in ProviderOrder %}{{ provider }}{% endfor %}new Provider Orders</p>
+                                <span class="font-weight-light font-14 mb-1 d-block text-muted">24 Hours
+                                                Ago</span>
+                                <a href="http://innovup.io/en/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CCustomerOrdersCrudController&menuIndex=7&submenuIndex=-1" class="font-14 border-bottom pb-1 border-info">Customer Orders</a>
+                                <a href="http://innovup.io/en/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CProviderOrdersCrudController&menuIndex=6&submenuIndex=-1" class="font-14 border-bottom pb-1 border-info">Provider Orders</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- *************************************************************** -->
+    <!-- End Location and Earnings Charts Section -->
+    <!-- *************************************************************** -->
+    <!-- *************************************************************** -->
+    <!-- Start Top Leader Table -->
+    <!-- *************************************************************** -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <h4 class="card-title">Users with same role </h4>
+                        <div class="ml-auto">
+
+                        </div>
+                    </div>
+                    <div class="table-dark">
+                        <table class="table table-light mb-0">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">image</th>
+                                <th scope="col">FirstName</th>
+                                <th scope="col">lastName </th>
+                                <th scope="col">email </th>
+                                <th scope="col">Roles </th>
+                            </tr>
+                            </thead>
+                            <style>
+                                .table{
+                                    color: #063b8d
+                                }
+                                .table-dark td, .table-dark th, .table-dark thead th {
+                                    border-color: #28405c;
+                                }
+                            </style>
+                            <tbody>
+                            {% for user in users %}
+                                {% if app.user.roles == user.roles %}
+                                    <tr class="table-light">
+                                        <th scope="row">#</th>
+                                        <td><img src="../uploads/images/users/{{ user.image }}"alt="user" class="rounded-circle" width="45" height="45"></td>
+                                        <td>{{ user.firstName }}</td>
+                                        <td>{{ user.lastName }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{% for role in user.roles %}
+                                                {{ role }}<br>
+                                            {% endfor%}</td>
+                                    </tr>
+
+                                {% endif %}
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- *************************************************************** -->
+    <!-- End Top Leader Table -->
+    <!-- *************************************************************** -->
+
+    <!-- Switcher
+	============================================= -->
+
+{% endblock %}
+{% block javascripts %}
+
+    <script src="{{ asset('build/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('build/js/lightbox-plus-jquery.min.js')}}"></script>
+    <script src="{{ asset('build/js/owl.carousel.js')}}"></script>
+    <script src="{{ asset('build/js/particles.min.js')}}"></script>
+    <script src="{{ asset('build/js/script.js')}}"></script>
+    <script src="{{ asset('build/js/bootstrap.min.js')}}"></script>
+
+{% endblock %}
+
+

@@ -52,20 +52,20 @@ class UserCrudController extends AbstractCrudController
     public function configureFilters(Filters $filters): Filters
     {
         return $filters
-           ->add('roles') ;
+           ->add('roles');
     }
 
     public function configureActions(Actions $actions): Actions
     {
         $detailProduct = Action::new('')
                     ->linkToCrudAction(Crud::PAGE_DETAIL)
-          ->setIcon('fa fa-user')->setCssClass('btn btn-circle  btn-success');
+          ->setIcon('fa fa-user')->setCssClass('btn btn-circle  btn-primary');
 
         return $actions
-            ->setPermission(Action::NEW, 'ROLE_ADMIN')
-            ->setPermission(Action::DELETE, 'ROLE_ADMIN')
-            ->setPermission(Action::EDIT, 'ROLE_ADMIN')
-            ->setPermission(Action::DETAIL, 'ROLE_USER')
+           // ->setPermission(Action::NEW, 'ROLE_ADMIN')
+            //->setPermission(Action::DELETE, 'ROLE_ADMIN')
+           // ->setPermission(Action::EDIT, 'ROLE_ADMIN')
+            //->setPermission(Action::DETAIL, 'ROLE_USER')
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
                 return $action->setIcon('fa fa-pencil')->setLabel('')->setCssClass('btn btn-circle  btn-info');
             })

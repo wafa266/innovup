@@ -341,3 +341,7 @@ h4.card-title-product {
     height: 80px;
     background-color: #edf2f9;
 }
+.ribbon-inner{
+    background-color: #fa063f;
+    color: #FFFFFF;
+}

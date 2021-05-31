@@ -8,10 +8,16 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ProviderOrders
- *
+ *   @UniqueEntity(
+ *     fields={"reference"},
+ *     errorPath="Reference",
+ *     message="This reference is already  used ."
+ * )
  * @ORM\Table(name="provider_orders", indexes={@ORM\Index(name="product_id_fk_1_idx", columns={"id"}), @ORM\Index(name="provider_id_fk_idx", columns={"provider_id"})})
  * @ORM\Entity
  */
@@ -27,6 +33,7 @@ class ProviderOrders
     private $id;
     /**
      * @var string|null
+     * @Assert\NotBlank
      *
      * @ORM\Column(name="reference", type="string", length=100, nullable=true)
      */

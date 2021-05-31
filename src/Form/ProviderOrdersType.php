@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Entity\Provider;
 use App\Entity\ProviderOrders;
 use phpDocumentor\Reflection\Types\Boolean;
+use PHPUnit\Framework\Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -25,7 +26,7 @@ class ProviderOrdersType extends AbstractType
            // ->add('createdAt')
             //->add('updatedAt')
             //->add('deletedAt')
-            ->add('products',  EntityType::class, [
+           ->add('products',  EntityType::class, [
                'class'     => Product::class,
                'expanded'  => true,
                 'multiple'  => true

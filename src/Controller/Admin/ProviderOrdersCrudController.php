@@ -158,7 +158,7 @@ class ProviderOrdersCrudController extends AbstractCrudController
         ->setCssClass('btn btn-circle  btn-success');
         return $actions
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
-                return $action->setIcon('fa fa-trash')->setLabel(false)->setCssClass('btn btn-circle');
+                return $action->setIcon('fa fa-trash')->setLabel(false);
             })
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
                 return $action->setIcon('fa fa-pencil')->setLabel(false)->setCssClass('btn btn-circle ');})

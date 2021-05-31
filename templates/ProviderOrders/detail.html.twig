@@ -4,38 +4,38 @@
 {% endblock %}
 {% block main %}
     <div class="container">
-    {% set id = '' %}
-    {% set isPaid = '' %}
-    {% set Reference = '' %}
-    {% set provider = [] %}
-    {% set products = [] %}
-    {% set providerOrders = [] %}
-    {% set createdAt = '' %}
-    {% for field in entity.fields %}
-        {% if field.property == 'id'%}
-            {% set id = field.value|first %}
-        {% endif %}
-        {% if field.property == 'isPaid'%}
-            {% set isPaid = field.value %}
-        {% endif %}
-        {% if field.property == 'reference'%}
-            {% set Reference = field.value%}
-        {% endif %}
-        {% if field.property == 'provider'%}
-            {% set provider = field.value %}
-        {% endif %}
-        {% if field.property == 'products'%}
-            {% set products = field.value %}
-        {% endif %}
-        {% if field.property == '  }'%}
-            {% set providerOrders = field.value %}
-        {% endif %}
+        {% set id = '' %}
+        {% set isPaid = '' %}
+        {% set Reference = '' %}
+        {% set provider = [] %}
+        {% set products = [] %}
+        {% set providerOrders = [] %}
+        {% set createdAt = '' %}
+        {% for field in entity.fields %}
+            {% if field.property == 'id'%}
+                {% set id = field.value|first %}
+            {% endif %}
+            {% if field.property == 'isPaid'%}
+                {% set isPaid = field.value %}
+            {% endif %}
+            {% if field.property == 'reference'%}
+                {% set Reference = field.value%}
+            {% endif %}
+            {% if field.property == 'provider'%}
+                {% set provider = field.value %}
+            {% endif %}
+            {% if field.property == 'products'%}
+                {% set products = field.value %}
+            {% endif %}
+            {% if field.property == '  }'%}
+                {% set providerOrders = field.value %}
+            {% endif %}
 
-        {% if field.property == 'createdAt'%}
-            {% set createdAt = field.value %}
-        {% endif %}
+            {% if field.property == 'createdAt'%}
+                {% set createdAt = field.value %}
+            {% endif %}
 
-    {% endfor %}
+        {% endfor %}
 
         <div class="page-header text-blue-d2">
 
@@ -48,7 +48,7 @@
                     </a>
                     <a class="btn bg-white btn-light mx-1px text-95" href="{{ path('product_orders_pdf', {id: products.owner.id}) }} " data-title="PDF">
 
-                    <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+                        <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
                         Export
                     </a>
                 </div>
@@ -83,10 +83,10 @@
                             </div>
                             <div class="text-grey-m2">
                                 <div class="my-1">
-                                  Adresse:  {{ provider.address }}
+                                    Adresse:  {{ provider.address }}
                                 </div>
                                 <div class="my-1">
-                                Email: {{ provider.email }}
+                                    Email: {{ provider.email }}
                                 </div>
                                 <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600"> {{ provider.phone}}</b></div>
                             </div>
@@ -124,7 +124,7 @@
                         </div>
 
 
-                        </div>
+                    </div>
                     {% for providerOrderQuantity in products.owner.providerOrdersQuantities %}
                     <div class="text-95 text-secondary-d3">
                         <div class="row mb-2 mb-sm-0 py-25">
@@ -176,10 +176,12 @@
                                     <div class="col-7 text-right">
                                         Total
                                     </div>
+                                    {% set sum = 0 %}
+
                                     <div class="col-5">
-                                        {% set sum = 0 %}
                                         {% for providerOrderQuantity in products.owner.providerOrdersQuantities %}
-                                        {% set sum = sum + (providerOrderQuantity.quantity * providerOrderQuantity.product.price ) %}
+
+                                            {% set sum = sum + (providerOrderQuantity.quantity * providerOrderQuantity.product.price ) %}
                                         {% endfor %}
                                         <span class="text-150 text-success-d3 opacity-2">
 {{ sum }}

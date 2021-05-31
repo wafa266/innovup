@@ -11,12 +11,18 @@
 {% block page_actions %}
     {% for action in entity.actions %}
         {{ include(action.templatePath, { action: action }, with_context = false) }}
+        <a class="btn bg-white btn-light mx-1px text-95" href="{{ path('invoice_receipt_pdf', {id: entity.primaryKeyValue}) }} " data-title="PDF">
+
+            <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+            Export
+        </a>
     {% endfor %}
 {% endblock %}
 
 {% block content_footer_wrapper '' %}
 
 {% block main %}
+
     <style>
 
 
@@ -289,6 +295,7 @@
                                     <td class="content-wrap aligncenter">
                                         <table width="100%" cellpadding="0" cellspacing="0">
                                             <tbody><tr>
+
                                                 <td class="content-block">
                                                     <h2>Invocie Receipt #{{ providerOrders.id }}</h2>
                                                 </td>

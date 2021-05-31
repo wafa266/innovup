@@ -55,8 +55,14 @@ class CustomerOrdersCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setPageTitle('index', 'Customer Orders');
-}
+            ->setPageTitle('index', 'Customer Orders')
+        ->overrideTemplate('crud/index', 'customerOrders/index.html.twig')
+         ->overrideTemplate('crud/detail', 'customerOrders/detail.html.twig');
+
+
+
+
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -134,9 +140,12 @@ class CustomerOrdersCrudController extends AbstractCrudController
         );
     }
     public function configureActions(Actions $actions): Actions
-    {
+    { $detailCustomerOrdes=Action::new(Crud::PAGE_DETAIL,'detail')->setIcon('fa fa-eye')->linkToCrudAction('detail')
+        ->setCssClass('btn btn-circle  btn-success');
         return $actions
-            // ...
+
+
+        // ...
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
                 return $action->setIcon('fa fa-trash')->setLabel(false);
             })
@@ -148,15 +157,19 @@ class CustomerOrdersCrudController extends AbstractCrudController
             //     fn (Action $action) => $action->setIcon('fa fa-file-alt')->setLabel(false))
 
             ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
-                return $action->setIcon('fa fa-pencil')->setLabel('Create new order')->linkToRoute('customer_orders_new');});
+                return $action->setIcon('fa fa-pencil')->setLabel('Create new order')->linkToRoute('customer_orders_new');})
+
+         ->add(Crud::PAGE_INDEX, $detailCustomerOrdes);
 
     }
+
 
     public function configureFields(string $pageName): iterable
     {
         return [
             BooleanField::new('isPaid'),
             AssociationField::new('customer', 'Client'),
+            TextField::new('reference','reference'),
             AssociationField::new('products', 'Products')
                 ->setCustomOption('autocomplete', true)
                 ->setFormTypeOption('data-widget', 'select2')

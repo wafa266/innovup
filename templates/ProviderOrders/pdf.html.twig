@@ -25,11 +25,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h1 class="text-uppercase">Order id: {{ productOrders.id }}</h1>
-                        <div class="billed"><span class="font-weight-bold text-uppercase">Billed:</span><span class="ml-1">{{ productOrders.provider.firstName }} {{ productOrders.provider.lastName }}</span></div>
+                        <div class="billed"><span class="font-weight-bold text-uppercase">Provider:</span><span class="ml-1">{{ productOrders.provider.firstName }} {{ productOrders.provider.lastName }}</span></div>
                         <div class="billed"><span class="font-weight-bold text-uppercase">E-mail:</span><span class="ml-1">{{ productOrders.provider.email }}</span></div>
-                        <div class="billed"><span class="font-weight-bold text-uppercase">Phone:</span><span class="ml-1">{{ productOrders.provider.address }}</span></div>
-                        <div class="billed"><span class="font-weight-bold text-uppercase">Date:</span><span class="ml-1">May 13, 2020</span></div>
-                        <div class="billed"><span class="font-weight-bold text-uppercase">Address:</span><span class="ml-1">{{ productOrders.id }}</span></div>
+                        <div class="billed"><span class="font-weight-bold text-uppercase">Phone:</span><span class="ml-1">{{ productOrders.provider.phone }}</span></div>
+                        <div class="billed"><span class="font-weight-bold text-uppercase">Adress:</span><span class="ml-1">{{ productOrders.provider.address }}</span></div>
+                        <div class="billed"><span class="font-weight-bold text-uppercase">Created At:</span><span class="ml-1">{{productOrders.createdAt|date('d/m/y')}}</span></div>
                     </div>
                 </div>
                 <div class="mt-3">
@@ -45,21 +45,34 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {% set detail = 0 %}
                             {% set sum = 0 %}
-                            {% for product in productOrders.products %}
-                                {% set sum = sum + product.priceTtc %}
+                            {% for providerOrderQuantity in productOrders.providerOrdersQuantities %}
+                                {% set sum = sum + (providerOrderQuantity.product.price *  providerOrderQuantity.quantity ) %}
+                                {% set detail =  (providerOrderQuantity.product.price *  providerOrderQuantity.quantity ) %}
                                 {% if loop.index % 2 == 0 %}
                                     <tr>
                                 {% else %}
                                     <tr class="table-active">
                                 {% endif %}
-                                    <td >{{ loop.index }}</td>
-                                    <td >{{ product.name }}</td>
-                                    <td>{{ product.quantity }}</td>
-                                    <td>{{ product.price }}</td>
-                                    <td></td>
+
+                                    <td >{{ providerOrderQuantity.product.id }}</td>
+                                    <td >{{ providerOrderQuantity.product.name }}</td>
+                                    <td>{{ providerOrderQuantity.quantity }}</td>
+                                    <td>{{ providerOrderQuantity.product.price }} DT</td>
+                                    <td>{{ detail }}</td>
                                 </tr>
                             {% endfor %}
+
+                            <div class="text-95 text-secondary-d3">
+                                <div class="row mb-2 mb-sm-0 py-25">
+                                    <div class="d-none d-sm-block col-1"></div>
+                                    <div class="col-9 col-sm-5"></div>
+                                    <div class="d-none d-sm-block col-2"></div>
+                                    <div class="d-none d-sm-block col-2 text-95"></div>
+                                </div>
+
+
 
                             </tbody>
                         </table>

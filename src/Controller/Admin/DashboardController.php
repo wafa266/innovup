@@ -17,6 +17,7 @@ use App\Repository\CustomerOrdersQuantityRepository;
 use App\Repository\CustomerOrdersRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
+use App\Repository\ProviderOrdersRepository;
 use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -39,6 +40,7 @@ class DashboardController extends AbstractDashboardController
     protected $customerOrdersRepository;
     protected $products;
     protected $productQuantities;
+    protected $providerOrder;
 
     public function __construct(
         UserRepository $userRepository,
@@ -46,7 +48,8 @@ class DashboardController extends AbstractDashboardController
         ProductRepository $product,
         CustomerOrdersRepository $customerOrdersRepository,
         ProductRepository $products,
-        CustomerOrdersQuantityRepository $productQuantities
+        CustomerOrdersQuantityRepository $productQuantities,
+        ProviderOrdersRepository $providerOrdersRepository
 
     )
     {
@@ -56,6 +59,7 @@ class DashboardController extends AbstractDashboardController
         $this->customerOrdersRepository= $customerOrdersRepository;
         $this->products= $products;
         $this->productQuantities=$productQuantities;
+        $this->providerOrder=$providerOrdersRepository;
     }
 
     /**
@@ -66,20 +70,55 @@ class DashboardController extends AbstractDashboardController
      * }
      */
     public function index(): Response
-    {
-        return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
-            'controller_name' => 'DashboardController',
-            'CountAllUser' => $this->userRepository->countAllUser(),
-            'CountAllCustomer' => $this->customerRepository->CountAllCustomer(),
-            'CustomerOrders' => $this->customerOrdersRepository->countAllCustomerOrders(),
-            'products' => $this->products->findAll(),
-            'customerOrders' => $this->customerOrdersRepository->findAll(),
-            'customers' => $this->customerRepository,
-            'maxCustomerOrders' => $this->customerOrdersRepository->maxCustomerOrders(),
-            'maxProductOrders' => $this->productQuantities->maxCustomerOrdersProduct(),
-            'users'=>$this->userRepository->findAll(),
-            'lastProducts' =>$this->product->CountLastProduct(),
-        ]);
+    {     $user = $this->getUser();
+        $user->getRoles();
+         if ( in_array('ROLE_ADMIN', $user->getRoles())) {
+             return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
+                 'controller_name' => 'DashboardController',
+                 'CountAllUser' => $this->userRepository->countAllUser(),
+                 'CountAllCustomer' => $this->customerRepository->CountAllCustomer(),
+                 'CustomerOrders' => $this->customerOrdersRepository->countAllCustomerOrders(),
+                 'products' => $this->products->findAll(),
+                 'customerOrders' => $this->customerOrdersRepository->findAll(),
+                 'customers' => $this->customerRepository,
+                 'maxCustomerOrders' => $this->customerOrdersRepository->maxCustomerOrders(),
+                 'maxProductOrders' => $this->productQuantities->maxCustomerOrdersProduct(),
+                 'users' => $this->userRepository->findAll(),
+                 'lastProducts' => $this->product->CountLastProduct(),
+                 'monthCustomerOrders' => $this->customerOrdersRepository->monthCustomerOrders(),
+                 'get' => $this->userRepository->CountLastUser(),
+                 'CustomerOrder' => $this->customerOrdersRepository->CountLastCustomerOrders(),
+                 'ProviderOrder' => $this->providerOrder->CountLastProviderOrder(),
+                 'CurrentUsers' => $this->getUser(),
+
+             ]);}
+         elseif
+             (in_array('ROLE_MAG', $user->getRoles())){
+             return $this->render('bundles/EasyAdminBundle/welcomeMag.html.twig', [
+                 'controller_name' => 'DashboardController',]);
+             }
+         elseif
+             (in_array('ROLE_PURCHASING_MANAGER', $user->getRoles())){
+             return $this->render('bundles/EasyAdminBundle/PurchasingManager.html.twig', [
+                 'controller_name' => 'DashboardController',
+                 'CountAllUser' => $this->userRepository->countAllUser(),
+                 'CountAllCustomer' => $this->customerRepository->CountAllCustomer(),
+                 'CustomerOrders' => $this->customerOrdersRepository->countAllCustomerOrders(),
+                 'products' => $this->products->findAll(),
+                 'customerOrders' => $this->customerOrdersRepository->findAll(),
+                 'customers' => $this->customerRepository,
+                 'maxCustomerOrders' => $this->customerOrdersRepository->maxCustomerOrders(),
+                 'maxProductOrders' => $this->productQuantities->maxCustomerOrdersProduct(),
+                 'users' => $this->userRepository->findAll(),
+                 'lastProducts' => $this->product->CountLastProduct(),
+                 'monthCustomerOrders' => $this->customerOrdersRepository->monthCustomerOrders(),
+                 'get' => $this->userRepository->CountLastUser(),
+                 'CustomerOrder' => $this->customerOrdersRepository->CountLastCustomerOrders(),
+                 'ProviderOrder' => $this->providerOrder->CountLastProviderOrder(),
+                 'CurrentUsers' => $this->getUser(),]);
+             }
+
+
     }
 
     public function configureDashboard(): Dashboard
@@ -94,16 +133,32 @@ class DashboardController extends AbstractDashboardController
     {
 
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-
-        yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class);
+        $user=$this->getUser();
+        if ( in_array('ROLE_ADMIN', $user->getRoles())) {
+           yield MenuItem::linkToCrud('Users', 'fa fa-users', User::class);
+        }
         yield MenuItem::linkToCrud('Products', 'fa fa-cubes', Product::class);
-        yield MenuItem::linkToCrud('Providers', 'fa fa-truck', Provider::class);
-        yield MenuItem::linkToCrud('Customers', 'fa fa-shopping-bag', Customer::class);
-        yield MenuItem::linkToCrud('Categories', 'fa fa-list-alt', Category::class);
-        yield MenuItem::linkToCrud('Provider Orders', 'fa fa-shopping-cart', ProviderOrders::class);
-        yield MenuItem::linkToCrud('Customer Orders', 'fa fa-shopping-bag', CustomerOrders::class);
-        yield MenuItem::linkToCrud('Invoice Receipt', 'fa fa-shopping-bag', InvoiceReceipt::class);
-        yield MenuItem::linkToCrud('Exit Voucher', 'fa fa-shopping-bag', ExitVoucher::class);
+        if ( in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_PURCHASING_MANAGER', $user->getRoles())) {
+            yield MenuItem::linkToCrud('Providers', 'fa fa-truck', Provider::class);
+        }
+        if ( in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SALES_MANAGER', $user->getRoles())) {
+
+            yield MenuItem::linkToCrud('Customers', 'fa fa-shopping-bag', Customer::class);
+        }
+        if ( in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_MAG', $user->getRoles())) {
+            yield MenuItem::linkToCrud('Categories', 'fa fa-list-alt', Category::class);
+        }
+        if ( in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_PURCHASING_MANAGER', $user->getRoles())) {
+
+            yield MenuItem::linkToCrud('Provider Orders', 'fa fa-shopping-cart', ProviderOrders::class);
+        }
+        if ( in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SALES_MANAGER', $user->getRoles())) {
+            yield MenuItem::linkToCrud('Customer Orders', 'fa fa-shopping-bag', CustomerOrders::class);
+        }
+        if ( in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_MAG', $user->getRoles())) {
+
+            yield MenuItem::linkToCrud('Invoice Receipt', 'fa fa-shopping-bag', InvoiceReceipt::class);
+            yield MenuItem::linkToCrud('Exit Voucher', 'fa fa-shopping-bag', ExitVoucher::class);}
 
     }
 
@@ -129,7 +184,7 @@ class DashboardController extends AbstractDashboardController
             ->addJsFile('build/js/innovup/sidebarmenu.js')
             ->addJsFile('build/js/innovup/custom.min.js')
             ->addJsFile('https://unpkg.com/swiper/swiper-bundle.js')
-            ->addJsFile('https://unpkg.com/swiper/swiper-bundle.min.js')
+            //->addJsFile('https://unpkg.com/swiper/swiper-bundle.min.js')
             ->addJsFile('build/js/innovup/innovup.js');
     }
 
@@ -151,4 +206,6 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),
             ]);
     }
+
+
 }

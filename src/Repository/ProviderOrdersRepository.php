@@ -57,5 +57,23 @@ class ProviderOrdersRepository extends ServiceEntityRepository
 
         return  $queryBuilder->getQuery()->getOneOrNullResult();
     }
+    /**
+     * @return int|mixed|string|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function CountLastProviderOrder()
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder->select('COUNT(a.id) as value')
+            ->andWhere('a.createdAt >= :begin')
+            ->andWhere('a.createdAt <= :end')
+            ->setParameter('begin', new \DateTime('- 1days'))
+            ->setParameter('end', new \DateTime('+ 1 days'));
+
+
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+
+    }
 }
 
