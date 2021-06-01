@@ -15,6 +15,15 @@ $('.dropdown-toggle.notification-dd-toggle').click(function(){
         $('.dropdown-menu.notification-dd').addClass('show');
     }
 });
+
+$('.collapsed').click(function(){
+    if($('.in').hasClass('show')) {
+        $('.in').removeClass('show');
+    } else {
+        $('.in').addClass('show');
+    }
+});
+
 $('#Product_BeneficeMargin').focusout(function(){
     $('#Product_priceExcludingTax').val('');
     var marge = parseFloat($('#Product_BeneficeMargin').val());

@@ -72,7 +72,7 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {     $user = $this->getUser();
         $user->getRoles();
-         if ( in_array('ROLE_ADMIN', $user->getRoles())) {
+         if ( in_array('ROLE_PURCHASING_MANAGER', $user->getRoles())) {
              return $this->render('bundles/EasyAdminBundle/welcome.html.twig', [
                  'controller_name' => 'DashboardController',
                  'CountAllUser' => $this->userRepository->countAllUser(),
@@ -98,7 +98,7 @@ class DashboardController extends AbstractDashboardController
                  'controller_name' => 'DashboardController',]);
              }
          elseif
-             (in_array('ROLE_PURCHASING_MANAGER', $user->getRoles())){
+             (in_array('ROLE_ADMIN', $user->getRoles())){
              return $this->render('bundles/EasyAdminBundle/PurchasingManager.html.twig', [
                  'controller_name' => 'DashboardController',
                  'CountAllUser' => $this->userRepository->countAllUser(),
@@ -153,8 +153,10 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Provider Orders', 'fa fa-shopping-cart', ProviderOrders::class);
         }
         if ( in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SALES_MANAGER', $user->getRoles())) {
+
             yield MenuItem::linkToCrud('Customer Orders', 'fa fa-shopping-bag', CustomerOrders::class);
         }
+
         if ( in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_MAG', $user->getRoles())) {
 
             yield MenuItem::linkToCrud('Invoice Receipt', 'fa fa-shopping-bag', InvoiceReceipt::class);

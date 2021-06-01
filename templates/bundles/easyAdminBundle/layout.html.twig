@@ -99,7 +99,9 @@
                 <!-- ============================================================== -->
                 <!-- toggle and nav items -->
                 <!-- ============================================================== -->
-                <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
+
+                <a id="sidebarchange" href="#" data-toggle="collapse" class="collapsed sidebar-menu" aria-expanded="false"><i class="fa fa-navicon fa-lg"></i></a>
+                <ul class="navbar-nav float-left mr-auto ml-3 pl-1" onclick="closeNav()">
                     <!-- Notification -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle notification-dd-toggle pl-md-3 position-relative" href="javascript:void(0)"
@@ -312,18 +314,30 @@
             .text-dark {
                 color: #8079eb!important;
             }
+
+            span {
+                color: black!important;
+                padding-left: 14px;
+            }
             #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link .feather-icon, #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link i, #main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link .feather-icon, #main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link i {
-                color: #ff4f70!important;
+                color: #818181;
+                font-size: 25PX;
+
             }
             #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link, #main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link {
                 color: #012bf6;
             }
+            .fa-navicon:before, .fa-reorder:before, .fa-bars:before {
+                content: "\f0c9";
+                PADDING-LEFT: 15px;
+            }
+
         </style>
 
         {% endblock header %}
         <aside class="left-sidebar" data-sidebarbg="skin6">
             {% block sidebar %}
-                <div class="scroll-sidebar ps-container ps-theme_default ps-active-y" data-sidebarbg="skin6">
+                <div id="mysidebar" class="scroll-sidebar ps-container ps-theme_default ps-active-y" data-sidebarbg="skin6">
                     {% block main_menu_wrapper %}
                         {{ include(ea.templatePath('main_menu')) }}
                     {% endblock main_menu_wrapper %}
@@ -393,7 +407,12 @@
 
         {% block configured_javascripts %}
             {% for js_asset in ea.assets.jsFiles ?? [] %}
-                <script src="{{ asset(js_asset) }}"></script>
+                <script src="{{ asset(js_asset) }}">
+                    function closeNav() {
+                        document.getElementById("mysidebar").style.width = "250px";
+                        document.getElementById("sidebarchange").style.marginLeft = "250px";
+                    }
+                </script>
             {% endfor %}
         {% endblock %}
 
